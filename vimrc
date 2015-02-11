@@ -54,6 +54,14 @@ let g:rehash256 = 1
 set number
 set showmatch
 
+set autoindent
+set copyindent
+
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
