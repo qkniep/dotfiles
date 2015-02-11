@@ -3,10 +3,11 @@ set fenc=utf-8
 set termencoding=utf-8
 
 set nocompatible
+set nobackup
+set noswapfile
 
 set autoindent
 set smartindent
-
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -51,11 +52,12 @@ hi LineNr ctermfg=grey
 "set base16colorspace=256
 let g:rehash256 = 1
 
+set title
 set number
 set showmatch
 
-set autoindent
-set copyindent
+set history=1000
+set undolevels=1000
 
 set ignorecase
 set smartcase
