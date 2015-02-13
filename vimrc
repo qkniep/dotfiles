@@ -5,6 +5,7 @@ set termencoding=utf-8
 set nocompatible
 set nobackup
 set noswapfile
+set noshowmode
 
 set autoindent
 set smartindent
@@ -31,6 +32,7 @@ Bundle 'vim-scripts/a.vim'
 Bundle 'SirVer/ultisnips'
 Bundle 'vim-scripts/cscope.vim'
 Bundle 'Shougo/unite.vim'
+Bundle 'kien/ctrlp.vim'
 Bundle 'rking/ag.vim'
 Bundle 'Yggdroot/indentLine'
 "Bundle 'airblade/vim-gitgutter'
@@ -64,6 +66,7 @@ set smartcase
 set hlsearch
 set incsearch
 
+set laststatus=2
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -72,9 +75,12 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let b:syntastic_cpp_cflags = '-I/Header/'
+let g:syntastic_cpp_include_dirs = [ 'Header/' ]
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_cpp_remove_include_errors = 1
 
 let g:indentLine_color_term = 8
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
+let g:airline_theme = 'base16'
