@@ -31,9 +31,7 @@ Bundle 'scrooloose/syntastic'
 Bundle 'SirVer/ultisnips'
 Bundle 'vim-scripts/cscope.vim'
 Bundle 'Shougo/unite.vim'
-"Bundle 'kien/ctrlp.vim'
-Bundle 'rking/ag.vim'
-Bundle 'Yggdroot/indentLine'
+Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'bling/vim-airline'
 
@@ -56,6 +54,7 @@ set showmatch
 
 set history=1000
 set undolevels=1000
+set timeoutlen=1000 ttimeoutlen=10
 
 set ignorecase
 set smartcase
@@ -75,7 +74,7 @@ let g:syntastic_cpp_include_dirs = [ 'Header/' ]
 let g:syntastic_cpp_check_header = 1
 let g:syntastic_cpp_remove_include_errors = 1
 
-let g:indentLine_color_term = 8
+set list lcs=tab:\|\ 
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
