@@ -23,19 +23,17 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
-Bundle 'chriskempson/base16-vim'
 Bundle 'zeis/vim-kolor'
 Bundle 'morhetz/gruvbox'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'scrooloose/syntastic'
-Bundle 'vim-scripts/a.vim'
+"Bundle 'vim-scripts/a.vim'
 Bundle 'SirVer/ultisnips'
 Bundle 'vim-scripts/cscope.vim'
 Bundle 'Shougo/unite.vim'
-Bundle 'kien/ctrlp.vim'
+"Bundle 'kien/ctrlp.vim'
 Bundle 'rking/ag.vim'
 Bundle 'Yggdroot/indentLine'
-"Bundle 'airblade/vim-gitgutter'
 Bundle 'tpope/vim-fugitive'
 Bundle 'bling/vim-airline'
 
@@ -45,8 +43,6 @@ filetype plugin indent on
 syntax enable
 
 set background=dark
-"colorscheme base16-default
-"colorscheme kolor
 colorscheme gruvbox
 set term=screen-256color
 set t_Co=256
