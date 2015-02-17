@@ -29,6 +29,7 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'scrooloose/syntastic'
 "Bundle 'vim-scripts/a.vim'
 Bundle 'SirVer/ultisnips'
+Bundle 'aperezdc/vim-template'
 Bundle 'vim-scripts/cscope.vim'
 Bundle 'Shougo/unite.vim'
 Bundle 'kien/ctrlp.vim'
@@ -72,9 +73,14 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_cpp_include_dirs = [ 'Header/' ]
 let g:syntastic_cpp_check_header = 1
-let g:syntastic_cpp_remove_include_errors = 1
+let g:syntastic_cpp_compiler = "g++"
+let g:syntastic_cpp_compiler_options = " -std=c++11"
+
+let g:ycm_show_diagnostics_ui = 0
 
 set list lcs=tab:\|\ 
+
+let g:templates_directory = '~/dotfiles/vim/templates/'
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
