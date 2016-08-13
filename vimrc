@@ -7,44 +7,43 @@ set nobackup
 set noswapfile
 set noshowmode
 
+"filetype off
+
+" Indentation {{{
 set autoindent
 set smartindent
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set noexpandtab
-
-set textwidth=120
-"set colorcolumn=120
-
-filetype off
-
+filetype plugin indent on
+" }}}
+" Vundle Plugins {{{
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+"Plugin 'morhetz/gruvbox'
+"Plugin 'Valloric/YouCompleteMe'
+"Plugin 'vim-scripts/a.vim'
+
 Plugin 'gmarik/Vundle.vim'
-Bundle 'zeis/vim-kolor'
-Bundle 'morhetz/gruvbox'
-"Bundle 'Valloric/YouCompleteMe'
-Bundle 'scrooloose/syntastic'
-"Bundle 'vim-scripts/a.vim'
-Bundle 'SirVer/ultisnips'
-Bundle 'aperezdc/vim-template'
-Bundle 'vim-scripts/cscope.vim'
-Bundle 'Shougo/unite.vim'
-Bundle 'kien/ctrlp.vim'
-Bundle 'tpope/vim-fugitive'
-Bundle 'bling/vim-airline'
-Bundle 'vim-airline/vim-airline-themes'
-Bundle 'chriskempson/base16-vim'
-Bundle 'xolox/vim-misc'
-Bundle 'xolox/vim-notes'
+Plugin 'scrooloose/syntastic'
+Plugin 'SirVer/ultisnips'
+Plugin 'aperezdc/vim-template'
+Plugin 'vim-scripts/cscope.vim'
+Plugin 'Shougo/unite.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'chriskempson/base16-vim'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-notes'
 
 call vundle#end()
-filetype plugin indent on
-
+" }}}
+" Colors {{{
 syntax enable
-
 set background=dark
 let base16colorspace=256
 colorscheme base16-google-dark
@@ -52,25 +51,49 @@ set term=screen-256color
 set t_Co=256
 hi LineNr ctermfg=grey
 let g:rehash256 = 1
-
-set title
-set number
-set showmatch
-
+" }}}
+" General UI Config {{{
+set number            " show line numbers
+set cursorline        " highlight the current line
+set showmatch         " highlight matching braces/brackets/parens
+set wildmenu          " visual autocomplete for ex commands
+set list lcs=tab:\|\  " show level of indentation
+set textwidth=120     " 
+"set colorcolumn=120  " highlight max row length
+" }}}
+" Status Bar {{{
+set laststatus=2                               " always show status bar
+"set statusline+=%#warningmsg#                 " 
+"set statusline+=%{SyntasticStatuslineFlag()}  "
+"set statusline+=%*                            "
+" }}}
+" Undo/Redo {{{
 set history=1000
 set undolevels=1000
-set timeoutlen=1000 ttimeoutlen=10
-
+set timeoutlen=1000
+set ttimeoutlen=10
+" }}}
+" Search {{{
 set ignorecase
 set smartcase
 set hlsearch
 set incsearch
-
-set laststatus=2
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
+" }}}
+" Folding {{{
+set foldenable         " enable folding
+set foldmethod=marker  " fold by indentation
+set foldlevelstart=0  " show 10 levels of indentation by default 
+nnoremap <space> za    " press space to toggle folding
+" }}}
+" Movement {{{
+"nnoremap j gj
+"nnoremap k gk
+"nnoremap B ^
+"nnoremap E $
+"nnoremap $ <nop>
+"nnoremap ^ <nop>
+" }}}
+" Syntastic {{{
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
@@ -79,13 +102,12 @@ let g:syntastic_cpp_include_dirs = [ 'Header/' ]
 let g:syntastic_cpp_check_header = 1
 let g:syntastic_cpp_compiler = "g++"
 let g:syntastic_cpp_compiler_options = " -std=c++11"
-
-let g:ycm_show_diagnostics_ui = 0
-
-set list lcs=tab:\|\ 
-
-let g:templates_directory = '~/dotfiles/vim/templates/'
-
+" }}}
+" Airline {{{
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'base16'
+" }}}
+
+"let g:ycm_show_diagnostics_ui = 0
+let g:templates_directory = '~/dotfiles/vim/templates/'
