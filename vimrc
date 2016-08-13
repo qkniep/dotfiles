@@ -25,7 +25,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Bundle 'zeis/vim-kolor'
 Bundle 'morhetz/gruvbox'
-Bundle 'Valloric/YouCompleteMe'
+"Bundle 'Valloric/YouCompleteMe'
 Bundle 'scrooloose/syntastic'
 "Bundle 'vim-scripts/a.vim'
 Bundle 'SirVer/ultisnips'
@@ -35,6 +35,10 @@ Bundle 'Shougo/unite.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'bling/vim-airline'
+Bundle 'vim-airline/vim-airline-themes'
+Bundle 'chriskempson/base16-vim'
+Bundle 'xolox/vim-misc'
+Bundle 'xolox/vim-notes'
 
 call vundle#end()
 filetype plugin indent on
@@ -42,11 +46,11 @@ filetype plugin indent on
 syntax enable
 
 set background=dark
-colorscheme gruvbox
+let base16colorspace=256
+colorscheme base16-google-dark
 set term=screen-256color
 set t_Co=256
 hi LineNr ctermfg=grey
-"set base16colorspace=256
 let g:rehash256 = 1
 
 set title
