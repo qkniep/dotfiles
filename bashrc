@@ -1,10 +1,11 @@
-# if not running interactively, don't do anything
-case $- in
-	*i*) ;;
-	*) return;;
-esac
+# if not running interactively, do nothing
+[ -z "$PS1" ] && return
 
-# history
+
+# --------------------------------------------------------------
+# History
+# --------------------------------------------------------------
+
 HISTCONTROL=ignoreboth  # ignore duplicates and commands starting with space
 HISTSIZE=1000           # limit history list to 1000 items
 HISTFILESIZE=2000       # limit histiry file to 2000 items
@@ -12,18 +13,10 @@ shopt -s histappend     # append to the history file, don't overwrite it
 shopt -s checkwinsize   # check window size after command
 #shopt -s globstar
 
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-	debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-	xterm-color) color_prompt=yes;;
-esac
+# --------------------------------------------------------------
+# Colors
+# --------------------------------------------------------------
 
 force_color_prompt=yes  # use colored prompt
 
@@ -57,7 +50,14 @@ if [ -x /usr/bin/dircolors ]; then
 	alias egrep='egrep --color=auto'
 fi
 
-# alias definitions
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
+
+# --------------------------------------------------------------
+# Aliases
+# --------------------------------------------------------------
+
 if [ -f ~/.bash_aliases ]; then
 	. ~/.bash_aliases
 fi
@@ -72,13 +72,18 @@ if ! shopt -oq posix; then
 		. /etc/bash_completion
 	fi
 fi
-export LD_LIBRARY_PATH=/usr/local/lib64/
 
+
+# --------------------------------------------------------------
+# Environment Variables
+# --------------------------------------------------------------
 
 export TERM=xterm-256color
 
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
+# --------------------------------------------------------------
+# Functions
+# --------------------------------------------------------------
 
 # add an "=" command to quickly execute bash and print the answer
 =() {
