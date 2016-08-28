@@ -25,13 +25,17 @@ call vundle#begin()
 "Plugin 'morhetz/gruvbox'
 "Plugin 'Valloric/YouCompleteMe'
 "Plugin 'vim-scripts/a.vim'
+"Plugin 'Shougo/unite.vim'
+"Plugin 'mhinz/vim-startify'
 
 Plugin 'gmarik/Vundle.vim'
+Plugin 'pangloss/vim-javascript'
 Plugin 'scrooloose/syntastic'
 Plugin 'SirVer/ultisnips'
 Plugin 'aperezdc/vim-template'
 Plugin 'vim-scripts/cscope.vim'
-Plugin 'Shougo/unite.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'mattn/emmet-vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
@@ -53,17 +57,18 @@ hi LineNr ctermfg=grey
 let g:rehash256 = 1
 " }}}
 " General UI Config {{{
-set number            " show line numbers
-set cursorline        " highlight the current line
-set showmatch         " highlight matching braces/brackets/parens
-set wildmenu          " visual autocomplete for ex commands
-set list lcs=tab:\|\  " show level of indentation
-set textwidth=120     " 
-"set colorcolumn=120  " highlight max row length
+set number                " show line numbers
+set cursorline            " highlight the current line
+"set showmatch            " highlight matching braces/brackets/parens
+let loaded_matchparen = 0 " disable highlighting of matching <,(,{,[
+set wildmenu              " visual autocomplete for ex commands
+set list lcs=tab:\|\      " show level of indentation
+set textwidth=120         "
+"set colorcolumn=120      " highlight max row length
 " }}}
 " Status Bar {{{
 set laststatus=2                               " always show status bar
-"set statusline+=%#warningmsg#                 " 
+"set statusline+=%#warningmsg#                 "
 "set statusline+=%{SyntasticStatuslineFlag()}  "
 "set statusline+=%*                            "
 " }}}
@@ -81,8 +86,8 @@ set incsearch
 " }}}
 " Folding {{{
 set foldenable         " enable folding
-set foldmethod=marker  " fold by indentation
-set foldlevelstart=0  " show 10 levels of indentation by default 
+set foldmethod=indent  " fold by indentation
+set foldlevelstart=10  " show 10 levels of indentation by default
 nnoremap <space> za    " press space to toggle folding
 " }}}
 " Movement {{{
