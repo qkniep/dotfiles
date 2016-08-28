@@ -3,6 +3,14 @@
 
 
 # --------------------------------------------------------------
+# General
+# --------------------------------------------------------------
+
+shopt -s checkwinsize   # check window size after command
+#shopt -s globstar
+
+
+# --------------------------------------------------------------
 # History
 # --------------------------------------------------------------
 
@@ -10,8 +18,6 @@ HISTCONTROL=ignoreboth  # ignore duplicates and commands starting with space
 HISTSIZE=1000           # limit history list to 1000 items
 HISTFILESIZE=2000       # limit histiry file to 2000 items
 shopt -s histappend     # append to the history file, don't overwrite it
-shopt -s checkwinsize   # check window size after command
-#shopt -s globstar
 
 
 # --------------------------------------------------------------
@@ -62,9 +68,20 @@ if [ -f ~/.bash_aliases ]; then
 	. ~/.bash_aliases
 fi
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
+
+# --------------------------------------------------------------
+# Functions
+# --------------------------------------------------------------
+
+if [ -f ~/.bash_functions ]; then
+	. ~/.bash_functions
+fi
+
+
+# --------------------------------------------------------------
+# Completion
+# --------------------------------------------------------------
+
 if ! shopt -oq posix; then
 	if [ -f /usr/share/bash-completion/bash_completion ]; then
 		. /usr/share/bash-completion/bash_completion
@@ -79,43 +96,3 @@ fi
 # --------------------------------------------------------------
 
 export TERM=xterm-256color
-
-
-# --------------------------------------------------------------
-# Functions
-# --------------------------------------------------------------
-
-# add an "=" command to quickly execute bash and print the answer
-=() {
-	echo "$(($@))"
-}
-
-# extract any archive with one command
-extract() {
-	if [ -z "$1" ]; then
-		echo "usage: extract <file_to_extract>"
-	else
-		if [ -f $1 ]; then
-			case $1 in
-				*.tar.bz2)   tar xvjf $1    ;;
-				*.tar.gz)    tar xvzf $1    ;;
-				*.tar.xz)    tar xvJf $1    ;;
-				*.lzma)      unlzma $1      ;;
-				*.bz2)       bunzip2 $1     ;;
-				*.rar)       unrar x -ad $1 ;;
-				*.gz)        gunzip $1      ;;
-				*.tar)       tar xvf $1     ;;
-				*.tbz2)      tar xvjf $1    ;;
-				*.tgz)       tar xvzf $1    ;;
-				*.zip)       unzip $1       ;;
-				*.Z)         uncompress $1  ;;
-				*.7z)        7z x $1        ;;
-				*.xz)        unxz $1        ;;
-				*.exe)       cabextract $1  ;;
-				*)           echo "unknown file format" ;;
-			esac
-		else
-			echo "file does not exist: $1"
-		fi
-	fi
-}

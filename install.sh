@@ -8,7 +8,7 @@
 
 dir=~/dotfiles         # dotfiles directory
 olddir=~/dotfiles_old  # backup directory
-files=".bashrc .bash_aliases .vimrc .ssh/config"
+files=".bashrc .bash_aliases .bash_functions .vimrc .ssh/config"
 
 # --------------------------------------------------------------
 # Dotfiles
