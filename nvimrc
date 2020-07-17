@@ -4,20 +4,13 @@
 
 call plug#begin()
 
-"Plug 'wincent/command-t'
-"Plug 'Shougo/unite.vim'
-"Plug 'vim-scripts/cscope.vim'
-"Plug 'mattn/emmet-vim'
-"Plug 'SirVer/ultisnips'
-"Plug 'scrooloose/syntastic'
-
 " Visual
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'chriskempson/base16-vim'
 
 Plug 'w0rp/ale'
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-scripts/a.vim'
 Plug 'aperezdc/vim-template'
 Plug 'tpope/vim-surround'
@@ -27,6 +20,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes'
 Plug 'sheerun/vim-polyglot'
+Plug 'editorconfig/editorconfig-vim'
 
 call plug#end()
 
@@ -37,10 +31,11 @@ call plug#end()
 
 set autoread       " reload files changed outside of vim
 set nobackup       " not vim's job, rely on git for backups
+set nomodeline     " disable modelines for security reasons
 set noswapfile
 set noshowmode
 set nowritebackup
-set nomodeline     " disable modelines for security reasons
+set shada=!,'100,<1000,s100,h
 
 
 " --------------------------------------------------------------
@@ -61,11 +56,16 @@ filetype plugin indent on
 " --------------------------------------------------------------
 
 syntax on
-set background=dark
+set termguicolors
+set background=light
 let base16colorspace=256
-colorscheme base16-google-dark
+" colorscheme base16-google-dark
 set t_Co=256
 let g:rehash256 = 1
+
+if filereadable(expand("~/.vimrc_background"))
+	source ~/.vimrc_background
+endif
 
 
 " --------------------------------------------------------------
@@ -183,13 +183,40 @@ autocmd FileType sh setlocal expandtab
 
 
 " --------------------------------------------------------------
+" coc.nvim
+" --------------------------------------------------------------
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+	if (index(['vim','help'], &filetype) >= 0)
+		execute 'h '.expand('<cword>')
+	else
+		call CocAction('doHover')
+	endif
+endfunction
+
+
+" --------------------------------------------------------------
 " Other
 " --------------------------------------------------------------
 
 let g:ale_echo_msg_format = '%linter%: %s'
 let g:ale_sign_error = "✗"
 let g:ale_sign_warning = "⚠"
-let b:ale_linters = {'rust': ['rls','cargo','rustc']}
+let b:ale_linters = {'rust': ['rls','cargo','rustc','clippy']}
 let g:ale_fixers = {'rust': ['rustfmt']}
 let g:ale_rust_rls_toolchain = 'stable'
 " Map keys to navigate between lines with errors and warnings.
@@ -210,3 +237,5 @@ for f in argv()
 		quit
 	endif
 endfor
+
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
