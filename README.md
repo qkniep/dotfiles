@@ -6,3 +6,8 @@
 - set colorscheme in install.sh
 - install mps-youtube and youtube_dl
 - add complete list of installed software in this README
+
+# Influenced By
+
+- https://github.com/paulirish/dotfiles
+- https://github.com/mathiasbynens/dotfiles

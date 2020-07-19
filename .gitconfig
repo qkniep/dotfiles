@@ -1,0 +1,50 @@
+[alias]
+	# View abbreviated SHA, description, and history graph of the latest 20 commits.
+	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+
+	# View the current working tree status using the short format.
+	s = status -s
+
+	# Show the diff between the latest commit and the current state.
+	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+	df = diff --color --color-words --abbrev
+
+	# List aliases.
+	aliases = config --get-regexp alias
+
+	# Amend the currently staged files to the latest commit.
+	amend = commit --amend --reuse-message=HEAD
+
+[color "diff"]
+	meta = yellow bold
+	commit = green bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+	newMoved = cyan
+	oldMoved = blue
+
+[color "status"]
+	added = yellow
+	untracked = cyan
+
+[diff]
+	# Detect copies as well as renames.
+	renames = copies
+
+[diff "bin"]
+	# Use `hexdump` to diff binary files.
+	textconv = hexdump -v -C
+
+[help]
+	# Automatically correct and execute mistyped commands.
+	autocorrect = 1
+
+[user]
+	email = hello@quentinkniep.com
+	name = Quentin Kniep
+
+[pull]
+	rebase = false
