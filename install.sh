@@ -9,7 +9,13 @@
 dir=~/dotfiles         # dotfiles directory
 olddir=~/dotfiles_old  # backup directory
 files=".bashrc .bash_aliases .bash_functions .vimrc .ssh/config"
+
+pre_install="apt update"
 install="apt install"
+#pre_install="pacman -Syu"
+#install="pacman -S"
+#pre_install="brew update"
+#install="brew install"
 
 
 # --------------------------------------------------------------
@@ -30,13 +36,13 @@ done
 # Software
 # --------------------------------------------------------------
 
-apt install vim                # text editor
-apt install git                # version control
-apt install unp                # archive unpacker
-apt install weechat            # IRC client
-apt install mpsyt              # youtube CLI audio-player
-apt install cmatrix            # matrix animation
-apt install tty-clock          # terminal clock
+$install git
+$install curl
+$install wget
+$install vim
+$install unp                # archive unpacker
+$install weechat            # IRC client
+$install mpsyt              # youtube CLI audio-player
 
 
 # --------------------------------------------------------------
