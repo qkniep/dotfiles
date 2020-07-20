@@ -1,46 +1,51 @@
-" --------------------------------------------------------------
-" Plugins
-" --------------------------------------------------------------
+" ==== Plugins =================================================
 
 call plug#begin()
 
 " Visual
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+"Plug 'bling/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 Plug 'chriskempson/base16-vim'
 
+" Languages
+Plug 'sheerun/vim-polyglot'
 Plug 'w0rp/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" Utilities
+Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-scripts/a.vim'
 Plug 'aperezdc/vim-template'
 Plug 'tpope/vim-surround'
-Plug 'kien/ctrlp.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-notes'
-Plug 'sheerun/vim-polyglot'
-Plug 'editorconfig/editorconfig-vim'
+
+if has('nvim')
+	Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+	Plug 'Shougo/denite.nvim'
+	Plug 'roxma/nvim-yarp'
+	Plug 'roxma/vim-hug-neovim-rpc'
+endif
 
 call plug#end()
 
 
-" --------------------------------------------------------------
-" General
-" --------------------------------------------------------------
+" ==== General =================================================
 
 set autoread       " reload files changed outside of vim
+set hidden
 set nobackup       " not vim's job, rely on git for backups
-set nomodeline     " disable modelines for security reasons
 set noswapfile
 set noshowmode
 set nowritebackup
-set shada=!,'100,<1000,s100,h
+set nomodeline     " disable modelines for security reasons
 
 
-" --------------------------------------------------------------
-" Indentation
-" --------------------------------------------------------------
+" ==== Indentation =============================================
 
 set autoindent
 set smartindent
@@ -48,58 +53,50 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set noexpandtab
+
+" Auto indent pasted text TODO: fix this
+" nnoremap p p=`]<C-o>
+" nnoremap P P=`]<C-o>
+
 filetype plugin indent on
 
+set nowrap
 
-" --------------------------------------------------------------
-" Colors
-" --------------------------------------------------------------
+
+" ==== Colors ==================================================
 
 syntax on
 set termguicolors
-set background=light
+set background=dark
 let base16colorspace=256
-" colorscheme base16-google-dark
+colorscheme base16-google-dark
 set t_Co=256
 let g:rehash256 = 1
 
-if filereadable(expand("~/.vimrc_background"))
-	source ~/.vimrc_background
-endif
 
+" ==== User Interface ==========================================
 
-" --------------------------------------------------------------
-" User Interface
-" --------------------------------------------------------------
-
-set number                " show line numbers
+set number                  " show line numbers
 hi CursorLineNr cterm=NONE
-set ruler                 " show cursor position
-set cursorline            " highlight the current line
-set showmatch             " highlight matching braces/brackets/parens
-set wildmenu              " visual autocomplete for ex commands
-set lazyredraw            " only readraw when necessary
-set list lcs=tab:\       " show level of indentation
-"set list lcs=tab:\|\     " show level of indentation
-"set textwidth=80          "
-set nowrap
-"set colorcolumn=+1       " highlight max row length
-set formatoptions=tcqrnj  " see fo-table for details
+set ruler                   " show cursor position
+set cursorline              " highlight the current line
+set showmatch               " highlight matching braces/brackets/parens
+set wildmenu                " visual autocomplete for ex commands
+set lazyredraw              " only readraw when necessary
+set formatoptions=tcqrnj    " see fo-table for details
+set laststatus=2            " always show status bar
+
+" Display tabs and trailing spaces visually.
+set list listchars=tab:\\ ,trail:·
 
 
-" --------------------------------------------------------------
-" Status Bar
-" --------------------------------------------------------------
+" ================ Scrolling ========================
 
-set laststatus=2                               " always show status bar
-"set statusline+=%#warningmsg#                 "
-"set statusline+=%{SyntasticStatuslineFlag()}  "
-"set statusline+=%*                            "
+set scrolloff=8       " start scrolling when we're 8 lines away from margins
+set sidescrolloff=15
 
 
-" --------------------------------------------------------------
-" History
-" --------------------------------------------------------------
+" ==== History =================================================
 
 set history=1000
 set undolevels=1000
@@ -107,29 +104,23 @@ set timeoutlen=1000
 set ttimeoutlen=10
 
 
-" --------------------------------------------------------------
-" Search
-" --------------------------------------------------------------
+" ==== Search ==================================================
 
+set incsearch
+set hlsearch
 set ignorecase
 set smartcase
-set hlsearch
-set incsearch
 
 
-" --------------------------------------------------------------
-" Folds
-" --------------------------------------------------------------
+" ==== Folds ===================================================
 
 set foldenable
 set foldmethod=indent
-set foldlevelstart=20  " show 10 levels of indentation by default
+set foldlevelstart=20  " show 20 levels of indentation by default
 nnoremap <space> za    " press space to toggle folding
 
 
-" --------------------------------------------------------------
-" Movement
-" --------------------------------------------------------------
+" ==== Movement ================================================
 
 nnoremap j gj
 nnoremap k gk
@@ -142,9 +133,7 @@ nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
 
 
-" --------------------------------------------------------------
-" Leader Commands
-" --------------------------------------------------------------
+" ==== Leader Remaps ===========================================
 
 nnoremap <cr> :nohlsearch<cr>
 
@@ -158,33 +147,21 @@ map <silent> <leader>h :bprevious<cr>
 map <silent> <leader>l :bnext<cr>
 
 
-" --------------------------------------------------------------
-" Filetype Specific Settings
-" --------------------------------------------------------------
+" ==== ALE =====================================================
 
-autocmd FileType sh setlocal expandtab
+let g:ale_echo_msg_format = '%linter%: %s'
+let g:ale_sign_error = "✗"
+let g:ale_sign_warning = "⚠"
+let b:ale_linters = {'rust': ['rls','cargo','rustc']}
+let g:ale_fixers = {'rust': ['rustfmt']}
+let g:ale_rust_rls_toolchain = 'stable'
 
-
-" --------------------------------------------------------------
-" Syntastic
-" --------------------------------------------------------------
-
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-" C++ related Syntastic settings
-"let g:syntastic_cpp_check_header = 1
-"let g:syntastic_cpp_include_dirs = [ 'include' ]
-"let g:syntastic_cpp_compiler = 'g++'
-"let g:syntastic_cpp_compiler_options = '-std=c++17 -Wall -Wextra'
-" Hide LaTeX warning about spaces after commands.
-"let g:syntastic_quiet_messages = { 'regex': ['Command terminated with space.', 'space in front of parenthesis'] }
+" Map keys to navigate between lines with errors and warnings.
+nnoremap <leader>an :ALENextWrap<cr>
+nnoremap <leader>ap :ALEPreviousWrap<cr>
 
 
-" --------------------------------------------------------------
-" coc.nvim
-" --------------------------------------------------------------
+" ==== CoC =====================================================
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -209,25 +186,15 @@ function! s:show_documentation()
 endfunction
 
 
-" --------------------------------------------------------------
-" Other
-" --------------------------------------------------------------
+" ==== Other Plugins ===========================================
 
-let g:ale_echo_msg_format = '%linter%: %s'
-let g:ale_sign_error = "✗"
-let g:ale_sign_warning = "⚠"
-let b:ale_linters = {'rust': ['rls','cargo','rustc','clippy']}
-let g:ale_fixers = {'rust': ['rustfmt']}
-let g:ale_rust_rls_toolchain = 'stable'
-" Map keys to navigate between lines with errors and warnings.
-nnoremap <leader>an :ALENextWrap<cr>
-nnoremap <leader>ap :ALEPreviousWrap<cr>
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline_powerline_fonts = 1
+"let g:airline_theme = 'base16'
+let g:lightline = {
+	\ 'colorscheme': 'wombat',
+	\ }
 
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
-let g:airline_theme = 'base16'
-
-"let dart_html_in_string=v:true
 let g:dart_style_guide = 2
 let g:dart_format_on_save = 1
 
