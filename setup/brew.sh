@@ -19,4 +19,6 @@ brew install neovim
 brew install ripgrep
 brew install imagemagick --with-webp
 
+brew install starship  # command prompt
+
 brew cleanup

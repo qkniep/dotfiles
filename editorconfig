@@ -12,15 +12,15 @@ charset = utf-8
 indent_style = tab
 indent_size = 4
 
-[*.hs,*.py,*.rs]
+[*.{hs,py,rs}]
 indent_style = space
 indent_size = 4
 
-[*.c,*.cc,*.cpp,*.css,*.dart,*.elm,*.html,*.java,*.js,*.sass,*.scala,*.scss,*.sh,*.ts]
+[*.{c,cc,cpp,css,dart,elm,html,java,js,sass,scala,scss,sh,ts}]
 indent_style = space
 indent_size = 2
 
-[*.c,*.cc,*.cpp,*.dart,*.elm,*.hs,*.js,*.py,*.scala,*.sh,*.ts]
+[*.{c,cc,cpp,dart,elm,hs,js,py,scala,sh,ts}]
 max_line_length = 80
 
 [*.java]
