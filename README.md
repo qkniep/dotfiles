@@ -3,6 +3,13 @@
 These are the settings I use as my development setup under both macOS and Arch Linux.
 Currently this repo is under heavy development, anything can change at any time!
 
+## Getting Started
+
+To set up a new development environment on a machine run:
+`bootstrap.sh`
+The script's instructions will guide you through setting up folders, symlinking the dotfiles,
+installing utility tools, and installing the development tools for languages you select.
+
 ## Roadmap
 
 - [ ] add screenshots
