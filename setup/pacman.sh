@@ -11,34 +11,33 @@ prompt_lang_install () {
   fi
 }
 
-brew update
-brew upgrade
+sudo pacman -Syu
 
-brew install coreutils
-brew install binutils
+sudo pacman -S base-devel
+sudo pacman -S binutils
+sudo pacman -S yay
 
-# Install more recent versions of some macOS tools.
-brew install gnu-sed --with-default-names
-brew install wget --with-iri
-brew install grep
-brew install openssh
-brew install gmp
+# GUI
+sudo pacman -S xorg
+sudo pacman -S i3
+sudo pacman -S alacritty
 
-brew install git
-brew install git-lfs
-brew install neovim
-brew install ripgrep
-brew install imagemagick --with-webp
-brew install gnuplot
-brew install starship
-brew tap cjbassi/ytop
-brew install ytop
+sudo pacman -S curl
+sudo pacman -S wget
+sudo pacman -S git
+#git-lfs
+sudo pacman -S neovim
+sudo yay -S ripgrep
+sudo pacman -S imagemagick
+sudo pacman -S libwebp
+sudo pacman -S gnuplot
+sudo pacman -S starship
+sudo pacman -S ytop
 
-brew install docker
+sudo pacman -S docker
 
 if prompt_lang_install "Python" ; then
-  brew install pyenv
-  pyenv install-latest
+  sudo pacman -S python
   pip install pylint
   pip install pipenv
   echo "$PROMPT Python environment set up successfully."
@@ -52,9 +51,8 @@ if prompt_lang_install "Rust" ; then
 fi
 
 if prompt_lang_install "Go" ; then
-  brew install golang
+  sudo pacman -S go
+  sudo pacman -S go-tools
   mkdir -p $HOME/go/{bin,src}
   echo "$PROMPT Go environment set up successfully."
 fi
-
-brew cleanup

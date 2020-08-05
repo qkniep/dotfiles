@@ -38,10 +38,11 @@ source $ZSH/oh-my-zsh.sh
 
 
 # User Configuration
+GOPATH=$HOME/go
 
 # PATH Environment Variable
 PATH=$HOME/.cargo/bin:$PATH
-PATH=$HOME/go/bin:$PATH
+PATH=$GOPATH/bin:$PATH
 PATH=$HOME/flutter/bin:$PATH
 PATH=$HOME/flutter/bin/cache/dart-sdk/bin:$PATH
 PATH=$HOME/flutter/.pub-cache/bin:$PATH

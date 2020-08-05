@@ -34,24 +34,35 @@ fi
 # ==== Install Tools ==========================================
 
 echo "$PROMPT Installing useful utilities using your package manager."
-PACKAGE_MANAGERS='brew pacman apt'
-for PM in $PACKAGE_MANAGERS; do
-  if [ $( which "$PM" ) ] ; then
-    echo "$PROMPT Detected package manager: $PM"
-    printf "$PROMPT Proceed? ([y]/n) "
-    read resp
-    if [ "$resp" = 'n' -o "$resp" = 'N' ] ; then
-      echo "$PROMPT Tool installtion skipped."
-    else
-      echo "$PROMPT Installing useful tools using $PM. This may take a while..."
-      sh "setup/$PM.sh"
-      echo "$PROMPT Tool installation completed."
-    fi
-    break
+PM=$(find_package_manager)
+
+# on macOS, install homebrew if not found
+if [ "$PM" = "" -a $(uname) = "Darwin" ] ; then
+  echo "$PROMPT No package manager found."
+  printf "$PROMPT Install homebrew? ([y]/n) "
+  read resp
+  if [ "$resp" != 'n' -a "$resp" != 'N' ] ; then
+    echo "$PROMPT Installing homebrew..."
+    /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    PM="brew"
   fi
-done
-echo "$PROMPT Skipping tool installation because none of the supported package managers was found."
-echo "$PROMPT Currently supported are: $PACKAGE_MANAGERS"
+fi
+
+if [ "$PM" = "" ] ; then
+  echo "$PROMPT Skipping tool installation because none of the supported package managers was found."
+  echo "$PROMPT Currently supported are: $PACKAGE_MANAGERS"
+else
+  echo "$PROMPT Detected package manager: $PM"
+  printf "$PROMPT Proceed? ([y]/n) "
+  read resp
+  if [ "$resp" = 'n' -o "$resp" = 'N' ] ; then
+    echo "$PROMPT Tool installtion skipped."
+  else
+    echo "$PROMPT Installing useful tools using $PM. This may take a while..."
+    sh "setup/$PM.sh"
+    echo "$PROMPT Tool installation completed."
+  fi
+fi
 
 # Install vim-plug plugin manager for neovim.
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
@@ -59,3 +70,13 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 
 # Download Base16 shell color theme.
 git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+
+find_package_manager () {
+  PACKAGE_MANAGERS='brew pacman apt'
+  for PM in $PACKAGE_MANAGERS; do
+    if [ $( which "$PM" ) ] ; then
+      return "$PM"
+    fi
+  done
+  return ""
+}
