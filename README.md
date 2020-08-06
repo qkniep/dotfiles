@@ -5,6 +5,8 @@ Currently this repo is under heavy development, anything can change at any time!
 
 ## Getting Started
 
+ATTENTION: The setup process does not fully work yet!
+
 To set up a new development environment on a machine run:
 `bootstrap.sh`
 The script's instructions will guide you through setting up folders, symlinking the dotfiles,
@@ -16,11 +18,13 @@ installing utility tools, and installing the development tools for languages you
 - [x] set up denite.vim (https://github.com/ctaylo21/jarvis/blob/master/config/nvim/init.vim#L58)
 - [ ] switch from airline to lightline (https://github.com/maximbaz/lightline-ale)
 - [ ] make the installation script usable
-- [ ] add getting-started instructions
-- [ ] allow install script to setup tools for development (asking for languages)
+	- [ ] symlink dotfiles
+- [x] add getting-started instructions
+- [x] allow install script to setup tools for development (asking for languages)
 - [ ] install fonts (Nerd Fonts) from install.sh
 - [ ] set colorscheme in install.sh
 - [ ] add complete list of installed software in this README
+- [ ] add Dockerfile for testing Linux setup process
 
 ## Influenced By
 
