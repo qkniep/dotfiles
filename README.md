@@ -3,7 +3,8 @@
 These are the settings I use as my development setup under both macOS and Arch Linux.
 Currently this repo is under heavy development, anything can change at any time!
 
-[](screenshot1.png) [](screenshot2.png)
+![](screenshot1.png) | ![](screenshot2.png)
+--------------- | -------------
 
 ## Getting Started
 
