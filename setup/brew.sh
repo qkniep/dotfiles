@@ -11,8 +11,10 @@ prompt_lang_install () {
   fi
 }
 
+sudo -v
+
 brew update
-brew upgrade
+brew upgrade --all
 
 brew install coreutils
 brew install binutils
@@ -34,14 +36,39 @@ brew install starship
 brew tap cjbassi/ytop
 brew install ytop
 brew install httpie
+brew install bat
 
-brew install docker
+brew cask install --appdir="~/Applications" iterm2
+brew cask install --appdir="~/Applications" java
+
+brew cask install --appdir="/Applications" atom
+brew cask install --appdir="/Applications" virtualbox
+brew cask install --appdir="/Applications" vagrant
+
+brew install docker  # requires virtualbox
 
 if prompt_lang_install "Python" ; then
   brew install pyenv
   pyenv install-latest
   pip install pylint
   pip install pipenv
+
+  if prompt_lang_install "Python Data Science Tools" ; then
+    pip install numpy
+    pip install scipy
+    pip install matplotlib
+    pip install pandas
+    pip install sympy
+    pip install nose
+    pip install unittest2
+    pip install seaborn
+    pip install scikit-learn
+    pip install "ipython[all]"
+    pip install bokeh
+    pip install Flask
+    pip install sqlalchemy
+    pip install mysqlclient
+  fi
   echo "$PROMPT Python environment set up successfully."
 fi
 

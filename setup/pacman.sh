@@ -34,6 +34,7 @@ sudo pacman -S gnuplot
 sudo pacman -S starship
 sudo pacman -S ytop
 sudo pacman -S httpie
+sudo pacman -S bat
 
 sudo pacman -S docker
 
@@ -41,6 +42,23 @@ if prompt_lang_install "Python" ; then
   sudo pacman -S python
   pip install pylint
   pip install pipenv
+
+  if prompt_lang_install "Python Data Science Tools" ; then
+    pip install numpy
+    pip install scipy
+    pip install matplotlib
+    pip install pandas
+    #pip install sympy
+    #pip install nose
+    #pip install unittest2
+    pip install seaborn
+    pip install scikit-learn
+    #pip install "ipython[all]"
+    pip install bokeh
+    pip install Flask
+    pip install sqlalchemy
+    pip install mysqlclient
+  fi
   echo "$PROMPT Python environment set up successfully."
 fi
 

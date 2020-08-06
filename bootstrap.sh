@@ -72,7 +72,7 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
 
 find_package_manager () {
-  PACKAGE_MANAGERS='brew pacman apt'
+  PACKAGE_MANAGERS='brew pacman'
   for PM in $PACKAGE_MANAGERS; do
     if [ $( which "$PM" ) ] ; then
       return "$PM"
