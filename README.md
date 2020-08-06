@@ -21,7 +21,7 @@ installing utility tools, and installing the development tools for languages you
 	- [ ] symlink dotfiles
 - [x] add getting-started instructions
 - [x] allow install script to setup tools for development (asking for languages)
-- [ ] install fonts (Nerd Fonts) from install.sh
+- [ ] install fonts (Nerd Fonts) from bootstrap.sh
 - [ ] set colorscheme in install.sh
 - [ ] add complete list of installed software in this README
 - [ ] add Dockerfile for testing Linux setup process

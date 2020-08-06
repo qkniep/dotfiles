@@ -33,6 +33,7 @@ sudo pacman -S libwebp
 sudo pacman -S gnuplot
 sudo pacman -S starship
 sudo pacman -S ytop
+sudo pacman -S httpie
 
 sudo pacman -S docker
 
@@ -55,4 +56,12 @@ if prompt_lang_install "Go" ; then
   sudo pacman -S go-tools
   mkdir -p $HOME/go/{bin,src}
   echo "$PROMPT Go environment set up successfully."
+fi
+
+if prompt_lang_install "JavaScript" ; then
+  sudo yay -S selenium-server-standalone
+  # node.js
+  sudo pacman -S nodejs
+  npm install -g yarn
+  yarn global add caniuse-cmd
 fi

@@ -33,6 +33,7 @@ brew install gnuplot
 brew install starship
 brew tap cjbassi/ytop
 brew install ytop
+brew install httpie
 
 brew install docker
 
@@ -55,6 +56,15 @@ if prompt_lang_install "Go" ; then
   brew install golang
   mkdir -p $HOME/go/{bin,src}
   echo "$PROMPT Go environment set up successfully."
+fi
+
+if prompt_lang_install "JavaScript" ; then
+  brew install selenium-server-standalone
+  # node.js
+  brew install node
+  npm install -g yarn
+  yarn global add caniuse-cmd
+  echo "$PROMPT JavaScript environment set up successfully."
 fi
 
 brew cleanup
