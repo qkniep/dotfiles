@@ -3,6 +3,8 @@
 These are the settings I use as my development setup under both macOS and Arch Linux.
 Currently this repo is under heavy development, anything can change at any time!
 
+[](screenshot1.png) [](screenshot2.png)
+
 ## Getting Started
 
 ATTENTION: The setup process does not fully work yet!
@@ -24,7 +26,7 @@ git pull
 
 ## Roadmap
 
-- [ ] add screenshots
+- [x] add screenshots
 - [x] set up denite.vim (https://github.com/ctaylo21/jarvis/blob/master/config/nvim/init.vim#L58)
 - [ ] switch from airline to lightline (https://github.com/maximbaz/lightline-ale)
 - [ ] make the installation script usable
