@@ -47,6 +47,10 @@ brew cask install --appdir="/Applications" vagrant
 
 brew install docker  # requires virtualbox
 
+brew tap homebrew/cask-fonts
+brew cask install font-hack-nerd-font
+brew cask install font-fira-code-nerd-font
+
 if prompt_lang_install "Python" ; then
   brew install pyenv
   pyenv install-latest

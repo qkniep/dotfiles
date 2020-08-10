@@ -38,6 +38,8 @@ sudo pacman -S bat
 
 sudo pacman -S docker
 
+sudo yay -S nerd-fonts-fira-code
+
 if prompt_lang_install "Python" ; then
   sudo pacman -S python
   pip install pylint
