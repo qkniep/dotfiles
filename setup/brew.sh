@@ -1,16 +1,5 @@
 #! /bin/sh
 
-prompt_lang_install () {
-  printf "$PROMPT Do you want to set up $1? ([y]/n) "
-  read resp
-  if [ "$resp" = 'n' -o "$resp" = 'N' ] ; then
-    echo "$PROMPT $1 setup skipped."
-    return 1
-  else
-    return 0
-  fi
-}
-
 sudo -v
 
 brew update
@@ -19,12 +8,15 @@ brew upgrade --all
 brew install coreutils
 brew install binutils
 
-# Install more recent versions of some macOS tools.
+# ==== More Recent Versions of macOS Tools =====================
+
 brew install gnu-sed --with-default-names
 brew install wget --with-iri
 brew install grep
 brew install openssh
 brew install gmp
+
+# ==== Basic Development Tools =================================
 
 brew install git
 brew install git-lfs
@@ -38,18 +30,34 @@ brew install ytop
 brew install httpie
 brew install bat
 
-brew cask install --appdir="~/Applications" iterm2
-brew cask install --appdir="~/Applications" java
+# ==== Development Tool Casks ==================================
 
 brew cask install --appdir="/Applications" atom
+brew cask install --appdir="~/Applications" iterm2
+brew cask install --appdir="~/Applications" java
+brew cask install --appdir="/Applications" macdown
 brew cask install --appdir="/Applications" virtualbox
 brew cask install --appdir="/Applications" vagrant
+brew cask install --appdir="~/Applications" xquartz
+
+# ==== Miscellaneous Casks =====================================
+
+brew cask install --appdir="/Applications" brave-browser
+brew cask install --appdir="/Applications" firefox
+brew cask install --appdir="/Applications" google-chrome
+brew cask install --appdir="/Applications" signal
+brew cask install --appdir="/Applications" slack
+brew cask install --appdir="/Applications" spark
+brew cask install --appdir="/Applications" spotify
+brew cask install --appdir="/Applications" whatsapp
 
 brew install docker  # requires virtualbox
 
 brew tap homebrew/cask-fonts
 brew cask install font-hack-nerd-font
 brew cask install font-fira-code-nerd-font
+
+# ==== Language-Specific Development Tools =====================
 
 if prompt_lang_install "Python" ; then
   brew install pyenv
@@ -99,3 +107,17 @@ if prompt_lang_install "JavaScript" ; then
 fi
 
 brew cleanup
+
+
+# ==== Utility Functions =======================================
+
+prompt_lang_install () {
+  printf "$PROMPT Do you want to set up $1? ([y]/n) "
+  read resp
+  if [ "$resp" = 'n' -o "$resp" = 'N' ] ; then
+    echo "$PROMPT $1 setup skipped."
+    return 1
+  else
+    return 0
+  fi
+}

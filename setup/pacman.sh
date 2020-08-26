@@ -1,16 +1,5 @@
 #! /bin/sh
 
-prompt_lang_install () {
-  printf "$PROMPT Do you want to set up $1? ([y]/n) "
-  read resp
-  if [ "$resp" = 'n' -o "$resp" = 'N' ] ; then
-    echo "$PROMPT $1 setup skipped."
-    return 1
-  else
-    return 0
-  fi
-}
-
 sudo pacman -Syu
 
 sudo pacman -S base-devel
@@ -21,6 +10,8 @@ sudo pacman -S yay
 sudo pacman -S xorg
 sudo pacman -S i3
 sudo pacman -S alacritty
+
+# ==== Basic Development Tools =================================
 
 sudo pacman -S curl
 sudo pacman -S wget
@@ -39,6 +30,8 @@ sudo pacman -S bat
 sudo pacman -S docker
 
 sudo yay -S nerd-fonts-fira-code
+
+# ==== Language-Specific Development Tools =====================
 
 if prompt_lang_install "Python" ; then
   sudo pacman -S python
@@ -85,3 +78,17 @@ if prompt_lang_install "JavaScript" ; then
   npm install -g yarn
   yarn global add caniuse-cmd
 fi
+
+
+# ==== Utility Functions =======================================
+
+prompt_lang_install () {
+  printf "$PROMPT Do you want to set up $1? ([y]/n) "
+  read resp
+  if [ "$resp" = 'n' -o "$resp" = 'N' ] ; then
+    echo "$PROMPT $1 setup skipped."
+    return 1
+  else
+    return 0
+  fi
+}

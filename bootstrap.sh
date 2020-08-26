@@ -31,7 +31,7 @@ else
   echo "$PROMPT Symlinking completed."
 fi
 
-# ==== Install Tools ==========================================
+# ==== Install Tools ===========================================
 
 echo "$PROMPT Installing useful utilities using your package manager."
 PM=$(find_package_manager)
@@ -68,8 +68,11 @@ fi
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
-# Download Base16 shell color theme.
+# Download Base16 shell color themes.
 git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+
+
+# ==== Utility Functions =======================================
 
 find_package_manager () {
   PACKAGE_MANAGERS='brew pacman'

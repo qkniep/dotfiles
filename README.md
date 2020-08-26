@@ -1,6 +1,6 @@
-# macOS / Arch Linux + Zsh + Vim
+# macOS / Arch Linux (i3) + Alacritty + Zsh + Vim
 
-These are the settings I use as my development setup under both macOS and Arch Linux.
+I use this as my development setup under both macOS and Arch Linux.
 Currently this repo is under heavy development, anything can change at any time!
 
 ![](screenshot1.png) | ![](screenshot2.png)
@@ -27,26 +27,25 @@ git pull
 
 ## Roadmap
 
-- [x] add screenshots
 - [x] set up denite.vim (https://github.com/ctaylo21/jarvis/blob/master/config/nvim/init.vim#L58)
-- [ ] switch from airline to lightline (https://github.com/maximbaz/lightline-ale)
 - [ ] make the installation script usable
 	- [ ] symlink dotfiles
-- [x] add getting-started instructions
+- [ ] improve documentation (especially for update process)
 - [x] allow install script to setup tools for development (asking for languages)
 - [x] install fonts (Nerd Fonts) from bootstrap.sh
 - [ ] set colorscheme in install.sh
 - [ ] add complete list of installed software in this README
 - [ ] add Dockerfile for testing Linux setup process
+- [ ] switch from airline to lightline? (https://github.com/maximbaz/lightline-ale)
 
 ## Influenced By
 
+- https://github.com/donnemartin/dev-setup
 - https://github.com/paulirish/dotfiles
 - https://github.com/mathiasbynens/dotfiles
 - https://github.com/skwp/dotfiles
 - https://github.com/holman/dotfiles
 - https://github.com/thoughtbot/dotfiles
-- https://github.com/donnemartin/dev-setup
 
 ## License
 
