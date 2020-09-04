@@ -29,6 +29,7 @@ sudo pacman -S bat
 
 sudo pacman -S docker
 
+sudo yay -S betterlockscreen
 sudo yay -S nerd-fonts-fira-code
 
 # ==== Language-Specific Development Tools =====================
