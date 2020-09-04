@@ -74,7 +74,7 @@ colors:
     - {index: 20, color: '0xb4b7b4'}
     - {index: 21, color: '0xe0e0e0'}
 
-visual_bell:
+bell:
   animation: EaseOutExpo  # Ease, EaseOut(Sine|Quad|Cubic|Quart|Quint|Expo|Circ), Linear
   duration: 0
   color: '#C0C0C0'
@@ -85,7 +85,8 @@ selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
   save_to_clipboard: true
 
-dynamic_title: true
+window:
+  dynamic_title: true
 
 cursor:
   style: Block
