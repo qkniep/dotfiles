@@ -45,6 +45,7 @@ set noswapfile
 set noshowmode
 set nowritebackup
 set nomodeline     " disable modelines for security reasons
+set shada=!,'100,<1000,s100,h
 
 
 " ==== Indentation =============================================
