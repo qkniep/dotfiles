@@ -10,6 +10,10 @@ sudo pacman -S yay
 sudo pacman -S xorg
 sudo pacman -S i3
 sudo pacman -S alacritty
+sudo pacman -S dunst
+
+sudo yay -S betterlockscreen
+sudo yay -S nerd-fonts-fira-code
 
 # ==== Basic Development Tools =================================
 
@@ -28,8 +32,6 @@ sudo pacman -S httpie
 sudo pacman -S bat
 
 sudo pacman -S docker
-
-sudo yay -S nerd-fonts-fira-code
 
 # ==== Language-Specific Development Tools =====================
 
