@@ -27,16 +27,11 @@ git pull
 
 ## Roadmap
 
-- [x] set up denite.vim (https://github.com/ctaylo21/jarvis/blob/master/config/nvim/init.vim#L58)
 - [ ] make the installation script usable
-	- [ ] symlink dotfiles
+	- [ ] symlink/sync dotfiles
 - [ ] improve documentation (especially for update process)
-- [x] allow install script to setup tools for development (asking for languages)
-- [x] install fonts (Nerd Fonts) from bootstrap.sh
-- [ ] set colorscheme in install.sh
 - [ ] add complete list of installed software in this README
 - [ ] add Dockerfile for testing Linux setup process
-- [ ] switch from airline to lightline? (https://github.com/maximbaz/lightline-ale)
 
 ## Influenced By
 
