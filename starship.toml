@@ -1,0 +1,7 @@
+[[battery.display]]  # "bold red" style when capacity is between 0% and 5%
+threshold = 5
+style = "bold red"
+
+[[battery.display]]  # "bold yellow" style when capacity is between 5% and 15%
+threshold = 15
+style = "bold yellow"
