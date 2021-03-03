@@ -47,4 +47,4 @@
 	name = Quentin Kniep
 
 [pull]
-	rebase = false
+	rebase = true
