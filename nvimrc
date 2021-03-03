@@ -3,10 +3,10 @@
 call plug#begin()
 
 " Visual
-"Plug 'itchyny/lightline.vim'
-"Plug 'maximbaz/lightline-ale'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
+"Plug 'bling/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 Plug 'chriskempson/base16-vim'
 Plug 'mike-hearn/base16-vim-lightline'
 
@@ -305,12 +305,12 @@ endfunction
 
 " ==== Other Plugins ===========================================
 
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
-let g:airline_theme = 'base16'
-"let g:lightline = {
-"	\ 'colorscheme': '16color',
-"	\ }
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline_powerline_fonts = 1
+"let g:airline_theme = 'base16'
+let g:lightline = {
+\   'colorscheme': '16color',
+\ }
 
 let g:dart_style_guide = 2
 let g:dart_format_on_save = 1

@@ -1,3 +1,5 @@
+# vi: ft=i3config
+
 set $mod Mod1
 
 font pango:monospace 12
