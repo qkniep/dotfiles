@@ -3,17 +3,19 @@
 call plug#begin()
 
 " Visual
-Plug 'itchyny/lightline.vim'
-Plug 'maximbaz/lightline-ale'
-"Plug 'bling/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'chriskempson/base16-vim'
-Plug 'mike-hearn/base16-vim-lightline'
+Plug 'srcery-colors/srcery-vim'
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
+Plug 'sainnhe/sonokai'
+Plug 'Yggdroot/indentLine'
 
 " Languages
 Plug 'sheerun/vim-polyglot'
+Plug 'fatih/vim-go'
 Plug 'w0rp/ale'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -69,10 +71,18 @@ set nowrap
 " ==== Colors ==================================================
 
 syntax on
-set termguicolors
+if has('termguicolors')
+	set termguicolors
+endif
 set background=dark
-let base16colorspace=256
-colorscheme base16-google-dark
+" let base16colorspace=256
+" colorscheme base16-google-dark
+let g:srcery_italic = 1
+let g:srcery_inverse_match_paren = 1
+colorscheme srcery
+" let g:sonokai_style = 'maia'
+" let g:sonokai_enable_italic = 1
+" colorscheme sonokai
 set t_Co=256
 let g:rehash256 = 1
 
@@ -91,6 +101,11 @@ set laststatus=2            " always show status bar
 
 " Display tabs and trailing spaces visually.
 set list listchars=tab:\\ ,trail:·
+
+let g:indentLine_setColors = 1
+let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_char = ''
+let g:indentLine_first_char = ''
 
 
 " ==== Scrolling ===============================================
@@ -154,7 +169,7 @@ map <silent> <leader>l :bnext<cr>
 
 let g:ale_echo_msg_format = '%linter%: %s'
 let g:ale_sign_error = "✗"
-let g:ale_sign_warning = "⚠"
+let g:ale_sign_warning = "!"
 let b:ale_linters = {'rust': ['rls','cargo','rustc']}
 let g:ale_fixers = {'rust': ['rustfmt']}
 let g:ale_rust_rls_toolchain = 'stable'
@@ -305,12 +320,13 @@ endfunction
 
 " ==== Other Plugins ===========================================
 
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline_powerline_fonts = 1
-"let g:airline_theme = 'base16'
-let g:lightline = {
-\   'colorscheme': '16color',
-\ }
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+" let g:airline_theme = 'base16'
+let g:airline_theme = 'srcery'
+
+" disable gd shortcut for vim-go, let CoC handle this
+let g:go_def_mapping_enabled = 0
 
 let g:dart_style_guide = 2
 let g:dart_format_on_save = 1
