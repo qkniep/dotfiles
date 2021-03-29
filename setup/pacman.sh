@@ -39,6 +39,9 @@ sudo snap install slack
 
 echo "Installing development tools and CLI utilities..."
 
+sudo pacman -S zip
+sudo pacman -S unzip
+
 sudo pacman -S postgresql
 sudo pacman -S jdk-openjdk
 sudo pacman -S cmake
@@ -55,11 +58,12 @@ sudo pacman -S libwebp       # WebP image format conversion
 sudo pacman -S gnuplot       # CLI plotting utility
 sudo pacman -S httpie        # CLI HTTP request (like curl)
 sudo pacman -S starship      # Rust command prompt
-sudo pacman -S exa           # Rust alternative to ls
-sudo pacman -S bat           # Rust alternative to cat
-yay -S dust                  # Rust alternative to du
-yay -S ripgrep               # Rust alternative to grep
-yay -S bottom-bin            # Rust alternative to top
+sudo pacman -S exa           # Rust alternative for ls
+sudo pacman -S bat           # Rust alternative for cat
+sudo pacman -S fd            # Rust alternative for find
+yay -S dust                  # Rust alternative for du
+yay -S ripgrep               # Rust alternative for grep
+yay -S bottom-bin            # Rust alternative for top
 
 sudo pacman -S docker
 sudo pacman -S docker-compose
