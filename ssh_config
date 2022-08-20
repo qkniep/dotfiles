@@ -1,4 +1,6 @@
-Host example
-	Hostname 1.2.3.4
+Host *
+	ServerAliveInterval 120
+
+Host travelbetter
+	HostName 82.165.64.43
 	User qkniep
-	Port 30000

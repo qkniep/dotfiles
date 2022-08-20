@@ -1,145 +1,227 @@
-#! /bin/sh
-
-echo "Updating system..."
-sudo pacman -Syu
-
-echo "Installing basic dependencies..."
-sudo pacman -S base-devel
-sudo pacman -S binutils
-sudo pacman -S python
-sudo pacman -S yay
-
-
-# ==== GUI =====================================================
-
-echo "Installing GUI applications..."
-
-sudo pacman -S xorg
-sudo pacman -S i3
-sudo pacman -S alacritty
-sudo pacman -S dunst
-
-yay -S betterlockscreen
-yay -S nerd-fonts-fira-code
-yay -S nerd-fonts-hack
-
-sudo pacman -S firefox
-sudo pacman -S brave
-sudo pacman -S whatsapp-web
-sudo pacman -S signal-desktop
-yay -S zoom
-
-sudo pacman -S snapd
-sudo systemctl enable --now snapd.socket
-sudo snap install spotify
-sudo snap install slack
-
-
-# ==== Basic Development Tools =================================
-
-echo "Installing development tools and CLI utilities..."
-
-sudo pacman -S zip
-sudo pacman -S unzip
-
-sudo pacman -S postgresql
-sudo pacman -S jdk-openjdk
-sudo pacman -S cmake
-sudo pacman -S curl
-sudo pacman -S wget
-sudo pacman -S git
-yay -S git-lfs
-
-sudo pacman -S neovim
-sudo pacman -S python-pynvim # needed for denite plugin
-
-sudo pacman -S imagemagick   # Image editing tools
-sudo pacman -S libwebp       # WebP image format conversion
-sudo pacman -S gnuplot       # CLI plotting utility
-sudo pacman -S httpie        # CLI HTTP request (like curl)
-sudo pacman -S starship      # Rust command prompt
-sudo pacman -S exa           # Rust alternative for ls
-sudo pacman -S bat           # Rust alternative for cat
-sudo pacman -S fd            # Rust alternative for find
-yay -S dust                  # Rust alternative for du
-yay -S ripgrep               # Rust alternative for grep
-yay -S bottom-bin            # Rust alternative for top
-
-sudo pacman -S docker
-sudo pacman -S docker-compose
-sudo usermod -aG docker $USER
-sudo systemctl enable docker.service
-
-
-# ==== Language-Specific Development Tools =====================
-
-if prompt_lang_install "Python" ; then
-  pip install pylint
-  pip install pipenv
-
-  if prompt_lang_install "Python Data Science Tools" ; then
-    pip install numpy
-    pip install scipy
-    pip install matplotlib
-    pip install pandas
-    pip install seaborn
-    pip install scikit-learn
-    pip install jupyterlab
-    pip install bokeh
-    pip install Flask
-    pip install sqlalchemy
-    pip install mysqlclient
-  fi
-  echo "$PROMPT Python environment set up successfully."
-fi
-
-if prompt_lang_install "Rust" ; then
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  rustup component add rls rust-analysis rust-src
-  echo "$PROMPT Rust environment set up successfully."
-fi
-
-if prompt_lang_install "Go" ; then
-  sudo pacman -S go
-  sudo pacman -S go-tools
-  mkdir -p $HOME/go/{bin,src}
-  go get -u golang.org/x/tools/gopls
-  go get -u github.com/go-task/task/v3/cmd/task
-  go get -u github.com/kyleconroy/sqlc/cmd/sqlc
-  go get -u github.com/securego/gosec/v2/cmd/gosec
-  go get -u honnef.co/go/tools/cmd/staticcheck
-  go get -u github.com/kisielk/errcheck
-  go get -u golang.org/x/lint/golint
-  go get -u github.com/go-critic/go-critic/cmd/gocritic
-  go get -u github.com/boyter/scc
-  echo "$PROMPT Go environment set up successfully."
-fi
-
-if prompt_lang_install "JavaScript" ; then
-  yay -S selenium-server-standalone
-  sudo pacman -S nodejs
-  npm install -g yarn
-  yarn global add caniuse-cmd
-  yarn global add gulp
-  yarn global add eslint
-  yarn global add stylelint
-fi
-
-if prompt_lang_install "Haskell" ; then
-  sudo pacman -S ghc
-  sudo pacman -S cabal-install
-fi
-
+#! /bin/bash
 
 # ==== Utility Functions =======================================
 
+RED='\u001b[31m'
+GRN='\u001b[32m'
+YEL='\u001b[33m'
+BLU='\u001b[34m'
+RST='\u001b[0m'
+
+pinfo () {
+  echo -e "$BLU$1$RST"
+}
+
+psuccess () {
+  echo -e "$GRN$1$RST"
+}
+
+pwarn () {
+  echo -e "$YEL$1$RST"
+}
+
+perr () {
+  echo -e "$RED$1$RST"
+}
+
 prompt_lang_install () {
-  printf "$PROMPT Do you want to set up $1? [Y/n] "
+  pinfo "$PROMPT Do you want to set up $1? [Y/n] "
   read resp
   if [ "$resp" = 'n' -o "$resp" = 'N' ] ; then
-    echo "$PROMPT $1 setup skipped."
+    pwarn "$PROMPT $1 setup skipped."
     return 1
   else
     return 0
   fi
 }
+
+pcmn() {
+  sudo pacman --color=always "$@"
+}
+
+
+# ==== Start Setup =============================================
+
+pinfo "Updating system..."
+pcmn -Syyu
+
+pinfo "Installing basic dependencies..."
+pcmn -S base-devel \
+  binutils \
+  python \
+  yay \
+  fish \
+  curl \
+  wget \
+  tar \
+  zip \
+  unzip
+
+
+# ==== GUI =====================================================
+
+# Desktop Environment
+pinfo "Installing desktop environment (xorg, i3, etc.)..."
+pcmn -S xorg \
+  i3-gaps \
+  i3status-rust \
+  alacritty \
+  dunst \
+  redshift \
+  ttf-nerd-fonts-symbols
+yay -S betterlockscreen \
+  nerd-fonts-hack \
+  nerd-fonts-fira-code
+
+# Applications
+pinfo "Installing GUI applications..."
+pcmn -S firefox \
+  brave-browser \
+  signal-desktop \
+  bitwarden \
+  thunderbird
+yay -S zoom \
+  spotify \
+  spotify-tui \
+  slack
+
+
+# ==== General Dev Tools =======================================
+
+pinfo "Installing development tools..."
+pcmn -S sqlite \
+  redis \
+  postgresql \
+  cmake \
+  git
+yay -S git-lfs
+
+# Neovim
+pinfo "Installing and setting up Neovim & packer.nvim..."
+pcmn -S neovim
+pcmn -S lua-language-server
+yay -S nvim-packer-git
+# TODO: Finish setting up packer automatically.
+# TODO: Install neovim packages automatically.
+
+# CLI Tools
+# Mostly Rust alternatives for the defaults.
+pinfo "Installing CLI utilities..."
+pcmn -S imagemagick \
+  libwebp \
+  gnuplot \
+  httpie \
+  fzf \
+  starship \
+  tokei \
+  dust \
+  bat \
+  exa \
+  ripgrep \
+  bottom \
+  fd \
+  zoxide
+yay -S speed-test
+
+# Docker
+pinfo "Installing Docker..."
+pcmn -S docker docker-compose
+sudo usermod -aG docker $USER
+sudo systemctl enable docker.service
+yay -S dockerfile-language-server
+
+# TODO: Add Kubernetes?
+
+
+# ==== Language-Specific Dev Tools =============================
+
+if prompt_lang_install "Rust" ; then
+  pacman -S rustup \
+    rust-analyzer
+  source "$HOME/.cargo/env"
+  rustup toolchain install nightly
+  rustup component add rust-src
+  cargo install cargo-tarpaulin \
+    cargo-udeps \
+    cargo-outdated \
+    cargo-bloat \
+    cargo-spellcheck \
+    flamgraph \
+    cargo-audit --features vendored-libgit2
+  psuccess "$PROMPT Rust environment set up successfully."
+fi
+
+if prompt_lang_install "Python" ; then
+  pcmn -S python-pip \
+    pyright \
+    python-pylint \
+    python-virtualenv \
+    python-pipenv
+
+  if prompt_lang_install "Python Data Science Tools" ; then
+    pcmn -S python-numpy \
+      python-scipy \
+      python-matplotlib \
+      python-pandas \
+      python-seaborn \
+      python-pytorch \
+      python-scikit-learn \
+      jupyterlab \
+      python-sqlalchemy \
+      python-mysqlclient \
+      python-flask
+    yay -S python-bokeh
+  fi
+  psuccess "$PROMPT Python environment set up successfully."
+fi
+
+if prompt_lang_install "Go" ; then
+  pcmn -S go \
+    go-tools \
+    gopls \
+    sqlc \
+  yay -S go-task-bin \
+    gosec \
+    scc
+  mkdir -p $HOME/go/{bin,src}
+  go get -u honnef.co/go/tools/cmd/staticcheck
+  go get -u github.com/kisielk/errcheck
+  go get -u golang.org/x/lint/golint
+  go get -u github.com/go-critic/go-critic/cmd/gocritic
+  psuccess "$PROMPT Go environment set up successfully."
+fi
+
+if prompt_lang_install "JavaScript" ; then
+  pcmn -S deno \
+    nodejs \
+    nvm \
+    npm \
+    yarn \
+    typescript \
+    tsserver \
+    gulp \
+    prettier \
+    eslint \
+    stylelint
+  yarn global add caniuse-cmd
+  yay -S selenium-server-standalone
+  psuccess "$PROMPT JS/TS environment set up successfully."
+fi
+
+if prompt_lang_install "Java" ; then
+  pcmn -S jdk-openjdk
+  yay -S java-language-server
+  psuccess "$PROMPT Java environment set up successfully."
+fi
+
+if prompt_lang_install "Haskell" ; then
+  pcmn -S ghc \
+    cabal-install
+  psuccess "$PROMPT Haskell environment set up successfully."
+fi
+
+if prompt_lang_install "LaTeX" ; then
+  yay pacman -S texlive-full
+  pcmn -S texlab
+  psuccess "$PROMPT LaTeX environment set up successfully."
+fi
