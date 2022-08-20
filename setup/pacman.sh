@@ -94,12 +94,11 @@ pcmn -S sqlite \
   postgresql \
   cmake \
   git
-yay -S git-lfs
 
 # Neovim
 pinfo "Installing and setting up Neovim & packer.nvim..."
-pcmn -S neovim
-pcmn -S lua-language-server
+pcmn -S neovim \
+  lua-language-server
 yay -S nvim-packer-git
 # TODO: Finish setting up packer automatically.
 # TODO: Install neovim packages automatically.
@@ -136,16 +135,22 @@ yay -S dockerfile-language-server
 # ==== Language-Specific Dev Tools =============================
 
 if prompt_lang_install "Rust" ; then
-  pacman -S rustup \
+  pcmn -S rustup \
     rust-analyzer
-  source "$HOME/.cargo/env"
+  rustup default stable
   rustup toolchain install nightly
   rustup component add rust-src
+  source "$HOME/.cargo/env"
   cargo install cargo-tarpaulin \
+    cargo-update \
     cargo-udeps \
     cargo-outdated \
     cargo-bloat \
     cargo-spellcheck \
+    cargo-watch \
+    cargo-criterion \
+    diesel_cli \
+    sqlx-cli \
     flamgraph \
     cargo-audit --features vendored-libgit2
   psuccess "$PROMPT Rust environment set up successfully."
@@ -221,7 +226,7 @@ if prompt_lang_install "Haskell" ; then
 fi
 
 if prompt_lang_install "LaTeX" ; then
-  yay pacman -S texlive-full
+  yay -S texlive-full
   pcmn -S texlab
   psuccess "$PROMPT LaTeX environment set up successfully."
 fi
