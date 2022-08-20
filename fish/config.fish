@@ -27,7 +27,7 @@ if status is-interactive
 		cargo install-update -a
 		python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 python3 -m pip install -U
 		yarn global upgrade
-		npm update -g
+		sudo npm update -g
 	end
 
 	# Vim Key Bindings
