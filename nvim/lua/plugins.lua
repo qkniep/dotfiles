@@ -4,7 +4,7 @@ return require('packer').startup(function(use)
 
 	-- Visual
 	use 'nvim-lualine/lualine.nvim' -- bottom bar
-	use { 'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons' } -- top bar
+	use { 'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons' } -- top bar
 	use { 'kyazdani42/nvim-web-devicons', as = 'devicons' } -- filetype icons
 	use 'norcalli/nvim-colorizer.lua' -- highlight colors in CSS, HTML, JS, etc.
 	use 'j-hui/fidget.nvim' -- progress UI for nvim-lspconfig
@@ -46,8 +46,11 @@ return require('packer').startup(function(use)
 	use { 'ms-jpq/coq.thirdparty', branch = '3p' }
 
 	-- Git
+	use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
 	use 'tpope/vim-fugitive'
 	use 'airblade/vim-gitgutter'
+
+	require('neogit').setup()
 
 	-- Utilities
 	use 'nvim-lua/plenary.nvim'
