@@ -49,6 +49,7 @@ pinfo "Installing basic dependencies..."
 pcmn -S base-devel \
   binutils \
   python \
+  openssl \
   yay \
   fish \
   curl \
@@ -56,6 +57,8 @@ pcmn -S base-devel \
   tar \
   zip \
   unzip
+
+# TODO: Maybe replace yay with paru?!
 
 
 # ==== GUI =====================================================
@@ -65,16 +68,22 @@ pinfo "Installing desktop environment (xorg, i3, etc.)..."
 pcmn -S xorg \
   i3-gaps \
   i3status-rust \
+  alacritty \
   dmenu \
   rofi \
-  papirus-icon-theme \
-  alacritty \
   dunst \
+  imv \
+  scrot \
   redshift \
+  papirus-icon-theme \
   ttf-nerd-fonts-symbols
 yay -S betterlockscreen \
+  nerd-fonts-noto \
   nerd-fonts-hack \
   nerd-fonts-fira-code
+
+# TODO: Maybe replace X11 with wayland and i3 with sway?!
+# NOTE: Then also replace dmenu/rofi with bemenu and scrot with grim & slurp.
 
 # Applications
 pinfo "Installing GUI applications..."
@@ -83,6 +92,8 @@ pcmn -S firefox \
   signal-desktop \
   bitwarden \
   thunderbird \
+  okular \
+  gimp \
   spotifyd
 yay -S zoom \
   spotify \
@@ -150,13 +161,12 @@ if prompt_lang_install "Rust" ; then
     cargo-udeps \
     cargo-outdated \
     cargo-bloat \
-    cargo-spellcheck \
     cargo-watch \
     cargo-criterion \
     diesel_cli \
     sqlx-cli \
-    flamgraph \
-    cargo-audit --features vendored-libgit2
+    flamegraph \
+    cargo-audit
   psuccess "$PROMPT Rust environment set up successfully."
 fi
 
@@ -193,27 +203,25 @@ if prompt_lang_install "Go" ; then
     gosec \
     scc
   mkdir -p $HOME/go/{bin,src}
-  go get -u honnef.co/go/tools/cmd/staticcheck
-  go get -u github.com/kisielk/errcheck
-  go get -u golang.org/x/lint/golint
-  go get -u github.com/go-critic/go-critic/cmd/gocritic
+  go install honnef.co/go/tools/cmd/staticcheck@latest
+  go install github.com/kisielk/errcheck@latest
+  go install golang.org/x/lint/golint@latest
+  go install github.com/go-critic/go-critic/cmd/gocritic@latest
   psuccess "$PROMPT Go environment set up successfully."
 fi
 
 if prompt_lang_install "JavaScript" ; then
   pcmn -S deno \
     nodejs \
-    nvm \
     npm \
     yarn \
     typescript \
-    tsserver \
     gulp \
     prettier \
     eslint \
     stylelint
+  yay -S nvm
   yarn global add caniuse-cmd
-  yay -S selenium-server-standalone
   psuccess "$PROMPT JS/TS environment set up successfully."
 fi
 
@@ -225,7 +233,8 @@ fi
 
 if prompt_lang_install "Haskell" ; then
   pcmn -S ghc \
-    cabal-install
+    cabal-install \
+    haskell-language-server
   psuccess "$PROMPT Haskell environment set up successfully."
 fi
 

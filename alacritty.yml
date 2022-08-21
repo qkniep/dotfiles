@@ -133,14 +133,13 @@ bell:
   duration: 250
   color: '#918175'
 
-background_opacity: 1.0
-
 selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
   save_to_clipboard: true
 
 window:
   dynamic_title: true
+  #opacity: 0.8
 
 cursor:
   #style: Block
@@ -157,7 +156,7 @@ mouse:
 
   hide_when_typing: true
 
-  url:
+  hints:
     launcher:
       program: xdg-open
       args: []

@@ -35,6 +35,7 @@
 	<alias>
 		<family>monospace</family>
 		<prefer>
+			<family>Hack Nerd Font Complete Mono</family>
 			<family>Hack Nerd Font Mono</family>
 			<family>Noto Color Emoji</family>
 			<family>Noto Emoji</family>

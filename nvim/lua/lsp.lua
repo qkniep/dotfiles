@@ -66,6 +66,7 @@ lspconfig.pyright.setup { on_attach = on_attach }
 -- Don't configure Rust here, as it is configured by the `rust-tools` plugin.
 -- lspconfig.rust_analyzer.setup{on_attach = on_attach}
 lspconfig.tsserver.setup { on_attach = on_attach }
+lspconfig.denols.setup { on_attach = on_attach }
 -- FIX: sqls formatter currently breaks completely (removes comments, DDL not supported, ...)
 --lspconfig.sqls.setup {
 --	on_attach = on_attach,
@@ -92,8 +93,8 @@ lspconfig.sumneko_lua.setup {
 	}
 }
 lspconfig.texlab.setup { on_attach = on_attach }
-lspconfig.denols.setup { on_attach = on_attach }
 lspconfig.dockerls.setup { on_attach = on_attach }
+lspconfig.hls.setup { on_attach = on_attach }
 
 rust_tools.setup {
 	tools = {
@@ -130,6 +131,7 @@ treesitter.setup {
 		'bibtex',
 		'sql',
 		'bash',
+		'haskell',
 		'solidity',
 		'json',
 		'yaml',

@@ -15,8 +15,10 @@ return require('packer').startup(function(use)
 		end
 	} -- colored highlighting for TODO, FIX, PERF, etc.
 	use 'folke/lsp-colors.nvim' -- fix LSP colors for legacy colorschemes (like srcery)
+	use { 'folke/trouble.nvim', requires = 'kyazdani42/nvim-web-devicons' }
 
 	require('colorizer').setup()
+	require('trouble').setup()
 
 	-- Themes
 	use { 'srcery-colors/srcery-vim', as = 'srcery' }
