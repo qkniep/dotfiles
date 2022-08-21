@@ -87,7 +87,7 @@ pcmn -S firefox \
 yay -S zoom \
   spotify \
   spotify-tui \
-  slack \
+  slack-desktop \
   teams
 
 
