@@ -63,7 +63,7 @@ mkdir -p "$path"
 # ==== Link Dotfiles ===========================================
 
 pinfo "$PROMPT Symlinking the files in this repo to the home directory."
-prompt "$PROMPT Proceed? ([y]/n) "
+prompt "$PROMPT Proceed? [Y/n] "
 read resp
 if [ "$resp" = 'n' -o "$resp" = 'N' ] ; then
   pwarn "$PROMPT Symlinking skipped."
@@ -85,7 +85,7 @@ PM=$(find_package_manager)
 # on macOS, install homebrew if not found
 if [ "$PM" = "" -a $(uname) = "Darwin" ] ; then
   pwarn "$PROMPT No package manager found."
-  prompt "$PROMPT Install homebrew? ([y]/n) "
+  prompt "$PROMPT Install homebrew? [Y/n] "
   read resp
   if [ "$resp" != 'n' -a "$resp" != 'N' ] ; then
     pinfo "$PROMPT Installing homebrew..."

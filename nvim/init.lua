@@ -1,3 +1,12 @@
+vim.opt.termguicolors = true
+
+-- Plugins
+
+require('plugins')
+require('lsp')
+require('statusline')
+
+
 -- General
 
 vim.opt.autoread = true -- reload files changed outside of vim
@@ -26,7 +35,6 @@ vim.opt.wrap = false
 
 -- Colors
 
-vim.opt.termguicolors = true
 vim.opt.background = 'dark'
 vim.cmd([[colorscheme srcery]])
 vim.g.srcery_italic = 1
@@ -131,10 +139,3 @@ vim.g.gitgutter_sign_removed                 = '┃'
 vim.g.gitgutter_sign_removed_first_line      = '┃'
 vim.g.gitgutter_sign_removed_above_and_below = '╏'
 vim.g.gitgutter_sign_modified_removed        = '┃'
-
-
--- Plugins
-
-require('plugins')
-require('lsp')
-require('statusline')

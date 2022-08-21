@@ -49,6 +49,7 @@ return require('packer').startup(function(use)
 	use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
 	use 'tpope/vim-fugitive'
 	use 'airblade/vim-gitgutter'
+	-- TODO: Maybe replace gitgutter with gitsigns.nvim?!
 
 	require('neogit').setup()
 

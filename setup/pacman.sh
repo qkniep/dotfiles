@@ -65,6 +65,9 @@ pinfo "Installing desktop environment (xorg, i3, etc.)..."
 pcmn -S xorg \
   i3-gaps \
   i3status-rust \
+  dmenu \
+  rofi \
+  papirus-icon-theme \
   alacritty \
   dunst \
   redshift \
@@ -79,11 +82,13 @@ pcmn -S firefox \
   brave-browser \
   signal-desktop \
   bitwarden \
-  thunderbird
+  thunderbird \
+  spotifyd
 yay -S zoom \
   spotify \
   spotify-tui \
-  slack
+  slack \
+  teams
 
 
 # ==== General Dev Tools =======================================
@@ -100,8 +105,8 @@ pinfo "Installing and setting up Neovim & packer.nvim..."
 pcmn -S neovim \
   lua-language-server
 yay -S nvim-packer-git
-# TODO: Finish setting up packer automatically.
-# TODO: Install neovim packages automatically.
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'packadd packer.nvim' -c 'PackerSync'
+echo ""
 
 # CLI Tools
 # Mostly Rust alternatives for the defaults.
@@ -140,7 +145,6 @@ if prompt_lang_install "Rust" ; then
   rustup default stable
   rustup toolchain install nightly
   rustup component add rust-src
-  source "$HOME/.cargo/env"
   cargo install cargo-tarpaulin \
     cargo-update \
     cargo-udeps \
