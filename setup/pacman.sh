@@ -50,6 +50,7 @@ pcmn -S base-devel \
   binutils \
   python \
   openssl \
+  openssh \
   yay \
   fish \
   curl \
