@@ -38,7 +38,10 @@ git pull
 
 ## Influenced By
 
+Also check out the dotfiles of these awesome people:
+
 - https://github.com/folke/dot
+- https://github.com/jdhao/nvim-config
 - https://github.com/donnemartin/dev-setup
 - https://github.com/paulirish/dotfiles
 - https://github.com/mathiasbynens/dotfiles

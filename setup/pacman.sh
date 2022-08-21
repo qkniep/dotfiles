@@ -79,6 +79,7 @@ pcmn -S xorg \
   papirus-icon-theme \
   ttf-nerd-fonts-symbols
 yay -S betterlockscreen \
+  azote \
   nerd-fonts-noto \
   nerd-fonts-hack \
   nerd-fonts-fira-code

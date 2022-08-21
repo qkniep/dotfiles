@@ -44,6 +44,7 @@ format = "%a %d/%m %R"
 block = "battery"
 interval = 10
 format = "{percentage} {time}"
+full_format = "{percentage} {time}"
 
 [[block]]
 block = "keyboard_layout"
