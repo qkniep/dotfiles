@@ -1,43 +1,10 @@
 #! /bin/bash
 
-# ==== Utility Functions =======================================
+# Load utility functions and variables.
+source ../utility.sh
 
-RED='\u001b[31m'
-GRN='\u001b[32m'
-YEL='\u001b[33m'
-BLU='\u001b[34m'
-RST='\u001b[0m'
-
-pinfo () {
-  echo -e "$BLU$1$RST"
-}
-
-psuccess () {
-  echo -e "$GRN$1$RST"
-}
-
-pwarn () {
-  echo -e "$YEL$1$RST"
-}
-
-perr () {
-  echo -e "$RED$1$RST"
-}
-
-prompt_lang_install () {
-  pinfo "$PROMPT Do you want to set up $1? [Y/n] "
-  read resp
-  if [ "$resp" = 'n' -o "$resp" = 'N' ] ; then
-    pwarn "$PROMPT $1 setup skipped."
-    return 1
-  else
-    return 0
-  fi
-}
-
-pcmn() {
-  sudo pacman --color=always "$@"
-}
+# Exit on error.
+set -e
 
 
 # ==== Start Setup =============================================
@@ -45,13 +12,15 @@ pcmn() {
 pinfo "Updating system..."
 pcmn -Syyu
 
+# Build Tools
 pinfo "Installing basic dependencies..."
 pcmn -S base-devel \
   binutils \
+  cmake \
   python \
   openssl \
   openssh \
-  yay \
+  git \
   fish \
   curl \
   wget \
@@ -59,51 +28,71 @@ pcmn -S base-devel \
   zip \
   unzip
 
-# TODO: Maybe replace yay with paru?!
+pinfo "Installing the paru AUR manager..."
+# This requires Rust.
+pcmn -S rustup
+rustup default stable
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si
+cd ..
+rm -rf paru
 
 
 # ==== GUI =====================================================
 
 # Desktop Environment
-pinfo "Installing desktop environment (xorg, i3, etc.)..."
-pcmn -S xorg \
-  i3-gaps \
+pinfo "Installing desktop environment (wayland, sway, etc.)..."
+pcmn -S wayland \
+  xorg-wayland \
+  sway \
+  swaylock \
+  swaybg \
   i3status-rust \
   alacritty \
-  dmenu \
-  rofi \
+  bemenu \
+  fuzzel \
   dunst \
   imv \
-  scrot \
+  wallutils \
+  grim \
+  slurp \
   redshift \
+  nemo \
   papirus-icon-theme \
   ttf-nerd-fonts-symbols
-yay -S betterlockscreen \
-  azote \
+paru -S azote \
+  breeze-obsidian-cursor-theme \
   nerd-fonts-noto \
   nerd-fonts-hack \
   nerd-fonts-fira-code
 
-# TODO: Maybe replace X11 with wayland and i3 with sway?!
-# NOTE: Then also replace dmenu/rofi with bemenu and scrot with grim & slurp.
-
 # Applications
 pinfo "Installing GUI applications..."
 pcmn -S firefox \
-  brave-browser \
   signal-desktop \
   bitwarden \
   thunderbird \
   okular \
   obsidian \
-  remarkable \
   gimp \
   spotifyd
-yay -S zoom \
+paru -S zoom \
+  brave-bin \
+  remarkable \
   spotify \
   spotify-tui \
   slack-desktop \
   teams
+
+# Sound
+pinfo "Installing sound tools..."
+pcmn -S alsa-tools \
+  libvorbis \
+  opus \
+  flac \
+  wavpack
+paru -S alac-git
 
 
 # ==== General Dev Tools =======================================
@@ -111,15 +100,15 @@ yay -S zoom \
 pinfo "Installing development tools..."
 pcmn -S sqlite \
   redis \
+  mariadb \
   postgresql \
-  cmake \
-  git
+  hyperfine
 
 # Neovim
 pinfo "Installing and setting up Neovim & packer.nvim..."
 pcmn -S neovim \
   lua-language-server
-yay -S nvim-packer-git
+paru -S nvim-packer-git
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'packadd packer.nvim' -c 'PackerSync'
 echo ""
 
@@ -128,36 +117,34 @@ echo ""
 pinfo "Installing CLI utilities..."
 pcmn -S imagemagick \
   libwebp \
+  libheif \
   gnuplot \
   httpie \
   fzf \
   starship \
   tokei \
-  dust \
+  dua-cli \
   bat \
   exa \
   ripgrep \
   bottom \
   fd \
   zoxide
-yay -S speed-test
+paru -S speed-test
 
 # Docker
 pinfo "Installing Docker..."
 pcmn -S docker docker-compose
 sudo usermod -aG docker $USER
 sudo systemctl enable docker.service
-yay -S dockerfile-language-server
-
-# TODO: Add Kubernetes?
+paru -S dockerfile-language-server
 
 
 # ==== Language-Specific Dev Tools =============================
 
 if prompt_lang_install "Rust" ; then
-  pcmn -S rustup \
-    rust-analyzer
-  rustup default stable
+  # We already installed the Rust compiler to build paru.
+  pcmn -S rust-analyzer
   rustup toolchain install nightly
   rustup component add rust-src
   cargo install cargo-tarpaulin \
@@ -193,7 +180,7 @@ if prompt_lang_install "Python" ; then
       python-sqlalchemy \
       python-mysqlclient \
       python-flask
-    yay -S python-bokeh
+    paru -S python-bokeh
   fi
   psuccess "$PROMPT Python environment set up successfully."
 fi
@@ -202,8 +189,9 @@ if prompt_lang_install "Go" ; then
   pcmn -S go \
     go-tools \
     gopls \
-    sqlc \
-  yay -S go-task-bin \
+    goreleaser \
+    sqlc
+  paru -S go-task-bin \
     gosec \
     scc
   mkdir -p $HOME/go/{bin,src}
@@ -224,14 +212,14 @@ if prompt_lang_install "JavaScript" ; then
     prettier \
     eslint \
     stylelint
-  yay -S nvm
+  paru -S nvm
   yarn global add caniuse-cmd
   psuccess "$PROMPT JS/TS environment set up successfully."
 fi
 
 if prompt_lang_install "Java" ; then
   pcmn -S jdk-openjdk
-  yay -S java-language-server
+  paru -S java-language-server
   psuccess "$PROMPT Java environment set up successfully."
 fi
 
@@ -243,7 +231,7 @@ if prompt_lang_install "Haskell" ; then
 fi
 
 if prompt_lang_install "LaTeX" ; then
-  yay -S texlive-full
+  paru -S texlive-full
   pcmn -S texlab
   psuccess "$PROMPT LaTeX environment set up successfully."
 fi

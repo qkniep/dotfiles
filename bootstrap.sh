@@ -3,54 +3,22 @@
 # This script sets up a development environment from scratch.
 # It should be used when setting up a new machine.
 
-
-# ==== Utility Functions =======================================
-
-RED='\u001b[31m'
-GRN='\u001b[32m'
-YEL='\u001b[33m'
-BLU='\u001b[34m'
-RST='\u001b[0m'
-
-pinfo () {
-  echo -e "$BLU$1$RST"
-}
-
-prompt () {
-  echo -n -e "$BLU$1$RST"
-}
-
-psuccess () {
-  echo -e "$GRN$1$RST"
-}
-
-pwarn () {
-  echo -e "$YEL$1$RST"
-}
-
-perr () {
-  echo -e "$RED$1$RST"
-}
-
-find_package_manager () {
-  PACKAGE_MANAGERS='brew pacman'
-  for PM in $PACKAGE_MANAGERS; do
-    if [ $( which "$PM" ) ] ; then
-      echo "$PM"
-    fi
-  done
-  echo ""
-}
+source utility.sh
 
 
-# ==== Global Variable =========================================
+# ==== Global Variables ========================================
 
 PROMPT="[bootstrap]"
-BACKUP_DIR="~/dotfiles_old"
-PROJECTS_PATH="~/projects"
+BACKUP_DIR="$HOME/dotfiles_old"
+PROJECTS_PATH="$HOME/projects"
 
-FILES=".zshrc"
+FILES=""
 
+
+if [ "$EUID" = '0' ] ; then
+  perr 'You should not run this script as root!'
+  exit 1
+fi
 
 # ==== Create Projects Directory ===============================
 
@@ -69,6 +37,9 @@ if [ "$resp" = 'n' -o "$resp" = 'N' ] ; then
   pwarn "$PROMPT Symlinking skipped."
 else
   mkdir -p "$BACKUP_DIR"
+  mkdir -p "$HOME/.config/nvim"
+  ln -sv "$PWD/nvim/init.lua" "$HOME/.config/nvim/init.lua"
+  ln -sv "$PWD/nvim/lua" "$HOME/.config/nvim/lua"
   for file in $FILES; do
     mv "$HOME/$file" "$BACKUP_DIR/$file"
     ln -sv "$PWD/$file" "$HOME"
@@ -102,10 +73,11 @@ else
   prompt "$PROMPT Proceed installing packages with $PM? [Y/n] "
   read resp
   if [ "$resp" = 'n' -o "$resp" = 'N' ] ; then
-    pwarn "$PROMPT Tool installtion skipped."
+    pwarn "$PROMPT Tool installation skipped."
   else
     pinfo "$PROMPT Installing useful tools using $PM. This may take a while..."
-    sh "setup/$PM.sh"
+    cd setup
+    bash "./$PM.sh"
     psuccess "$PROMPT Tool installation completed."
   fi
 fi

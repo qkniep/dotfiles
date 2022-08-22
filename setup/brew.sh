@@ -1,17 +1,7 @@
 #! /bin/bash
 
-# ==== Utility Functions =======================================
+source ../utility.sh
 
-prompt_lang_install () {
-  printf "$PROMPT Do you want to set up $1? ([y]/n) "
-  read resp
-  if [ "$resp" = 'n' -o "$resp" = 'N' ] ; then
-    echo "$PROMPT $1 setup skipped."
-    return 1
-  else
-    return 0
-  fi
-}
 
 sudo -v
 
