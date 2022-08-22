@@ -95,6 +95,8 @@ pcmn -S firefox \
   bitwarden \
   thunderbird \
   okular \
+  obsidian \
+  remarkable \
   gimp \
   spotifyd
 yay -S zoom \

@@ -11,8 +11,11 @@ if status is-interactive
 	starship init fish | source
 
 	function fish_greeting
-		echo Hello (set_color -i blue; echo -n $USER; set_color normal), welcome back!
-		echo The time is (set_color yellow; date +%T; set_color normal) and this machine is called $hostname.
+		set --local user_str (set_color -i blue; echo -n $USER; set_color normal)
+		set --local time_str (set_color yellow; date +%T; set_color normal)
+		echo ""
+		echo " Hello $user_str, welcome back!"
+		#echo " The time is $time_str and this machine is called $hostname."
 		#echo There are updates available: (set_color -i green; pacman -Qu | wc -l; set_color normal) on pacman and (set_color -i green; yay -Qu | wc -l; set_color normal) on yay.
 	end
 
@@ -27,7 +30,7 @@ if status is-interactive
 		cargo install-update -a
 		python3 -m pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 python3 -m pip install -U
 		yarn global upgrade
-		sudo npm update -g
+		sudo npm update --location=global
 	end
 
 	# Vim Key Bindings
