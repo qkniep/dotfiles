@@ -42,7 +42,7 @@ schemes:
       blue:    '#2c78bf'
       magenta: '#e02c6d'
       cyan:    '#0aaeb3'
-      white:   '#d0bfa1'
+      white:   '#baa67f'
     bright:
       black:   '#918175'
       red:     '#f75341'
@@ -50,7 +50,7 @@ schemes:
       yellow:  '#fed06e'
       blue:    '#68a8e4'
       magenta: '#ff5c8f'
-      cyan:    '#53fde9'
+      cyan:    '#2be4d0'
       white:   '#fce8c3'
   # Srcery Light (experimental): adapted from https://srcery-colors.github.io/
   # Currently only fg/bg are swapped.
@@ -66,7 +66,7 @@ schemes:
       blue:    '#2c78bf'
       magenta: '#e02c6d'
       cyan:    '#0aaeb3'
-      white:   '#d0bfa1'
+      white:   '#baa67f'
     bright:
       black:   '#918175'
       red:     '#f75341'
@@ -74,7 +74,7 @@ schemes:
       yellow:  '#fed06e'
       blue:    '#68a8e4'
       magenta: '#ff5c8f'
-      cyan:    '#53fde9'
+      cyan:    '#2be4d0'
       white:   '#fce8c3'
   # TokyoNight (Storm)
   tokyonight_storm:
