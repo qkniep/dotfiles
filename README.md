@@ -1,6 +1,15 @@
-# Manjaro Linux (i3-gaps) / macOS + Alacritty + Fish + Neovim
+# My Dev Setup
 
-I use this as my development setup under both macOS and Manjaro Linux.
+<p>
+	<img src="https://img.shields.io/badge/-Arch-1793D1?style=for-the-badge&logo=ArchLinux&logoColor=white">
+	<img src="https://img.shields.io/badge/-Wayland-FFBC00?style=for-the-badge&logo=Wayland&logoColor=black">
+	<img src="https://img.shields.io/badge/-Alacritty-F46D01?style=for-the-badge&logo=Alacritty&logoColor=white">
+	<img src="https://img.shields.io/badge/-Fish-800080?style=for-the-badge&logo=GNOME-Terminal&logoColor=white">
+	<img src="https://img.shields.io/badge/-Neovim-57A143?style=for-the-badge&logo=Neovim&logoColor=white">
+	<img src="https://img.shields.io/badge/-Starship-DD0B78?style=for-the-badge&logo=Starship&logoColor=white">
+</p>
+
+I use this as my development setup under both macOS and Manjaro Linux, though I am currently exploring NixOS and consider moving from Manjaro back to Arch.
 Currently this repo is under heavy development, anything can change at any time!
 
 ![](screenshot.png)
