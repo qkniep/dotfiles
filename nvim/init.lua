@@ -1,141 +1,327 @@
-vim.opt.termguicolors = true
+vim.g.mapleader = ' '
 
--- Plugins
+-- basic UI settings
+vim.o.background = 'dark'
+vim.o.termguicolors = true
+vim.o.guicursor = ''
+vim.o.number = true
+vim.o.scrolloff = 8
 
-require('plugins')
-require('lsp')
-require('statusline')
+-- indentation and line wrapping
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.smartindent = true
+vim.o.wrap = false
 
+vim.o.swapfile = false
+vim.o.backup = false
+vim.o.undofile = true
 
--- General
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
-vim.opt.autoread = true -- reload files changed outside of vim
-vim.opt.hidden = true
-vim.opt.backup = false -- not vim's job, rely on git for backups
-vim.opt.swapfile = false
-vim.opt.showmode = false
-vim.opt.writebackup = false
-vim.opt.modeline = false -- disable modelines for security reasons
-vim.opt.shada = "!,'100,<1000,s100,h"
+vim.o.updatetime = 200
+vim.o.timeoutlen = 300
 
+vim.keymap.set('n', '<leader><CR>', '<cmd>terminal cargo run --release<CR>')
 
--- Indentation
+vim.keymap.set('n', 'J', 'mzJ`z')
 
-vim.opt.autoindent = true
-vim.opt.smartindent = true
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = false
+vim.keymap.set('n', '<Esc>', ':noh<CR>')
 
-vim.cmd([[filetype plugin indent on]])
+-- move current selection around
+vim.keymap.set('v', 'J', ':m \'>+1<CR>gv=gv')
+vim.keymap.set('v', 'K', ':m \'<-2<CR>gv=gv')
 
-vim.opt.wrap = false
+-- yank into system register
+vim.keymap.set('n', '<leader>y', '\"+y')
+vim.keymap.set('v', '<leader>y', '\"+y')
 
+-- delete into void register
+vim.keymap.set('n', '<leader>d', '\"_d')
+vim.keymap.set('v', '<leader>d', '\"_d')
 
--- Colors
+vim.keymap.set('n', '<C-k>', '<cmd>cnext<CR>zz')
+vim.keymap.set('n', '<C-j>', '<cmd>cprev<CR>zz')
+vim.keymap.set('n', '<leader>k', '<cmd>lprev<CR>zz')
+vim.keymap.set('n', '<leader>j', '<cmd>lprev<CR>zz')
 
-vim.opt.background = 'dark'
-vim.cmd([[colorscheme srcery]])
-vim.g.srcery_italic = 1
-vim.g.srcery_inverse_match_paren = 1
-vim.g.base16colorspace = 256
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		'git',
+		'clone',
+		'--filter=blob:none',
+		'https://github.com/folke/lazy.nvim.git',
+		'--branch=stable', -- latest stable release
+		lazypath,
+	})
+end
+vim.opt.rtp:prepend(lazypath)
 
-vim.cmd [[highlight! link DiagnosticError SrceryRed]]
-vim.cmd [[highlight! link DiagnosticWarn SrceryYellow]]
-vim.cmd [[highlight! link DiagnosticInfo SrceryBlue]]
-vim.cmd [[highlight! link DiagnosticHint SrceryGreen]]
+require('lazy').setup({
+	{
+		'VonHeikemen/lsp-zero.nvim',
+		branch = 'v2.x',
+		dependencies = {
+			-- LSP Support
+			'neovim/nvim-lspconfig',    -- Required
+			'williamboman/mason.nvim',  -- Optional
+			'williamboman/mason-lspconfig.nvim', -- Optional
+			-- Autocompletion
+			'hrsh7th/nvim-cmp',         -- Required
+			'hrsh7th/cmp-nvim-lsp',     -- Required
+			'L3MON4D3/LuaSnip',         -- Required
+		}
+	},
+	{
+		'j-hui/fidget.nvim',
+		tag = 'legacy',
+		event = 'LspAttach',
+		opts = {
+			text = {
+				spinner = 'dots',
+				done = '✓',
+			}
+		},
+	},
+	-- {
+	-- 	'ellisonleao/gruvbox.nvim',
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		vim.cmd('colorscheme gruvbox')
+	-- 	end
+	-- },
+	{
+		'folke/tokyonight.nvim',
+		lazy = false,
+		priority = 1000,
+		opts = {},
+		config = function()
+			vim.cmd('colorscheme tokyonight-night')
+			vim.cmd('hi MsgArea guibg=#15161e')
+		end
+	},
+	{
+		'folke/trouble.nvim',
+		dependencies = { 'nvim-tree/nvim-web-devicons' },
+		opts = {
+			use_diagnostic_signs = true,
+		},
+	},
+	{
+		'folke/todo-comments.nvim',
+		dependencies = { 'nvim-lua/plenary.nvim' },
+		opts = {
+			highlight = {
+				pattern = [[.*<(KEYWORDS)\s*(\(\@?\w*\))?\s*:?]],
+			},
+		},
+	},
+	{
+		'nvimdev/indentmini.nvim',
+		event = 'BufEnter',
+		config = function()
+			require('indentmini').setup({
+				--char = '',
+				--char = '┊',
+				char = '│',
+			})
+			vim.cmd.highlight('default link IndentLine Comment')
+		end,
+	},
+	{
+		'terrortylor/nvim-comment',
+		init = function()
+			require('nvim_comment').setup()
+		end,
+	},
+	'tpope/vim-fugitive',
+	'tpope/vim-rhubarb',
+	'lewis6991/gitsigns.nvim',
+	'nvim-lualine/lualine.nvim',
+	'nvim-treesitter/nvim-treesitter',
+	'mbbill/undotree',
+	'theprimeagen/harpoon',
+	{
+		'nvim-telescope/telescope.nvim',
+		tag = '0.1.2',
+		cmd = 'Telescope',
+		dependencies = { 'nvim-lua/plenary.nvim' },
+		init = function()
+			local builtin = require('telescope.builtin')
+			vim.keymap.set('n', '<C-p>', builtin.git_files, {})
+			vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+			vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+			vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+			vim.keymap.set('n', '<leader>fd', builtin.lsp_document_symbols, {})
+			vim.keymap.set('n', '<leader>fw', builtin.lsp_workspace_symbols, {})
+			vim.keymap.set('n', '<leader>fe', builtin.diagnostics, {})
+		end,
+	},
+	{
+		'nvim-neo-tree/neo-tree.nvim',
+		branch = 'v3.x',
+		cmd = 'Telescope',
+		dependencies = {
+			'nvim-lua/plenary.nvim',
+			'nvim-tree/nvim-web-devicons',
+			'MunifTanjim/nui.nvim',
+		}
+	},
+	{
+		'Exafunction/codeium.vim',
+		event = 'BufEnter',
+		config = function()
+			vim.keymap.set('i', '<C-c>', function() return vim.fn['codeium#Complete']() end, { expr = true })
+			vim.keymap.set('i', '<C-j>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
+			vim.keymap.set('i', '<C-k>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
+			vim.keymap.set('i', '<C-a>', function() return vim.fn['codeium#Accept']() end, { expr = true })
+			vim.keymap.set('i', '<C-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
+		end
+	},
+})
 
+local lsp = require('lsp-zero').preset('recommended')
 
--- UI
+lsp.on_attach(function(client, bufnr)
+	lsp.default_keymaps({ buffer = bufnr })
+	lsp.async_autoformat(client, bufnr)
 
-vim.opt.number = true -- show line numbers
-vim.opt.ruler = true -- show cursor position
-vim.opt.cursorline = true -- highlight the current line
-vim.opt.showmatch = true -- highlight matching braces/brackets/parens
-vim.opt.wildmenu = true -- visual autocomplete for ex commands
-vim.opt.lazyredraw = true -- only readraw when necessary
-vim.opt.formatoptions = 'tcqrnj' -- see fo-table for details
-vim.opt.laststatus = 2 -- always show status bar
+	vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename)
+	vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
+end)
 
--- Display tabs and trailing spaces visually.
-vim.opt.list = true
-vim.opt.listchars = { tab = '│ ', trail = '·' }
+lsp.set_sign_icons({
+	error = '✘',
+	warn = '',
+	hint = '⚑',
+	info = '»',
+})
 
-vim.g.indentLine_fileTypeExclude = { 'markdown', 'latex', 'tex', 'csv', 'dockerfile' }
-vim.g.indentLine_setColors = 1
-vim.g.indentLine_showFirstIndentLevel = 1
-vim.g.indentLine_char = '│'
-vim.g.indentLine_first_char = '│'
+require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
 
+lsp.setup()
 
--- Scrolling
+local cmp = require('cmp')
 
-vim.opt.scrolloff = 8 -- start scrolling 8 lines away from margins
-vim.opt.sidescrolloff = 15
+cmp.setup({
+	mapping = {
+		['<CR>'] = cmp.mapping.confirm({ select = false }),
+	}
+})
 
+vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
 
--- History
+vim.keymap.set('n', '<leader>n', vim.cmd.Neotree)
 
-vim.opt.history = 1000
-vim.opt.undolevels = 1000
-vim.opt.timeoutlen = 1000
-vim.opt.ttimeoutlen = 10
+vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
 
+require('nvim-treesitter.configs').setup {
+	ensure_installed = {
+		'javascript', 'typescript', 'css', 'html',
+		'c', 'cpp', 'python', 'lua', 'rust', 'go', 'haskell',
+		'dockerfile', 'json', 'yaml', 'toml', 'bash', 'fish',
+	},
+	auto_update = true,
+	incremental_selection = {
+		enable = true,
+		keymaps = {
+			init_selection = '<C-space>',
+			node_incremental = '<C-space>',
+			scope_inscremental = '<C-s>',
+			node_decremental = '<C-backspace>',
+		},
+	},
+}
 
--- Search
+local mark = require('harpoon.mark')
+local ui = require('harpoon.ui')
 
-vim.opt.incsearch = true
-vim.opt.hlsearch = true
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
+vim.keymap.set('n', '<leader>a', mark.add_file)
+vim.keymap.set('n', '<C-e>', ui.toggle_quick_menu)
+vim.keymap.set('n', '<C-h>', function() ui.nav_file(1) end)
+vim.keymap.set('n', '<C-t>', function() ui.nav_file(2) end)
+vim.keymap.set('n', '<C-n>', function() ui.nav_file(3) end)
+vim.keymap.set('n', '<C-s>', function() ui.nav_file(4) end)
 
+-- lualine setup
+require('lualine').setup {
+	options = {
+		theme = 'tokyonight',
+		component_separators = '',
+		section_separators = { left = '', right = '' },
+	},
+	sections = {
+		lualine_a = {
+			{ 'mode', separator = { left = '' }, right_padding = 2 },
+		},
+		lualine_b = { 'filename' },
+		lualine_c = {
+			{ 'branch', icon = '' },
+			{
+				'diff',
+				symbols = { added = ' ', modified = ' ', removed = ' ' },
+			},
+		},
+		lualine_x = {
+			{
+				'diagnostics',
+				symbols = {
+					error = '✘ ',
+					warn = ' ',
+					hint = '⚑ ',
+					info = '» ',
+				},
+			},
+			{
+				function()
+					local msg = ''
+					local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+					local clients = vim.lsp.get_active_clients()
+					if next(clients) == nil then
+						return msg
+					end
+					for _, client in ipairs(clients) do
+						local filetypes = client.config.filetypes
+						if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+							return client.name
+						end
+					end
+					return msg
+				end,
+				icon = '',
+			},
+		},
+		lualine_y = { 'filetype' },
+		lualine_z = {
+			{ 'location', separator = { right = '' }, left_padding = 2 },
+		},
+	},
+	inactive_sections = {
+		lualine_a = { 'filename' },
+		lualine_b = {},
+		lualine_c = {},
+		lualine_x = {},
+		lualine_y = {},
+		lualine_z = { 'location' },
+	},
+	tabline = {},
+	extensions = {},
+}
 
--- Folds
-
-vim.opt.foldenable = true
-vim.opt.foldmethod = 'indent'
-vim.opt.foldlevelstart = 20 -- show 20 levels of indentation by default
--- TODO nnoremap <space> za    -- press space to toggle folding
-
-
--- Movement
-
-vim.keymap.set('n', 'j', 'gj', { noremap = true })
-vim.keymap.set('n', 'k', 'gk', { noremap = true })
-vim.keymap.set('n', 'B', '^', { noremap = true })
-vim.keymap.set('n', 'E', '$', { noremap = true })
-
-vim.keymap.set('n', '<C-j>', '<C-W>j', { noremap = true })
-vim.keymap.set('n', '<C-k>', '<C-W>k', { noremap = true })
-vim.keymap.set('n', '<C-h>', '<C-W>h', { noremap = true })
-vim.keymap.set('n', '<C-l>', '<C-W>l', { noremap = true })
-
-
--- Leader Remaps
-
---nnoremap <cr> :nohlsearch<cr>
-
-vim.g.mapleader = ','
---nnoremap <leader>ev :vsp $MYVIMRC<CR>
---nnoremap <leader>sv :source $MYVIMRC<CR>
---nnoremap <leader>es :vsp ~/.zshrc<CR>
---nnoremap <leader>r :set relativenumber!<CR>
---nnoremap <leader>c I//<ESC>
---map <silent> <leader>h :bprevious<cr>
---map <silent> <leader>l :bnext<cr>
-
-
--- Miscellaneous
-
--- disable gd shortcut for vim-go, let nvim-lspconfig handle this
-vim.g.go_def_mapping_enabled = 0
-
-vim.g.EditorConfig_exclude_patterns = { 'fugitive://.*', 'scp://.*' }
-
-vim.g.gitgutter_sign_added                   = '┃'
-vim.g.gitgutter_sign_modified                = '┃'
-vim.g.gitgutter_sign_removed                 = '┃'
-vim.g.gitgutter_sign_removed_first_line      = '┃'
-vim.g.gitgutter_sign_removed_above_and_below = '╏'
-vim.g.gitgutter_sign_modified_removed        = '┃'
+local git_char = '┃' --'│'
+require('gitsigns').setup {
+	signs = {
+		add = { text = git_char },
+		change = { text = git_char },
+		delete = { text = git_char },
+		topdelete = { text = git_char },
+		changedelete = { text = git_char },
+		untracked = { text = git_char },
+	},
+	signcolumn = true,
+	numhl = false,
+}
