@@ -1,7 +1,90 @@
-[[battery.display]]  # "bold red" style when capacity is between 0% and 5%
-threshold = 5
+format = "$all"
+scan_timeout = 200
+command_timeout = 500
+
+add_newline = false
+
+#[line_break]
+#disabled = true
+
+palette = 'bamboo'
+
+[palettes.tokyonight]
+black = "#24283b"
+
+[palettes.bamboo]
+black = "#2f312c"
+
+[character]
+success_symbol = " [](green)"
+error_symbol = " [](red)"
+vimcmd_symbol = "[ ](blue)"
+vimcmd_replace_one_symbol = "[ ](blue)"
+vimcmd_replace_symbol = "[ ](red)"
+vimcmd_visual_symbol = "[ ](purple)"
+
+[[battery.display]]  # "bold red" style when capacity is between 0% and 10%
+threshold = 10
 style = "bold red"
 
-[[battery.display]]  # "bold yellow" style when capacity is between 5% and 15%
-threshold = 15
+[[battery.display]]  # "bold yellow" style when capacity is between 10% and 20%
+threshold = 20
 style = "bold yellow"
+
+[hostname]
+ssh_only = true
+format = "[$hostname](bold blue) "
+disabled = false
+
+[directory]
+format = "[](fg:black bg:none)[$path]($style)[](fg:black bg:black)[](fg:blue bg:black)[](fg:black bg:blue)[](fg:blue bg:none) "
+style = "fg:white bg:black"
+truncation_length = 3
+truncate_to_repo=true
+
+[git_branch]
+format = "[](fg:black bg:none)[$branch]($style)[](fg:black bg:black)[](fg:green bg:black)[](fg:black bg:green)[](fg:green bg:none) "
+style = "fg:white bg:black"
+
+[git_status]
+format="[](fg:black bg:none)[$all_status$ahead_behind]($style)[](fg:black bg:black)[](fg:cyan bg:black)[](fg:black bg:cyan)[](fg:cyan bg:none) "
+style = "fg:white bg:black"
+conflicted = ""
+ahead =	"⇡"
+behind = "⇣"
+diverged = "⇕"
+#ahead =	"⇡${count}"
+#behind = "⇣${count}"
+#diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+#untracked = "󰈈"
+untracked = "󰈈"
+stashed = ""
+modified = ""
+staged = ""
+renamed = "»"
+deleted = ""
+#modified = "${count}"
+#staged = "${count}"
+#renamed = "»${count}"
+#deleted = "${count}"
+
+[git_commit]
+format = "[\\($hash\\)]($style) [\\($tag\\)]($style)"
+style = "green"
+
+[git_state]
+rebase = "REBASING"
+merge =	"MERGING"
+revert = "REVERTING"
+cherry_pick = "CHERRY-PICKING"
+bisect = "BISECTING"
+am = "AM"
+am_or_rebase = "AM/REBASE"
+style =	"yellow"
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+
+[cmd_duration]
+min_time = 1
+format = "[](fg:black bg:none)[$duration]($style)[](fg:black bg:black)[](fg:purple bg:black)[](fg:black bg:purple)[](fg:purple bg:none) "
+disabled = false
+style = "fg:white bg:black"

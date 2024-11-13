@@ -95,15 +95,46 @@ require('lazy').setup({
 	-- 	end
 	-- },
 	{
-		'folke/tokyonight.nvim',
+		'ribru17/bamboo.nvim',
 		lazy = false,
 		priority = 1000,
-		opts = {},
 		config = function()
-			vim.cmd('colorscheme tokyonight-night')
-			vim.cmd('hi MsgArea guibg=#15161e')
-		end
+			require('bamboo').setup {
+				-- optional configuration here
+			}
+			require('bamboo').load()
+		end,
 	},
+	-- {
+	-- 	'folke/tokyonight.nvim',
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	opts = {},
+	-- 	config = function()
+	-- 		vim.cmd('colorscheme tokyonight-night')
+	-- 		vim.cmd('hi MsgArea guibg=#15161e')
+	-- 	end
+	-- },
+	-- {
+	-- 	'rebelot/kanagawa.nvim',
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	opts = {},
+	-- 	config = function()
+	-- 		require('kanagawa').setup({
+	-- 			colors = {
+	-- 				theme = {
+	-- 					all = {
+	-- 						ui = {
+	-- 							bg_gutter = "none"
+	-- 						}
+	-- 					}
+	-- 				}
+	-- 			},
+	-- 		})
+	-- 		vim.cmd('colorscheme kanagawa-wave')
+	-- 	end
+	-- },
 	{
 		'folke/trouble.nvim',
 		dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -138,6 +169,7 @@ require('lazy').setup({
 			require('nvim_comment').setup()
 		end,
 	},
+	'rvmelkonian/move.vim',
 	'tpope/vim-fugitive',
 	'tpope/vim-rhubarb',
 	'lewis6991/gitsigns.nvim',
@@ -172,15 +204,41 @@ require('lazy').setup({
 		}
 	},
 	{
-		'Exafunction/codeium.vim',
+		'Exafunction/codeium.nvim',
 		event = 'BufEnter',
 		config = function()
+			-- require('codeium').setup({
+			-- 	enable_chat = true
+			-- })
 			vim.keymap.set('i', '<C-c>', function() return vim.fn['codeium#Complete']() end, { expr = true })
 			vim.keymap.set('i', '<C-j>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
 			vim.keymap.set('i', '<C-k>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
 			vim.keymap.set('i', '<C-a>', function() return vim.fn['codeium#Accept']() end, { expr = true })
 			vim.keymap.set('i', '<C-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
 		end
+	},
+	{
+		'melbaldove/llm.nvim',
+		dependencies = { 'nvim-neotest/nvim-nio' },
+		-- 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
+		config = function()
+			vim.keymap.set("n", "<leader>,", function() require("llm").prompt({ replace = false, service = "groq" }) end,
+				{ desc = "Prompt with groq" })
+			vim.keymap.set("v", "<leader>,", function() require("llm").prompt({ replace = false, service = "groq" }) end,
+				{ desc = "Prompt with groq" })
+			vim.keymap.set("v", "<leader>.", function() require("llm").prompt({ replace = true, service = "groq" }) end,
+				{ desc = "Prompt while replacing with groq" })
+		end
+	},
+	{
+		'Julian/lean.nvim',
+		event = { 'BufReadPre *.lean', 'BufNewFile *.lean' },
+
+		dependencies = {
+			'neovim/nvim-lspconfig',
+			'nvim-lua/plenary.nvim',
+			'hrsh7th/nvim-cmp',
+		},
 	},
 })
 
@@ -210,8 +268,13 @@ local cmp = require('cmp')
 cmp.setup({
 	mapping = {
 		['<CR>'] = cmp.mapping.confirm({ select = false }),
-	}
+	},
+	sources = {
+		{ name = "codeium" }
+	},
 })
+
+require("codeium").setup({})
 
 vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
 
@@ -221,9 +284,10 @@ vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
 
 require('nvim-treesitter.configs').setup {
 	ensure_installed = {
-		'javascript', 'typescript', 'css', 'html',
+		'javascript', 'typescript', 'css', 'html', 'svelte',
 		'c', 'cpp', 'python', 'lua', 'rust', 'go', 'haskell',
 		'dockerfile', 'json', 'yaml', 'toml', 'bash', 'fish',
+		'latex',
 	},
 	auto_update = true,
 	incremental_selection = {
@@ -231,7 +295,7 @@ require('nvim-treesitter.configs').setup {
 		keymaps = {
 			init_selection = '<C-space>',
 			node_incremental = '<C-space>',
-			scope_inscremental = '<C-s>',
+			scope_incremental = '<C-s>',
 			node_decremental = '<C-backspace>',
 		},
 	},
@@ -250,7 +314,7 @@ vim.keymap.set('n', '<C-s>', function() ui.nav_file(4) end)
 -- lualine setup
 require('lualine').setup {
 	options = {
-		theme = 'tokyonight',
+		theme = 'bamboo',
 		component_separators = '',
 		section_separators = { left = '', right = '' },
 	},

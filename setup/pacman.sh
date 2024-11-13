@@ -48,20 +48,24 @@ pcmn -S wayland \
   sway \
   swaylock \
   swaybg \
+  wl-clipboard \
   i3status-rust \
+  greetd \
   alacritty \
   bemenu \
   fuzzel \
   dunst \
   imv \
+  mpv \
   wallutils \
   grim \
   slurp \
-  redshift \
+  gammastep \
   nemo \
   papirus-icon-theme \
   ttf-nerd-fonts-symbols
 paru -S azote \
+  greetd-tuigreet \
   breeze-obsidian-cursor-theme \
   nerd-fonts-noto \
   nerd-fonts-hack \
@@ -121,6 +125,7 @@ pcmn -S imagemagick \
   gnuplot \
   httpie \
   fzf \
+  nushell \
   starship \
   tokei \
   dua-cli \
@@ -179,8 +184,10 @@ if prompt_lang_install "Python" ; then
       jupyterlab \
       python-sqlalchemy \
       python-mysqlclient \
-      python-flask
-    paru -S python-bokeh
+      python-flask \
+      python-networkx
+    paru -S python-nxviz \
+      python-plotly
   fi
   psuccess "$PROMPT Python environment set up successfully."
 fi

@@ -1,6 +1,30 @@
 Host *
 	ServerAliveInterval 120
 
-Host travelbetter
+Host hetzner
+  Hostname 65.108.205.178
+  User qkniep
+
+Host ionos
 	HostName 82.165.64.43
 	User qkniep
+
+Host ws205
+  Hostname ee-tik-ws205.ethz.ch
+  ProxyJump j2tik.ethz.ch
+  User qkniep
+
+Host ws203
+  Hostname ee-tik-ws203.ethz.ch
+  ProxyJump j2tik.ethz.ch
+  User qkniep
+
+Host ws021
+  Hostname ee-tik-ws021.ethz.ch
+  ProxyJump j2tik.ethz.ch
+  User qkniep
+
+Host quizco
+  Hostname quiz.disco.ethz.ch
+  ProxyJump j2tik.ethz.ch
+  User qkniep

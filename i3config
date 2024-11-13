@@ -7,6 +7,7 @@ set $mod Mod4
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 default_border pixel 1
 default_floating_border normal
+for_window [class="^.*"] border pixel 1
 
 # Hide borders
 hide_edge_borders none
@@ -39,7 +40,7 @@ bindsym $mod+z exec --no-startup-id morc_menu
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
 ################################################################################################
 
-exec --no-startup-id volumeicon
+#exec --no-startup-id volumeicon
 bindsym $mod+Ctrl+m exec alacritty -e 'alsamixer'
 #exec --no-startup-id pulseaudio
 #exec --no-startup-id pa-applet
@@ -272,10 +273,10 @@ bindsym $mod+9 exec --no-startup-id betterlockscreen -l dimblur
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id nitrogen --restore; sleep 1; picom -b
 #exec --no-startup-id manjaro-hello
-exec --no-startup-id nm-applet
+#exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
-exec --no-startup-id pamac-tray
-exec --no-startup-id clipit
+#exec --no-startup-id pamac-tray
+#exec --no-startup-id clipit
 # exec --no-startup-id blueman-applet
 # exec_always --no-startup-id sbxkb
 # exec --no-startup-id start_conky_maia
@@ -334,18 +335,18 @@ bar {
 	bindsym button5 nop
 #   font xft:URWGothic-Book 11
 	#font pango:FuraCode Nerd Font 11
-	font pango:NotoSans Nerd Font 11
+	font pango:Hack Nerd Font 12.5
 	strip_workspace_numbers yes
 
     colors {
-        background #1c1b19
+        background #1a1b26
         statusline #F9FAF9
         separator  #454947
 
 #                          border  backgr. text
-        focused_workspace  #918175 #fce8c3 #1c1b19
-        active_workspace   #1c1b19 #353836 #FDF6E3
-        inactive_workspace #1c1b19 #1c1b19 #EEE8D5
+        focused_workspace  #414868 #a9b1d6 #1c1b19
+        active_workspace   #1c1b19 #1a1b26 #c0caf5
+        inactive_workspace #1c1b19 #1a1b26 #c0caf5
         binding_mode       #16a085 #2C2C2C #F9FAF9
         urgent_workspace   #e02c6d #ff5c8f #1c1b19
     }
@@ -369,7 +370,7 @@ bindsym $mod+m bar mode toggle
 #############################
 
 # Set inner/outer gaps
-gaps inner 12
+gaps inner 6
 gaps outer -4
 
 # Smart gaps (gaps used if only more than one container on the workspace)

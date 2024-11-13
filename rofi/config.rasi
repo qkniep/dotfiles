@@ -9,7 +9,7 @@ configuration {
 	kb-cancel: "Escape,Control+g,Control+bracketleft,Control+space";
 	kb-row-select: "Control+Super+space";
 	matching: "fuzzy";
-	modi: "drun";
+	modi: "drun,emoji";
 	scroll-method: 0;
 	show-icons: true;
 	sorting-method: "fzf";

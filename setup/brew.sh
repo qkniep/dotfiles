@@ -28,8 +28,7 @@ brew install ripgrep
 brew install imagemagick --with-webp
 brew install gnuplot
 brew install starship
-brew tap cjbassi/ytop
-brew install ytop
+brew install bottom
 brew install httpie
 brew install bat
 
