@@ -86,6 +86,24 @@ require('lazy').setup({
 			}
 		},
 	},
+	{
+		'Everblush/nvim',
+		name = 'everblush',
+		lazy = false,
+		priority = 1000,
+		config = function()
+			vim.cmd('colorscheme everblush')
+		end
+	},
+	-- {
+	-- 	'f4z3r/gruvbox-material.nvim',
+	-- 	name = 'gruvbox-material',
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		vim.cmd('colorscheme gruvbox-material')
+	-- 	end
+	-- },
 	-- {
 	-- 	'ellisonleao/gruvbox.nvim',
 	-- 	lazy = false,
@@ -94,17 +112,17 @@ require('lazy').setup({
 	-- 		vim.cmd('colorscheme gruvbox')
 	-- 	end
 	-- },
-	{
-		'ribru17/bamboo.nvim',
-		lazy = false,
-		priority = 1000,
-		config = function()
-			require('bamboo').setup {
-				-- optional configuration here
-			}
-			require('bamboo').load()
-		end,
-	},
+	-- {
+	-- 	'ribru17/bamboo.nvim',
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		require('bamboo').setup {
+	-- 			-- optional configuration here
+	-- 		}
+	-- 		require('bamboo').load()
+	-- 	end,
+	-- },
 	-- {
 	-- 	'folke/tokyonight.nvim',
 	-- 	lazy = false,
@@ -122,6 +140,8 @@ require('lazy').setup({
 	-- 	opts = {},
 	-- 	config = function()
 	-- 		require('kanagawa').setup({
+	-- 			terminalColors = true,
+	-- 			theme = "wave",
 	-- 			colors = {
 	-- 				theme = {
 	-- 					all = {
@@ -152,16 +172,27 @@ require('lazy').setup({
 		},
 	},
 	{
-		'nvimdev/indentmini.nvim',
-		event = 'BufEnter',
-		config = function()
-			require('indentmini').setup({
-				--char = '',
-				--char = '┊',
+		'Darazaki/indent-o-matic'
+	},
+	{
+		'lukas-reineke/indent-blankline.nvim',
+		main = 'ibl',
+		---@module 'ibl'
+		---@type ibl.config
+		opts = {
+			indent = {
 				char = '│',
-			})
-			vim.cmd.highlight('default link IndentLine Comment')
-		end,
+				highlight = 'LineNr',
+			},
+			whitespace = {
+				highlight = 'LineNr',
+			},
+			scope = {
+				enabled = true,
+				highlight = 'Comment',
+				priority = 1024,
+			},
+		},
 	},
 	{
 		'terrortylor/nvim-comment',
@@ -218,6 +249,12 @@ require('lazy').setup({
 		end
 	},
 	{
+		"David-Kunz/gen.nvim",
+		opts = {
+			model = "qwen2.5-coder:7b",
+		},
+	},
+	{
 		'melbaldove/llm.nvim',
 		dependencies = { 'nvim-neotest/nvim-nio' },
 		-- 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
@@ -241,6 +278,11 @@ require('lazy').setup({
 		},
 	},
 })
+
+-- require('gruvbox-material').setup({
+-- 	italics = true, -- enable italics in general
+-- 	contrast = 'hard',
+-- })
 
 local lsp = require('lsp-zero').preset('recommended')
 
@@ -270,11 +312,11 @@ cmp.setup({
 		['<CR>'] = cmp.mapping.confirm({ select = false }),
 	},
 	sources = {
-		{ name = "codeium" }
+		{ name = 'codeium' }
 	},
 })
 
-require("codeium").setup({})
+require('codeium').setup({})
 
 vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
 
@@ -287,7 +329,7 @@ require('nvim-treesitter.configs').setup {
 		'javascript', 'typescript', 'css', 'html', 'svelte',
 		'c', 'cpp', 'python', 'lua', 'rust', 'go', 'haskell',
 		'dockerfile', 'json', 'yaml', 'toml', 'bash', 'fish',
-		'latex',
+		'latex', 'ocaml', 'zig'
 	},
 	auto_update = true,
 	incremental_selection = {
@@ -314,13 +356,13 @@ vim.keymap.set('n', '<C-s>', function() ui.nav_file(4) end)
 -- lualine setup
 require('lualine').setup {
 	options = {
-		theme = 'bamboo',
+		theme = 'everblush',
 		component_separators = '',
-		section_separators = { left = '', right = '' },
+		section_separators = { left = '', right = '' },
 	},
 	sections = {
 		lualine_a = {
-			{ 'mode', separator = { left = '' }, right_padding = 2 },
+			{ 'mode', separator = { left = '' }, right_padding = 2 },
 		},
 		lualine_b = { 'filename' },
 		lualine_c = {
@@ -361,7 +403,7 @@ require('lualine').setup {
 		},
 		lualine_y = { 'filetype' },
 		lualine_z = {
-			{ 'location', separator = { right = '' }, left_padding = 2 },
+			{ 'location', separator = { right = '' }, left_padding = 2 },
 		},
 	},
 	inactive_sections = {
@@ -376,7 +418,7 @@ require('lualine').setup {
 	extensions = {},
 }
 
-local git_char = '┃' --'│'
+local git_char = '┃'
 require('gitsigns').setup {
 	signs = {
 		add = { text = git_char },

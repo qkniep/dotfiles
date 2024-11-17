@@ -13,7 +13,7 @@ if status is-interactive
 	set -g fish_term24bit 1
 
 	zoxide init fish | source
-	starship init fish | source
+	# starship init fish | source
 
 	function fish_greeting
 		set --local user_str (set_color -i blue; echo -n $USER; set_color normal)
@@ -54,15 +54,15 @@ if status is-interactive
 	set fish_color_end brmagenta
 
 	# Aliases
-	alias vim "/usr/bin/nvim"
-	alias l "/usr/bin/eza -la -s size"
-	alias ls "/usr/bin/eza"
-	alias cat "/usr/bin/bat"
-	alias du "/usr/bin/dust"
-	alias top "/usr/bin/btm"
+	alias vim "nvim"
+	alias l "eza -la -s size"
+	alias ls "eza"
+	alias cat "bat"
+	alias du "dust"
+	alias top "btm"
 	alias myip "curl https://ipecho.io/plain; echo"
 	#alias alert 'notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 end
 
 # opam configuration
-source /home/qkniep/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+source ~/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true

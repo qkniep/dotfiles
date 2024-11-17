@@ -1,6 +1,6 @@
-# import = ["/home/qkniep/.config/alacritty/themes/themes/tokyo-night.toml"]
-import = ["/home/qkniep/.config/alacritty/themes/custom/bamboo.toml"]
-# import = ["/home/qkniep/.config/alacritty/themes/themes/kanagawa-wave.toml"]
+[general]
+# import = ["/nix/store/xzhsfnwcmcra9njyl99vzapfq75rdd1w-alacritty-theme-0-unstable-2024-10-24/kanagawa_wave.toml"]
+import = ["/Users/qkniep/.config/alacritty/themes/everblush.toml"]
 live_config_reload = true
 working_directory = "None"
 
@@ -18,22 +18,22 @@ vi_mode_style = "Block"
 TERM = "xterm-256color"
 
 [font]
-size = 12.5
+size = 15
 
 [font.bold]
-family = "monospace"
+family = "MonaspiceAr Nerd Font Mono"
 style = "Bold"
 
 [font.bold_italic]
-family = "monospace"
+family = "MonaspiceAr Nerd Font Mono"
 style = "Bold Italic"
 
 [font.italic]
-family = "monospace"
+family = "MonaspiceAr Nerd Font Mono"
 style = "Italic"
 
 [font.normal]
-family = "monospace"
+family = "MonaspiceAr Nerd Font Mono"
 style = "Regular"
 
 [mouse]
