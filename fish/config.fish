@@ -1,9 +1,15 @@
+fish_add_path -p ~/.qlty/bin
 fish_add_path -p ~/.yarn/bin
 fish_add_path -p ~/.cargo/bin
 fish_add_path -p ~/.deno/bin
 fish_add_path -p ~/go/bin
 fish_add_path -p ~/.local/share/gem/ruby/3.0.0/bin
 fish_add_path -p ~/.local/bin
+
+# immediately flush all commands to history
+function __fish_history_sync --on-event fish_postexec
+    history --save
+end
 
 function nvm
     bass source ~/.nvm/nvm.sh -- no-use ';' nvm $argv
