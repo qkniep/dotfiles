@@ -16,24 +16,25 @@ vi_mode_style = "Block"
 
 [env]
 TERM = "xterm-256color"
+COLORTERM = "truecolor"
 
 [font]
 size = 15
 
 [font.bold]
-family = "MonaspiceAr Nerd Font Mono"
+family = "MonaspiceNe Nerd Font Mono"
 style = "Bold"
 
 [font.bold_italic]
-family = "MonaspiceAr Nerd Font Mono"
+family = "MonaspiceNe Nerd Font Mono"
 style = "Bold Italic"
 
 [font.italic]
-family = "MonaspiceAr Nerd Font Mono"
+family = "MonaspiceNe Nerd Font Mono"
 style = "Italic"
 
 [font.normal]
-family = "MonaspiceAr Nerd Font Mono"
+family = "MonaspiceNe Nerd Font Mono"
 style = "Regular"
 
 [mouse]
@@ -47,4 +48,5 @@ multiplier = 3
 save_to_clipboard = true
 
 [window]
+decorations = "None"
 dynamic_title = true
