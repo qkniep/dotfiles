@@ -2,6 +2,8 @@ fish_add_path -p ~/.qlty/bin
 fish_add_path -p ~/.yarn/bin
 fish_add_path -p ~/.cargo/bin
 fish_add_path -p ~/.deno/bin
+fish_add_path -p ~/.amp/bin
+fish_add_path -p ~/.opencode/bin
 fish_add_path -p ~/go/bin
 fish_add_path -p ~/.local/share/gem/ruby/3.0.0/bin
 fish_add_path -p ~/.local/bin
