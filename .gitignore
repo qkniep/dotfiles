@@ -1,0 +1,20 @@
+# macOS / OS cruft
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Desktop.ini
+Thumbs.db
+
+# Editor / build
+*.pyc
+/target
+
+# home-manager backup files (from backupFileExtension)
+*.hm-bak
+
+# direnv
+.direnv/
+
+# Local-only SSH config (untracked so private hostnames stay out of the repo).
+ssh_config

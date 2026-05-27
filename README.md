@@ -1,49 +1,70 @@
 # My Dev Setup
 
 <p>
-	<img src="https://img.shields.io/badge/-Arch-1793D1?style=for-the-badge&logo=ArchLinux&logoColor=white">
-	<img src="https://img.shields.io/badge/-Wayland-FFBC00?style=for-the-badge&logo=Wayland&logoColor=black">
-	<img src="https://img.shields.io/badge/-Alacritty-F46D01?style=for-the-badge&logo=Alacritty&logoColor=white">
+	<img src="https://img.shields.io/badge/-macOS-000000?style=for-the-badge&logo=apple&logoColor=white">
+	<img src="https://img.shields.io/badge/-Nix-5277C3?style=for-the-badge&logo=NixOS&logoColor=white">
+	<img src="https://img.shields.io/badge/-Ghostty-1D1D1D?style=for-the-badge&logo=ghostty&logoColor=white">
 	<img src="https://img.shields.io/badge/-Fish-800080?style=for-the-badge&logo=GNOME-Terminal&logoColor=white">
 	<img src="https://img.shields.io/badge/-Neovim-57A143?style=for-the-badge&logo=Neovim&logoColor=white">
-	<img src="https://img.shields.io/badge/-Starship-DD0B78?style=for-the-badge&logo=Starship&logoColor=white">
 </p>
 
-I use this as my development setup under both macOS and Manjaro Linux, though I am currently exploring NixOS and consider moving from Manjaro back to Arch.
-Currently this repo is under heavy development, anything can change at any time!
+My development setup, used on **macOS** (primary) and Linux (NixOS desktop +
+Ubuntu/NixOS servers — see [`MIGRATION.md`](MIGRATION.md)). Currently this repo is
+under heavy development, anything can change at any time!
 
-![](screenshot.png)
+## How it's built
+
+A single **Nix flake** at the repo root (nix-darwin + home-manager, on Determinate
+Nix) declares the whole system: GUI/macOS apps and macOS defaults via nix-darwin, a
+cross-platform CLI baseline and the dotfiles via home-manager. `~/.config/nix-darwin`
+is a symlink to this repo, so edits are live.
+
+This is **mid-migration** to one flake usable across macOS, a Linux desktop, and Linux
+servers — see [`MIGRATION.md`](MIGRATION.md) for the plan and status. The Mac
+(`qk-macbook`) is the only live host today; `nixosConfigurations.desktop` and the
+standalone-HM `homeConfigurations."qkniep@{hetzner,ionos}"` are scaffolded and
+eval-clean, but not yet deployed.
+
+## Documentation
+
+- [Migration plan](MIGRATION.md) — the unified-flake migration: decisions, host
+  inventory, phased checklist.
+- [`CLAUDE.md`](CLAUDE.md) — repo architecture and conventions (flake layout, where
+  to add software, how dotfiles reach the system).
+- [Neovim config](configs/nvim/README.md) — single-file `init.lua`, lazy.nvim, keymaps,
+  plugins, LSP setup.
 
 ## Getting Started
-
-ATTENTION: The setup process does not fully work yet!
 
 If you decide to use this on your own system, I recommend you fork the repo.
 This way you can use the setup with symlinks into the git directory
 and are able to push changes to your own fork of the repository.
 
-### To set up a new development environment on a machine run:
+### macOS (nix-darwin)
+
+The whole system is declared in [`flake.nix`](flake.nix) (+ `hosts/`, `modules/`,
+`home/`). Apply it via the Justfile:
 
 ```shell
-./bootstrap.sh
+just switch   # rebuild & activate
+just update   # bump flake.lock (run before `just switch` to pull upstream updates)
 ```
 
-The script's instructions will guide you through setting up folders, symlinking the dotfiles,
-installing utility tools, and installing the development tools for languages you select.
+See [`CLAUDE.md`](CLAUDE.md) for the flake layout and where to add or remove software.
 
-### To update the local configuration from the repository run:
+### Linux
 
-```shell
-git pull
-```
+Scaffolded, not yet deployed. The flake exposes:
 
-## Roadmap
+- `nixosConfigurations.desktop` — NixOS + home-manager + sway. Before the first build,
+  replace the placeholder `boot.loader` / `fileSystems` in `hosts/desktop/default.nix`
+  with the output of `nixos-generate-config` (or let `nixos-anywhere` + `disko` write
+  them), then `sudo nixos-rebuild switch --flake .#desktop`.
+- `homeConfigurations."qkniep@hetzner"` and `"qkniep@ionos"` — standalone home-manager on
+  the Ubuntu VPSes. Activate with `nix run home-manager/release-25.11 -- switch --flake .#qkniep@hetzner`.
 
-- [ ] make the installation script usable
-	- [ ] symlink/sync dotfiles
-- [ ] improve documentation (especially for update process)
-- [ ] add complete list of installed software in this README
-- [ ] add Dockerfile for testing Linux setup process
+See [`MIGRATION.md`](MIGRATION.md) for the broader plan and Phase 4+ (NixOS migration of
+the servers via `nixos-anywhere`, agenix for secrets, CI matrix).
 
 ## Influenced By
 

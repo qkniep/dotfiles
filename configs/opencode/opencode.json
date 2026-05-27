@@ -1,0 +1,42 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "gpt-oss:20b": {
+          "name": "GPT-OSS 20B",
+          "variants": {
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            }
+          }
+        },
+        "gpt-oss:120b": {
+          "name": "GPT-OSS 120B",
+          "variants": {
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            }
+          }
+        }
+      }
+    }
+  }
+}

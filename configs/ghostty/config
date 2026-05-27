@@ -1,0 +1,56 @@
+cursor-style = "block"
+cursor-style-blink = false
+
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 5
+
+font-family = "BlexMono NFM"
+font-size = 15
+font-feature = "calt,liga,ss01,ss02,ss03,ss04,ss05,ss06,ss07,ss08,ss09,ss10"
+font-thicken = false
+
+theme = "Everblush"
+
+# Render colors in the display's wide (P3) gamut for more saturated colors
+# that match authors' screenshots. Set back to "srgb" if colors look oversaturated.
+window-colorspace = display-p3
+
+background-opacity = 1.0
+background-blur = true
+background-opacity-cells = true
+
+window-decoration = none
+
+keybind = cmd+t=unbind
+
+# Forward window-switching combos to tmux as `prefix + <key>`, so they match
+# browser tab muscle memory. `\x02` is C-b (tmux prefix). The `digit_N` form
+# matches Ghostty's default `goto_tab:N` menu shortcut, which AppKit
+# intercepts before the keybind handler — unbinding it frees Cmd+N so the
+# translated-key `cmd+N=text:...` binding below actually fires.
+keybind = cmd+digit_1=unbind
+keybind = cmd+digit_2=unbind
+keybind = cmd+digit_3=unbind
+keybind = cmd+digit_4=unbind
+keybind = cmd+digit_5=unbind
+keybind = cmd+digit_6=unbind
+keybind = cmd+digit_7=unbind
+keybind = cmd+digit_8=unbind
+keybind = cmd+digit_9=unbind
+keybind = cmd+1=text:\x021
+keybind = cmd+2=text:\x022
+keybind = cmd+3=text:\x023
+keybind = cmd+4=text:\x024
+keybind = cmd+5=text:\x025
+keybind = cmd+6=text:\x026
+keybind = cmd+7=text:\x027
+keybind = cmd+8=text:\x028
+keybind = cmd+9=text:\x029
+keybind = cmd+shift+right_bracket=text:\x02n
+keybind = cmd+shift+left_bracket=text:\x02p
+# Override Ghostty's ctrl+tab=next_tab / ctrl+shift+tab=previous_tab defaults
+# so they drive tmux's window cycling instead.
+keybind = ctrl+tab=text:\x02n
+keybind = ctrl+shift+tab=text:\x02p
+
+bell-features = no-attention

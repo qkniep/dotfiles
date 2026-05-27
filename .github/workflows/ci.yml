@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Weekly (Mondays 06:00 UTC) — catches flake-input rot without a push.
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  nix:
+    name: nix (flake check + dry-run build)
+    # macos-latest is arm64 → matches the flake's aarch64-darwin system.
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: extractions/setup-just@v2
+      - name: Flake check (eval only)
+        run: just nix-check
+      - name: Dry-run build of the macOS system
+        run: just nix-build
+      - name: nixfmt format check (non-blocking)
+        continue-on-error: true
+        run: just fmt-check-nix
+
+  nvim:
+    name: nvim (headless smoke test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+      - uses: extractions/setup-just@v2
+      - name: Load config on a clean profile
+        run: just nvim-smoke
+
+  lint:
+    name: lint (shell, lua, fish, editorconfig)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: extractions/setup-just@v2
+      - name: Lint
+        run: just lint
+      - name: stylua format check (non-blocking)
+        continue-on-error: true
+        run: just fmt-check-lua

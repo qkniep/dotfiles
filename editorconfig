@@ -16,7 +16,7 @@ indent_size = 4
 indent_style = space
 indent_size = 4
 
-[*.{c,cc,cpp,css,dart,elm,html,java,js,sass,scala,scss,sh,ts}]
+[*.{c,cc,cpp,css,dart,elm,html,java,js,lua,sass,scala,scss,sh,ts}]
 indent_style = space
 indent_size = 2
 

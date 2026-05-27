@@ -1,0 +1,120 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git branch:*)",
+      "Bash(ls:*)",
+      "Bash(eza:*)",
+      "Bash(cat:*)",
+      "Bash(bat:*)",
+      "Bash(rg:*)",
+      "Bash(fd:*)",
+      "Bash(jq:*)",
+      "Bash(cargo build:*)",
+      "Bash(cargo check:*)",
+      "Bash(cargo clippy:*)",
+      "Bash(cargo doc:*)",
+      "Bash(cargo nextest run:*)",
+      "Bash(nix build:*)",
+      "Bash(nix flake check:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/format.sh"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh done"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh start"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh stop"
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh stop"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh stop"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh notify"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/dotfiles/configs/claude/statusline.sh"
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "mergify@mergify": true,
+    "typescript-lsp@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "mergify": {
+      "source": {
+        "source": "github",
+        "repo": "Mergifyio/mergify-cli"
+      }
+    }
+  },
+  "effortLevel": "xhigh",
+  "theme": "auto"
+}
