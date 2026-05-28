@@ -91,7 +91,12 @@ if status is-interactive
 	# commands the user explicitly considers "builds" (cargo subcommands,
 	# nix build/flake check, system rebuilds, just recipes). Interactive
 	# tools (nvim, less, …) never match.
-	set -g _build_state_pattern '^\s*(cargo\s+(build|test|check|clippy|doc|run|nextest)|nix\s+(build|flake\s+check)|nixos-rebuild|darwin-rebuild|home-manager\s+switch|just\s+(build|test|switch|update))(\s|$)'
+	# Optional leading VAR=value assignments (bare, "double", or 'single'
+	# quoted) are consumed before the command match, so e.g.
+	#   CARGO_INCREMENTAL=0 RUSTFLAGS="-C opt-level=3" cargo nextest run
+	# still trips the indicator. Wrapper commands (env/time/nice) aren't
+	# covered — extend to a tokenized matcher if those start showing up.
+	set -g _build_state_pattern '^\s*(?:[A-Za-z_][A-Za-z0-9_]*=(?:"[^"]*"|\'[^\']*\'|\S*)\s+)*(cargo\s+(build|test|check|clippy|doc|run|nextest)|nix\s+(build|flake\s+check)|nixos-rebuild|darwin-rebuild|home-manager\s+switch|just\s+(build|test|switch|update))(\s|$)'
 
 	function _build_state_preexec --on-event fish_preexec
 		test -n "$TMUX_PANE"; or return
