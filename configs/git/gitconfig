@@ -48,6 +48,8 @@
 	email = hello@quentinkniep.com
 	name = Quentin Kniep
 
+[push]
+	default = current
 [pull]
 	rebase = true
 [init]
