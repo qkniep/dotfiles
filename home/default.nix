@@ -57,4 +57,5 @@ in
   xdg.configFile."ghostty/config".source = ../configs/ghostty/config;
   xdg.configFile."tmux/tmux.conf".source = ../configs/tmux/tmux.conf;
   home.file.".gitconfig".source = ../configs/git/gitconfig;
+  home.file.".cargo/config.toml".source = ../configs/cargo/config.toml;
 }

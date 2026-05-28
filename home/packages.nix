@@ -114,6 +114,7 @@
     cargo-spellcheck
     cargo-tarpaulin
     cargo-update
+    sccache
     tokio-console
 
     # --- lua ---
