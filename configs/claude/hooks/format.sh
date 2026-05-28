@@ -11,7 +11,7 @@ file=$(jq -r '.tool_input.file_path // empty' 2>/dev/null)
 case "$file" in
 	*.lua) command -v stylua  >/dev/null 2>&1 && stylua  "$file" ;;
 	*.nix) command -v nixfmt  >/dev/null 2>&1 && nixfmt  "$file" ;;
-	*.rs)  command -v rustfmt >/dev/null 2>&1 && rustfmt "$file" ;;
+	*.rs)  command -v rustfmt >/dev/null 2>&1 && rustfmt +nightly "$file" ;;
 esac
 
 exit 0
