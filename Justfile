@@ -44,11 +44,11 @@ lint: lint-lua lint-fish lint-editorconfig
 
 # Lua static analysis (config in .luacheckrc).
 lint-lua:
-	nix run nixpkgs#lua54Packages.luacheck -- nvim/init.lua
+	nix run nixpkgs#lua54Packages.luacheck -- configs/nvim/init.lua
 
 # Fish: parse-only syntax check.
 lint-fish:
-	nix run nixpkgs#fish -- --no-execute fish/config.fish
+	nix run nixpkgs#fish -- --no-execute configs/fish/config.fish
 
 # Universal whitespace / final-newline / line-ending checks.
 lint-editorconfig:
@@ -60,7 +60,7 @@ lint-editorconfig:
 fmt-check: fmt-check-lua fmt-check-nix
 
 fmt-check-lua:
-	nix run nixpkgs#stylua -- --check nvim/
+	nix run nixpkgs#stylua -- --check configs/nvim/
 
 fmt-check-nix:
 	cd {{nixdir}} && nix fmt -- --check flake.nix
@@ -69,7 +69,7 @@ fmt-check-nix:
 fmt: fmt-lua fmt-nix
 
 fmt-lua:
-	nix run nixpkgs#stylua -- nvim/
+	nix run nixpkgs#stylua -- configs/nvim/
 
 fmt-nix:
 	cd {{nixdir}} && nix fmt
@@ -88,8 +88,8 @@ nvim-smoke:
 	trap 'rm -rf "$tmp"' EXIT
 	mkdir -p "$tmp/config" "$tmp/data" "$tmp/state" "$tmp/cache"
 	# Copy (not symlink): lazy.nvim writes lazy-lock.json next to the config,
-	# and a symlink would leak that file back into the repo's nvim/ dir.
-	cp -R "$root/nvim" "$tmp/config/nvim"
+	# and a symlink would leak that file back into the repo's configs/nvim/ dir.
+	cp -R "$root/configs/nvim" "$tmp/config/nvim"
 	export XDG_CONFIG_HOME="$tmp/config" XDG_DATA_HOME="$tmp/data"
 	export XDG_STATE_HOME="$tmp/state" XDG_CACHE_HOME="$tmp/cache"
 	log="$tmp/err.log"
