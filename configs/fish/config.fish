@@ -84,6 +84,29 @@ if status is-interactive
 
 	# forgit installs `gi` -> `git-forgit ignore`, which fires when typing "git "
 	abbr --erase gi 2>/dev/null
+
+	# Tabline build indicator: while a build-like command runs, set
+	# @build-state=running on the tmux window so the status line shows a
+	# cyan segment (see tmux.conf). Intentionally narrow — only matches
+	# commands the user explicitly considers "builds" (cargo subcommands,
+	# nix build/flake check, system rebuilds, just recipes). Interactive
+	# tools (nvim, less, …) never match.
+	set -g _build_state_pattern '^\s*(cargo\s+(build|test|check|clippy|doc|run|nextest)|nix\s+(build|flake\s+check)|nixos-rebuild|darwin-rebuild|home-manager\s+switch|just\s+(build|test|switch|update))(\s|$)'
+
+	function _build_state_preexec --on-event fish_preexec
+		test -n "$TMUX_PANE"; or return
+		string match -rq -- $_build_state_pattern $argv[1]; or return
+		tmux set-option -w -t "$TMUX_PANE" @build-state running
+		tmux refresh-client -S
+	end
+
+	function _build_state_postexec --on-event fish_postexec
+		test -n "$TMUX_PANE"; or return
+		set -l state (tmux show-options -wqv -t "$TMUX_PANE" @build-state 2>/dev/null)
+		test "$state" = running; or return
+		tmux set-option -w -t "$TMUX_PANE" -u @build-state
+		tmux refresh-client -S
+	end
 end
 
 # opam configuration
