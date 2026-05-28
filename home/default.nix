@@ -44,13 +44,12 @@ in
   # enabledPlugins). Everything else in these dirs is machine state/secrets
   # (.claude.json holds oauth) and stays untracked. Out-of-store so Claude's
   # own writes (e.g. toggling a plugin) flow back to the repo as git diffs.
-  # Profiles are switched via CLAUDE_CONFIG_DIR (see fish/config.fish).
-  home.file.".claude/settings.json".source = link "configs/claude/default-settings.json";
+  # Profiles are switched via CLAUDE_CONFIG_DIR (see fish/config.fish); plain
+  # `claude` is aliased to the personal profile, so ~/.claude is unmanaged.
   home.file.".claude-anza/settings.json".source = link "configs/claude/anza-settings.json";
   home.file.".claude-personal/settings.json".source = link "configs/claude/personal-settings.json";
 
-  # User-level CLAUDE.md (memory), shared across all three profiles.
-  home.file.".claude/CLAUDE.md".source = link "configs/claude/CLAUDE.md";
+  # User-level CLAUDE.md (memory), shared across both profiles.
   home.file.".claude-anza/CLAUDE.md".source = link "configs/claude/CLAUDE.md";
   home.file.".claude-personal/CLAUDE.md".source = link "configs/claude/CLAUDE.md";
 

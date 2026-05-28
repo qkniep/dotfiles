@@ -80,6 +80,7 @@ if status is-interactive
 	#alias alert 'notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
     alias claude-anza "CLAUDE_CONFIG_DIR=$HOME/.claude-anza claude"
     alias claude-personal "CLAUDE_CONFIG_DIR=$HOME/.claude-personal claude"
+    alias claude "CLAUDE_CONFIG_DIR=$HOME/.claude-personal claude"
 
 	# forgit installs `gi` -> `git-forgit ignore`, which fires when typing "git "
 	abbr --erase gi 2>/dev/null
