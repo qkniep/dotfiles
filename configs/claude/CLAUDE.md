@@ -16,7 +16,7 @@ CLAUDE.md always wins on conflicts.
 - Keep diffs minimal; every changed line should trace to the request.
 - Remove only the orphans your change created — don't delete pre-existing
   dead code unless asked.
-- Indent with tabs unless a project's config (editorconfig, etc.) says otherwise.
+- Indent with spaces unless a project's config (editorconfig, etc.) says otherwise.
 
 ## Execution
 - Turn tasks into verifiable goals: "fix the bug" → "write a failing test that
