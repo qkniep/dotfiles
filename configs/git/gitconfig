@@ -10,6 +10,11 @@
 	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 	df = diff --color --color-words --abbrev
 
+	# Structural (AST-aware) diffs via difftastic, on demand — keeps delta as
+	# the default pager. dft = working-tree diff; dlog = per-commit history.
+	dft = -c diff.external=difft diff
+	dlog = -c diff.external=difft log -p --ext-diff
+
 	# List aliases.
 	aliases = config --get-regexp alias
 
@@ -35,6 +40,10 @@
 [diff]
 	# Detect copies as well as renames.
 	renames = copies
+	# Cleaner hunk boundaries than the default Myers algorithm.
+	algorithm = histogram
+	# Detect moved lines (pairs with the color "diff" newMoved/oldMoved above).
+	colorMoved = default
 
 [diff "bin"]
 	# Use `hexdump` to diff binary files.
@@ -50,9 +59,32 @@
 
 [push]
 	default = current
+	# No more `--set-upstream` on the first push of a new branch.
+	autoSetupRemote = true
 [pull]
 	rebase = true
 [init]
 	defaultBranch = main
 [core]
 	excludesfile = /Users/qkniep/.gitignore_global
+	# Syntax-highlighted diffs in the CLI and inside lazygit.
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+[merge]
+	# Show the common ancestor in conflict markers (easier 3-way resolution).
+	conflictStyle = zdiff3
+[rerere]
+	# Record conflict resolutions and replay them on repeated rebases.
+	enabled = true
+	autoupdate = true
+[commit]
+	# Include the full diff in the commit-message editor.
+	verbose = true
+[branch]
+	# Most-recently-committed branches first in `git branch`.
+	sort = -committerdate
+[column]
+	ui = auto
