@@ -532,7 +532,6 @@ require('lazy').setup({
       preset = 'modern',
       spec = {
         { '<leader>f', group = 'find' }, -- fff + snacks pickers
->>>>>>> Stashed changes
         { '<leader>x', group = 'trouble' }, -- diagnostics/quickfix lists
         { '<leader>g', group = 'git' }, -- fugitive status / diffview
         { '<leader>h', group = 'hunk' }, -- gitsigns
