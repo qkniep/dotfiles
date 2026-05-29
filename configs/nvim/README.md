@@ -61,7 +61,7 @@ feature is active.
 | `<C-j>` / `<C-k>`  | Previous / next quickfix entry (centered)       |
 | `<leader>j` / `<leader>k` | Next / previous location-list entry      |
 
-### Finding (Telescope) — `<leader>f`
+### Finding (fff + snacks) — `<leader>f`
 
 | Key          | Picker              |
 | ------------ | ------------------- |
@@ -119,11 +119,6 @@ hunk (also visual), `hS`/`hR` stage/reset buffer, `hp` preview, `hb` blame line,
 `xx` diagnostics, `xX` buffer diagnostics, `xq` quickfix, `xl` location list,
 `xt` todo comments.
 
-### Navigation (flash)
-
-`s` jump, `S` treesitter select (normal/visual/op-pending); `r` remote and `R`
-treesitter search in operator/visual mode.
-
 ### Harpoon
 
 `<leader>a` add file, `<C-e>` quick menu, `<C-h>`/`<C-t>`/`<C-n>`/`<C-s>` jump to
@@ -172,8 +167,7 @@ Grouped as in the spec:
 - `vim-fugitive` (+ `vim-rhubarb` for GitHub), `gitsigns.nvim`, `diffview.nvim`.
 
 **Navigation**
-- `flash.nvim`, `telescope.nvim`, `harpoon` (harpoon2), `trouble.nvim`,
-  `undotree`.
+- `snacks.nvim` (picker), `harpoon` (harpoon2), `trouble.nvim`, `undotree`.
 
 **AI**
 - `windsurf.nvim` (Codeium) — virtual-text LLM completion, loaded on

@@ -501,7 +501,7 @@ require('lazy').setup({
     'folke/todo-comments.nvim', -- highlighting for todo/fixme/perf/bug comment
     dependencies = { 'nvim-lua/plenary.nvim' },
     event = 'VeryLazy', -- keep highlighting on; keys/cmd below just add triggers
-    cmd = { 'TodoTelescope', 'TodoTrouble', 'TodoLocList', 'TodoQuickFix' },
+    cmd = { 'TodoTrouble', 'TodoLocList', 'TodoQuickFix' },
     keys = {
       {
         ']t',
@@ -517,7 +517,6 @@ require('lazy').setup({
         end,
         desc = 'Prev todo comment',
       },
-      { '<leader>ft', '<cmd>TodoTelescope<cr>', desc = 'Find todos (Telescope)' },
       { '<leader>xt', '<cmd>TodoTrouble<cr>', desc = 'Todos (Trouble)' },
     },
     opts = {
@@ -532,7 +531,7 @@ require('lazy').setup({
     opts = {
       preset = 'modern',
       spec = {
-        { '<leader>f', group = 'find' }, -- telescope pickers
+        { '<leader>f', group = 'find' }, -- fff + snacks pickers
         { '<leader>x', group = 'trouble' }, -- diagnostics/quickfix lists
         { '<leader>g', group = 'git' }, -- fugitive status / diffview
         { '<leader>h', group = 'hunk' }, -- gitsigns
@@ -659,52 +658,18 @@ require('lazy').setup({
 
   -- navigation
   {
-    'folke/flash.nvim', -- label-based jumps + treesitter node selection
-    event = 'VeryLazy', -- load early so the enhanced f/t/;/, are active from the start
-    ---@type Flash.Config
-    opts = {},
-    keys = {
-      {
-        's',
-        mode = { 'n', 'x', 'o' },
-        function()
-          require('flash').jump()
-        end,
-        desc = 'Flash jump',
-      },
-      {
-        'S',
-        mode = { 'n', 'x', 'o' },
-        function()
-          require('flash').treesitter()
-        end,
-        desc = 'Flash treesitter select',
-      },
-      {
-        'r',
-        mode = 'o',
-        function()
-          require('flash').remote()
-        end,
-        desc = 'Remote flash (operator)',
-      },
-      {
-        'R',
-        mode = { 'o', 'x' },
-        function()
-          require('flash').treesitter_search()
-        end,
-        desc = 'Treesitter search',
-      },
-    },
-  },
-  {
     'dmtrKovalenko/fff.nvim', -- frecency-ranked, typo-resistant file/grep picker (Rust core)
     build = function()
       require('fff.download').download_or_build_binary() -- prebuilt binary, cargo fallback
     end,
     opts = {
       prompt = '❯ ', -- override default '🪿 '
+      layout = {
+        prompt_position = 'top', -- match snacks' top input (fff default is bottom)
+        -- mirror snacks' responsive switch: same 120-col threshold, and stack the
+        -- preview below (like snacks' "vertical" preset) instead of fff's default top
+        flex = { size = 120, wrap = 'bottom' },
+      },
     },
     lazy = false, -- self-lazy: indexer warms in the background
     keys = {
@@ -746,45 +711,75 @@ require('lazy').setup({
     },
   },
   {
-    'nvim-telescope/telescope.nvim',
-    tag = 'v0.2.1',
-    cmd = 'Telescope',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    'folke/snacks.nvim',
+    -- scoped to the picker only; fff.nvim (above) owns files/grep
+    opts = {
+      picker = {
+        enabled = true,
+        prompt = '❯ ', -- match fff.nvim's prompt glyph
+        layouts = {
+          -- left-align titles to match fff (snacks centres them by default);
+          -- indexed boxes deep-merge into snacks' built-in presets
+          default = { layout = { [1] = { title_pos = 'left' }, [2] = { title_pos = 'left' } } },
+          vertical = { layout = { title_pos = 'left', [3] = { title_pos = 'left' } } },
+        },
+      },
+    },
+    config = function(_, opts)
+      require('snacks').setup(opts)
+      -- match fff's colours: matches use IncSearch (snacks' Special is too faint)
+      -- and the result count is grey (snacks' Totals=NonText reads red in this theme)
+      local function picker_hl()
+        vim.api.nvim_set_hl(0, 'SnacksPickerMatch', { link = 'IncSearch' })
+        vim.api.nvim_set_hl(0, 'SnacksPickerTotals', { link = 'Comment' })
+      end
+      picker_hl()
+      vim.api.nvim_create_autocmd('ColorScheme', { callback = picker_hl })
+    end,
     keys = {
       {
         '<leader>fb',
         function()
-          require('telescope.builtin').buffers()
+          -- sort by recency and drop the current buffer, so the top hit is the
+          -- buffer you last came from (Enter switches straight back to it)
+          require('snacks').picker.buffers({ sort_lastused = true, current = false })
         end,
-        desc = 'Telescope buffers',
+        desc = 'Buffers (snacks)',
       },
       {
         '<leader>fh',
         function()
-          require('telescope.builtin').help_tags()
+          require('snacks').picker.help()
         end,
-        desc = 'Telescope help tags',
+        desc = 'Help tags (snacks)',
       },
       {
         '<leader>fd',
         function()
-          require('telescope.builtin').lsp_document_symbols()
+          require('snacks').picker.lsp_symbols()
         end,
-        desc = 'Telescope document symbols',
+        desc = 'Document symbols (snacks)',
       },
       {
         '<leader>fw',
         function()
-          require('telescope.builtin').lsp_workspace_symbols()
+          require('snacks').picker.lsp_workspace_symbols()
         end,
-        desc = 'Telescope workspace symbols',
+        desc = 'Workspace symbols (snacks)',
       },
       {
         '<leader>fe',
         function()
-          require('telescope.builtin').diagnostics()
+          require('snacks').picker.diagnostics()
         end,
-        desc = 'Telescope diagnostics',
+        desc = 'Diagnostics (snacks)',
+      },
+      {
+        '<leader>ft',
+        function()
+          require('snacks').picker.todo_comments()
+        end,
+        desc = 'Todo comments (snacks)',
       },
     },
   },
