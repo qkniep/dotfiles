@@ -19,8 +19,7 @@ if status is-interactive
 	zoxide init fish | source
 	# starship init fish | source
 
-	# atuin: SQLite shell history; rebinds Ctrl+R (and Up). Guarded so a shell
-	# reload before `just switch` installs the binary doesn't error.
+	# atuin: SQLite shell history; rebinds Ctrl+R (and Up)
 	if command -q atuin
 		atuin init fish | source
 	end
