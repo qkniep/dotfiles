@@ -216,7 +216,66 @@ require('lazy').setup({
     end,
   },
   {
-    'saecki/crates.nvim',             -- better support for editing Cargo.toml
+    'nvim-neotest/neotest', -- test runner UI; failures show inline + in a panel
+    dependencies = {
+      'nvim-neotest/nvim-nio',
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    config = function()
+      -- Rust support is rustaceanvim's built-in adapter (drives cargo nextest);
+      -- no separate neotest-rust package needed.
+      require('neotest').setup({
+        adapters = { require('rustaceanvim.neotest') },
+      })
+    end,
+    keys = {
+      {
+        '<leader>tt',
+        function()
+          require('neotest').run.run()
+        end,
+        desc = 'Test nearest',
+      },
+      {
+        '<leader>tf',
+        function()
+          require('neotest').run.run(vim.fn.expand('%'))
+        end,
+        desc = 'Test file',
+      },
+      {
+        '<leader>tl',
+        function()
+          require('neotest').run.run_last()
+        end,
+        desc = 'Test last',
+      },
+      {
+        '<leader>ts',
+        function()
+          require('neotest').summary.toggle()
+        end,
+        desc = 'Test summary panel',
+      },
+      {
+        '<leader>to',
+        function()
+          require('neotest').output.open({ enter = true })
+        end,
+        desc = 'Test output',
+      },
+      {
+        '<leader>tw',
+        function()
+          require('neotest').watch.toggle(vim.fn.expand('%'))
+        end,
+        desc = 'Test watch (file)',
+      },
+    },
+  },
+  {
+    'saecki/crates.nvim', -- better support for editing Cargo.toml
     tag = 'stable',
     event = { 'BufRead Cargo.toml' }, -- only plugin that touches Cargo.toml; nothing for .rs
     dependencies = { 'nvim-lua/plenary.nvim' },
@@ -479,9 +538,10 @@ require('lazy').setup({
       spec = {
         { '<leader>f', group = 'find' },    -- telescope pickers
         { '<leader>x', group = 'trouble' }, -- diagnostics/quickfix lists
-        { '<leader>g', group = 'git' },     -- fugitive status / diffview
-        { '<leader>h', group = 'hunk' },    -- gitsigns
-        { '<leader>s', group = 'swap' },    -- treesitter argument swap
+        { '<leader>g', group = 'git' }, -- fugitive status / diffview
+        { '<leader>h', group = 'hunk' }, -- gitsigns
+        { '<leader>s', group = 'swap' }, -- treesitter argument swap
+        { '<leader>t', group = 'test' }, -- neotest runner
       },
     },
     keys = {
