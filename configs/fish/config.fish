@@ -99,9 +99,6 @@ if status is-interactive
     alias claude-personal "CLAUDE_CONFIG_DIR=$HOME/.claude-personal command claude"
     alias claude "CLAUDE_CONFIG_DIR=$HOME/.claude-personal command claude"
 
-	# forgit installs `gi` -> `git-forgit ignore`, which fires when typing "git "
-	abbr --erase gi 2>/dev/null
-
 	# Tabline build indicator: while a build-like command runs, set
 	# @build-state=running on the tmux window so the status line shows a
 	# cyan segment (see tmux.conf). Intentionally narrow — only matches

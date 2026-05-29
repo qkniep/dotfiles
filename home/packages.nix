@@ -129,7 +129,6 @@
     # --- fish plugins ---
     fishPlugins.colored-man-pages
     fishPlugins.done
-    fishPlugins.forgit
     # fishPlugins.fzf-fish  # FIXME: broken on both stable and unstable nixpkgs; re-enable after a bump. (Ctrl+R history, Ctrl+Alt+F files, Ctrl+Alt+L git log, etc.)
     fishPlugins.grc
     fishPlugins.puffer
