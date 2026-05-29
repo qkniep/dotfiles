@@ -115,11 +115,11 @@
       }
     }
   },
+  "effortLevel": "xhigh",
+  "theme": "auto",
   "mcpServers": {
     "fff": {
       "command": "/Users/qkniep/.local/bin/fff-mcp"
     }
-  },
-  "effortLevel": "xhigh",
-  "theme": "auto"
+  }
 }

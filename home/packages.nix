@@ -14,6 +14,7 @@
 {
   home.packages = with pkgs; [
     # --- shell / core CLI ---
+    atuin # SQLite-backed shell history; rebinds Ctrl+R (init in fish/config.fish)
     bat
     bottom
     cointop
@@ -34,6 +35,7 @@
     tmux
     tz
     wget
+    yazi # TUI file manager; `y` wrapper cds to last dir (fish/config.fish)
     youplot
     zellij
     zoxide
@@ -43,6 +45,8 @@
 
     # --- VCS / dev workflow ---
     act
+    delta # syntax-highlighted git pager (core.pager in gitconfig; lazygit auto-detects)
+    difftastic # structural/AST diff; on-demand via `git dft` / `git dlog` (not the default pager)
     gh
     gh-dash
     just
@@ -93,6 +97,7 @@
     # weathr  # FIXME: no such package in nixpkgs (typo? closest match is `weather`)
 
     # --- rust helpers ---
+    bacon # background `cargo check`/clippy/test watcher; run in a tmux pane
     cargo-audit
     cargo-criterion
     cargo-deny

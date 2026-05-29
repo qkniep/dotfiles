@@ -19,6 +19,12 @@ if status is-interactive
 	zoxide init fish | source
 	# starship init fish | source
 
+	# atuin: SQLite shell history; rebinds Ctrl+R (and Up). Guarded so a shell
+	# reload before `just switch` installs the binary doesn't error.
+	if command -q atuin
+		atuin init fish | source
+	end
+
 	function fish_greeting
 		set --local user_str (set_color -i blue; echo -n $USER; set_color normal)
 		set --local time_str (set_color yellow; date +%T; set_color normal)
@@ -29,6 +35,17 @@ if status is-interactive
 
 	function wttr
 		curl -fGsS "https://wttr.in/$argv?AFqtp"
+	end
+
+	# yazi wrapper: open the file manager, then cd to wherever you quit (q).
+	# Use `Q` inside yazi to quit without changing directory.
+	function y
+		set -l tmp (mktemp -t "yazi-cwd.XXXXXX")
+		yazi $argv --cwd-file="$tmp"
+		if read -z cwd <"$tmp"; and test -n "$cwd"; and test "$cwd" != "$PWD"
+			builtin cd -- "$cwd"
+		end
+		rm -f -- "$tmp"
 	end
 
 	function system-update
