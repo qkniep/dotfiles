@@ -1,0 +1,3 @@
+[favorites.ce]
+description = "Crate Expectations: an opinionated template for Rust projects with GitHub Actions CI"
+git = "https://github.com/qkniep/crate-expectations"

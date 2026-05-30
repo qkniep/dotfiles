@@ -56,6 +56,11 @@ in
   # --- Store-managed (reproducible) -----------------------------------------
   xdg.configFile."ghostty/config".source = ../configs/ghostty/config;
   xdg.configFile."tmux/tmux.conf".source = ../configs/tmux/tmux.conf;
+  xdg.configFile."tmux/weather.sh" = {
+    source = ../configs/tmux/weather.sh;
+    executable = true;
+  };
   home.file.".gitconfig".source = ../configs/git/gitconfig;
   home.file.".cargo/config.toml".source = ../configs/cargo/config.toml;
+  home.file.".cargo/cargo-generate.toml".source = ../configs/cargo/cargo-generate.toml;
 }
