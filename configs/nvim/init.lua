@@ -34,7 +34,7 @@ vim.o.foldlevelstart = 99
 -- ===== Keymaps =====
 vim.keymap.set('n', '<leader><CR>', '<cmd>Cargo nextest run --all-targets<CR>')
 
-vim.keymap.set('n', 'J', 'mzJ`z') -- join current and following line
+vim.keymap.set('n', 'J', 'mzJ`z')        -- join current and following line
 vim.keymap.set('n', '<Esc>', ':noh<CR>') -- reset search highlighting
 
 -- move current selection around
@@ -74,7 +74,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
   -- completion & LSP
-  'neovim/nvim-lspconfig', -- bundled vim.lsp.config defaults per server
+  'neovim/nvim-lspconfig',     -- bundled vim.lsp.config defaults per server
   {
     'williamboman/mason.nvim', -- installs LSP servers
     config = function()
@@ -173,18 +173,18 @@ require('lazy').setup({
             -- LSP progress is many short-lived tasks; render_limit = 0 hides those
             -- per-task lines so only the group header shows: "<server> <spinner>".
             render_limit = 0,
-            done_ttl = 0.5, -- clear quickly once the server is done
+            done_ttl = 0.5,                     -- clear quickly once the server is done
             progress_icon = { pattern = dots }, -- braille spinner next to the server name
             done_icon = '✓ ',
           },
         },
         notification = {
           view = {
-            line_margin = 0, -- no built-in side padding; see the icon padding above
+            line_margin = 0,         -- no built-in side padding; see the icon padding above
             group_separator = false, -- no "--" between servers
           },
           window = {
-            winblend = 0, -- opaque box so it stands out from code (default 100 = see-through)
+            winblend = 0,              -- opaque box so it stands out from code (default 100 = see-through)
             border = 'rounded',
             normal_hl = 'NormalFloat', -- proper float bg instead of the dim Comment default
           },
@@ -197,7 +197,7 @@ require('lazy').setup({
   {
     'mrcjkb/rustaceanvim', -- Rust-specific tooling
     version = '^7',
-    lazy = false, -- this plugin is already lazy
+    lazy = false,          -- this plugin is already lazy
     config = function()
       vim.g.rustaceanvim = {
         tools = {
@@ -223,7 +223,26 @@ require('lazy').setup({
       -- no separate neotest-rust package needed.
       require('neotest').setup({
         adapters = { require('rustaceanvim.neotest') },
+        icons = {
+          failed = '✘',
+          skipped = '',
+          unknown = '',
+          passed = '',
+          running = '',
+        },
       })
+      -- neotest's default status colours are a brighter pink/cyan; link them to
+      -- the diagnostic palette so test statuses match LSP diagnostics (failed=
+      -- error, skipped=warn, unknown=info, passed=ok). Re-applied on :colorscheme,
+      -- which clears highlight groups.
+      local function status_hl()
+        vim.api.nvim_set_hl(0, 'NeotestFailed', { link = 'DiagnosticError' })
+        vim.api.nvim_set_hl(0, 'NeotestSkipped', { link = 'DiagnosticInfo' })
+        vim.api.nvim_set_hl(0, 'NeotestUnknown', { link = 'DiagnosticWarn' })
+        vim.api.nvim_set_hl(0, 'NeotestPassed', { link = 'DiagnosticOk' })
+      end
+      status_hl()
+      vim.api.nvim_create_autocmd('ColorScheme', { callback = status_hl })
     end,
     keys = {
       {
@@ -271,7 +290,7 @@ require('lazy').setup({
     },
   },
   {
-    'saecki/crates.nvim', -- better support for editing Cargo.toml
+    'saecki/crates.nvim',             -- better support for editing Cargo.toml
     tag = 'stable',
     event = { 'BufRead Cargo.toml' }, -- only plugin that touches Cargo.toml; nothing for .rs
     dependencies = { 'nvim-lua/plenary.nvim' },
@@ -289,16 +308,16 @@ require('lazy').setup({
       })
     end,
   },
-  'rvmelkonian/move.vim', -- support for Move smart contract language
+  'rvmelkonian/move.vim',                          -- support for Move smart contract language
   {
     'nvim-treesitter/nvim-treesitter-textobjects', -- structural text objects, motions, swaps
-    branch = 'main', -- matches nvim-treesitter's main branch (new API)
+    branch = 'main',                               -- matches nvim-treesitter's main branch (new API)
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     event = { 'BufReadPost', 'BufNewFile' },
     config = function()
       require('nvim-treesitter-textobjects').setup({
         select = { lookahead = true }, -- jump forward to the next textobject if not on one
-        move = { set_jumps = true }, -- record structural jumps in the jumplist (<C-o>/<C-i>)
+        move = { set_jumps = true },   -- record structural jumps in the jumplist (<C-o>/<C-i>)
       })
 
       local select = require('nvim-treesitter-textobjects.select')
@@ -477,10 +496,10 @@ require('lazy').setup({
       })
     end,
   },
-  'Darazaki/indent-o-matic', -- indentation style detection
+  'Darazaki/indent-o-matic',               -- indentation style detection
   {
     'lukas-reineke/indent-blankline.nvim', -- indent line
-    main = 'ibl', -- select version 3
+    main = 'ibl',                          -- select version 3
     event = { 'BufReadPre', 'BufNewFile' },
     opts = {
       indent = {
@@ -500,7 +519,7 @@ require('lazy').setup({
   {
     'folke/todo-comments.nvim', -- highlighting for todo/fixme/perf/bug comment
     dependencies = { 'nvim-lua/plenary.nvim' },
-    event = 'VeryLazy', -- keep highlighting on; keys/cmd below just add triggers
+    event = 'VeryLazy',         -- keep highlighting on; keys/cmd below just add triggers
     cmd = { 'TodoTrouble', 'TodoLocList', 'TodoQuickFix' },
     keys = {
       {
@@ -531,12 +550,12 @@ require('lazy').setup({
     opts = {
       preset = 'modern',
       spec = {
-        { '<leader>f', group = 'find' }, -- fff + snacks pickers
+        { '<leader>f', group = 'find' },    -- fff + snacks pickers
         { '<leader>x', group = 'trouble' }, -- diagnostics/quickfix lists
-        { '<leader>g', group = 'git' }, -- fugitive status / diffview
-        { '<leader>h', group = 'hunk' }, -- gitsigns
-        { '<leader>s', group = 'swap' }, -- treesitter argument swap
-        { '<leader>t', group = 'test' }, -- neotest runner
+        { '<leader>g', group = 'git' },     -- fugitive status / diffview
+        { '<leader>h', group = 'hunk' },    -- gitsigns
+        { '<leader>s', group = 'swap' },    -- treesitter argument swap
+        { '<leader>t', group = 'test' },    -- neotest runner
       },
     },
     keys = {
@@ -552,7 +571,7 @@ require('lazy').setup({
 
   -- git
   {
-    'tpope/vim-fugitive', -- git tooling
+    'tpope/vim-fugitive',  -- git tooling
     dependencies = {
       'tpope/vim-rhubarb', -- add GitHub support
     },
@@ -652,13 +671,13 @@ require('lazy').setup({
         desc = 'Diffview toggle',
       },
       { '<leader>gh', '<cmd>DiffviewFileHistory %<cr>', desc = 'File history (current file)' },
-      { '<leader>gH', '<cmd>DiffviewFileHistory<cr>', desc = 'File history (repo)' },
+      { '<leader>gH', '<cmd>DiffviewFileHistory<cr>',   desc = 'File history (repo)' },
     },
   },
 
   -- navigation
   {
-    'dmtrKovalenko/fff.nvim', -- frecency-ranked, typo-resistant file/grep picker (Rust core)
+    'dmtrKovalenko/fff.nvim',                            -- frecency-ranked, typo-resistant file/grep picker (Rust core)
     build = function()
       require('fff.download').download_or_build_binary() -- prebuilt binary, cargo fallback
     end,
@@ -847,8 +866,8 @@ require('lazy').setup({
         '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
         desc = 'Buffer diagnostics (Trouble)',
       },
-      { '<leader>xq', '<cmd>Trouble qflist toggle<cr>', desc = 'Quickfix list (Trouble)' },
-      { '<leader>xl', '<cmd>Trouble loclist toggle<cr>', desc = 'Location list (Trouble)' },
+      { '<leader>xq', '<cmd>Trouble qflist toggle<cr>',      desc = 'Quickfix list (Trouble)' },
+      { '<leader>xl', '<cmd>Trouble loclist toggle<cr>',     desc = 'Location list (Trouble)' },
     },
     opts = {
       auto_preview = true,
@@ -866,12 +885,12 @@ require('lazy').setup({
   -- AI
   {
     'Exafunction/windsurf.nvim', -- LLM-based code completion
-    event = 'InsertEnter', -- virtual-text only, so nothing to do outside insert mode
+    event = 'InsertEnter',       -- virtual-text only, so nothing to do outside insert mode
     config = function()
       -- only values that differ from codeium.nvim's upstream defaults;
       -- everything else (idle_delay, keybindings, priority, …) is the default.
       require('codeium').setup({
-        enable_cmp_source = false, -- default true; using blink.cmp, not nvim-cmp
+        enable_cmp_source = false,         -- default true; using blink.cmp, not nvim-cmp
         virtual_text = { enabled = true }, -- default false
       })
     end,
