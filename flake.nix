@@ -2,12 +2,14 @@
   description = "Quentin Kniep's Nix configuration — nix-darwin + home-manager.";
 
   inputs = {
-    # Stable nixpkgs (use 0.1 for unstable). Shared by every host.
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
+    # Stable nixpkgs (use 0.1 for unstable). Shared by every host. Pinned to the
+    # current release (26.05) rather than floating `0` so it stays in lockstep
+    # with nix-darwin / home-manager below; bump all three together.
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2605";
     # Unstable, used only to cherry-pick a few fast-moving packages (neovim).
     nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
     nix-darwin = {
-      url = "https://flakehub.com/f/nix-darwin/nix-darwin/0.2511";
+      url = "https://flakehub.com/f/nix-darwin/nix-darwin/0.2605";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     determinate = {
@@ -15,9 +17,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # home-manager pinned to the release branch matching the stable nixpkgs
-    # above (currently 25.11); keep in lockstep on every nixpkgs bump.
+    # above (currently 26.05); keep in lockstep on every nixpkgs bump.
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

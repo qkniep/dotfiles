@@ -54,7 +54,7 @@
     discord
     ghostty-bin
     qbittorrent
-    signal-desktop-bin
+    signal-desktop
     slack
     spotify
     tor
