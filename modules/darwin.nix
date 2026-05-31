@@ -48,7 +48,6 @@
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     aerospace # macOS tiling WM
-    alacritty
     brave
     cool-retro-term
     discord
