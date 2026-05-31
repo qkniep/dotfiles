@@ -63,4 +63,17 @@ in
   home.file.".gitconfig".source = ../configs/git/gitconfig;
   home.file.".cargo/config.toml".source = ../configs/cargo/config.toml;
   home.file.".cargo/cargo-generate.toml".source = ../configs/cargo/cargo-generate.toml;
+
+  # bat reads $XDG_CONFIG_HOME/bat/config (note: the repo file is bat.config).
+  xdg.configFile."bat/config".source = ../configs/bat/bat.config;
+
+  # aerospace (macOS tiling WM); also honours ~/.aerospace.toml, but XDG matches
+  # the rest of this layout.
+  xdg.configFile."aerospace/aerospace.toml".source = ../configs/aerospace/aerospace.toml;
+
+  # opencode: Ollama-provider wiring + the custom review agent. Auth/state live
+  # under ~/.local/share/opencode, so the read-only store links are safe.
+  xdg.configFile."opencode/opencode.json".source = ../configs/opencode/opencode.json;
+  xdg.configFile."opencode/tui.json".source = ../configs/opencode/tui.json;
+  xdg.configFile."opencode/agent/review.md".source = ../configs/opencode/agent/review.md;
 }
