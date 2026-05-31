@@ -46,7 +46,7 @@
       "/Applications/Brave Browser.app"
       "${pkgs.spotify.outPath}/Applications/Spotify.app"
       "/Applications/WhatsApp.app"
-      "${pkgs.signal-desktop-bin.outPath}/Applications/Signal.app"
+      "${pkgs.signal-desktop.outPath}/Applications/Signal.app"
       "/Applications/Spark Desktop.app"
       "${pkgs.discord.outPath}/Applications/Discord.app"
       "${pkgs.slack.outPath}/Applications/Slack.app"
