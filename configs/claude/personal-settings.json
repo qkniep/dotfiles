@@ -37,7 +37,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh done"
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh resume"
           }
         ]
       }
@@ -57,7 +57,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh stop"
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh finish"
           }
         ]
       }
@@ -67,7 +67,18 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh stop"
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh finish"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh end"
           }
         ]
       }
@@ -77,17 +88,27 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh stop"
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh end"
           }
         ]
       }
     ],
     "Notification": [
       {
+        "matcher": "permission_prompt|elicitation_dialog",
         "hooks": [
           {
             "type": "command",
-            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh notify"
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh permission"
+          }
+        ]
+      },
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh idle"
           }
         ]
       }
@@ -105,7 +126,12 @@
     "context7@claude-plugins-official": true,
     "security-guidance@claude-plugins-official": true,
     "mergify@mergify": true,
-    "typescript-lsp@claude-plugins-official": true
+    "typescript-lsp@claude-plugins-official": true,
+    "clangd-lsp@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "mergify": {
@@ -115,7 +141,8 @@
       }
     }
   },
-  "effortLevel": "xhigh",
+  "effortLevel": "high",
+  "skipWorkflowUsageWarning": true,
   "theme": "auto",
   "mcpServers": {
     "fff": {
