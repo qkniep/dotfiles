@@ -10,6 +10,8 @@ CLAUDE.md always wins on conflicts.
 
 ## Tools
 - Prefer `rg` over grep, `fd` over find, `eza` over ls, `bat` over cat.
+- When a needed CLI tool is not installed,
+  use `nix-shell -p <pkg> --run '<command>'` to run it ephemerally.
 
 ## Code
 - Match the surrounding code's style, naming, and idioms.
