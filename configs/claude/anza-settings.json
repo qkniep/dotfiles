@@ -1,68 +1,4 @@
 {
-  "enabledPlugins": {
-    "context7@claude-plugins-official": true,
-    "code-review@claude-plugins-official": true,
-    "code-simplifier@claude-plugins-official": true,
-    "github@claude-plugins-official": true,
-    "security-guidance@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true
-  },
-  "theme": "auto",
-  "effortLevel": "xhigh",
-  "statusLine": {
-    "type": "command",
-    "command": "~/dotfiles/configs/claude/statusline.sh"
-  },
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write|MultiEdit",
-        "hooks": [
-          { "type": "command", "command": "~/dotfiles/configs/claude/hooks/format.sh" }
-        ]
-      },
-      {
-        "hooks": [
-          { "type": "command", "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh done" }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          { "type": "command", "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh start" }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          { "type": "command", "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh stop" }
-        ]
-      }
-    ],
-    "StopFailure": [
-      {
-        "hooks": [
-          { "type": "command", "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh stop" }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          { "type": "command", "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh stop" }
-        ]
-      }
-    ],
-    "Notification": [
-      {
-        "hooks": [
-          { "type": "command", "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh notify" }
-        ]
-      }
-    ]
-  },
   "permissions": {
     "allow": [
       "Bash(git status:*)",
@@ -78,5 +14,111 @@
       "Bash(fd:*)",
       "Bash(jq:*)"
     ]
-  }
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/format.sh"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh resume"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh start"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh finish"
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh finish"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh end"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh end"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt|elicitation_dialog",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh permission"
+          }
+        ]
+      },
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/configs/claude/hooks/tmux-state.sh idle"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/dotfiles/configs/claude/statusline.sh"
+  },
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
+  },
+  "effortLevel": "xhigh",
+  "theme": "auto"
 }
