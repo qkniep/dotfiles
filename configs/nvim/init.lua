@@ -34,7 +34,7 @@ vim.o.foldlevelstart = 99
 -- ===== Keymaps =====
 vim.keymap.set('n', '<leader><CR>', '<cmd>Cargo nextest run --all-targets<CR>')
 
-vim.keymap.set('n', 'J', 'mzJ`z')        -- join current and following line
+vim.keymap.set('n', 'J', 'mzJ`z') -- join current and following line
 vim.keymap.set('n', '<Esc>', ':noh<CR>') -- reset search highlighting
 
 -- move current selection around
@@ -74,7 +74,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
   -- completion & LSP
-  'neovim/nvim-lspconfig',     -- bundled vim.lsp.config defaults per server
+  'neovim/nvim-lspconfig', -- bundled vim.lsp.config defaults per server
   {
     'williamboman/mason.nvim', -- installs LSP servers
     config = function()
@@ -173,18 +173,18 @@ require('lazy').setup({
             -- LSP progress is many short-lived tasks; render_limit = 0 hides those
             -- per-task lines so only the group header shows: "<server> <spinner>".
             render_limit = 0,
-            done_ttl = 0.5,                     -- clear quickly once the server is done
+            done_ttl = 0.5, -- clear quickly once the server is done
             progress_icon = { pattern = dots }, -- braille spinner next to the server name
             done_icon = '✓ ',
           },
         },
         notification = {
           view = {
-            line_margin = 0,         -- no built-in side padding; see the icon padding above
+            line_margin = 0, -- no built-in side padding; see the icon padding above
             group_separator = false, -- no "--" between servers
           },
           window = {
-            winblend = 0,              -- opaque box so it stands out from code (default 100 = see-through)
+            winblend = 0, -- opaque box so it stands out from code (default 100 = see-through)
             border = 'rounded',
             normal_hl = 'NormalFloat', -- proper float bg instead of the dim Comment default
           },
@@ -197,7 +197,7 @@ require('lazy').setup({
   {
     'mrcjkb/rustaceanvim', -- Rust-specific tooling
     version = '^7',
-    lazy = false,          -- this plugin is already lazy
+    lazy = false, -- this plugin is already lazy
     config = function()
       vim.g.rustaceanvim = {
         tools = {
@@ -290,7 +290,7 @@ require('lazy').setup({
     },
   },
   {
-    'saecki/crates.nvim',             -- better support for editing Cargo.toml
+    'saecki/crates.nvim', -- better support for editing Cargo.toml
     tag = 'stable',
     event = { 'BufRead Cargo.toml' }, -- only plugin that touches Cargo.toml; nothing for .rs
     dependencies = { 'nvim-lua/plenary.nvim' },
@@ -308,16 +308,28 @@ require('lazy').setup({
       })
     end,
   },
-  'rvmelkonian/move.vim',                          -- support for Move smart contract language
+  'rvmelkonian/move.vim', -- support for Move smart contract language
+  {
+    'Julian/lean.nvim', -- Lean 4: LSP (leanls) + infoview goal state + \-abbreviations
+    event = { 'BufReadPre *.lean', 'BufNewFile *.lean' },
+    -- nvim-lspconfig (above) supplies the bundled `leanls` config; lean.nvim
+    -- enables it via vim.lsp.enable, so blink's `*` capabilities still apply.
+    -- No mason entry / treesitter parser: the server is the `lean`/`lake` binary
+    -- from elan, and highlighting is lean.nvim's own syntax/lean.vim + LSP
+    -- semantic tokens (there is no `lean` parser in nvim-treesitter).
+    opts = {
+      mappings = true, -- <localleader> maps in .lean buffers (goals, infoview, ...)
+    },
+  },
   {
     'nvim-treesitter/nvim-treesitter-textobjects', -- structural text objects, motions, swaps
-    branch = 'main',                               -- matches nvim-treesitter's main branch (new API)
+    branch = 'main', -- matches nvim-treesitter's main branch (new API)
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     event = { 'BufReadPost', 'BufNewFile' },
     config = function()
       require('nvim-treesitter-textobjects').setup({
         select = { lookahead = true }, -- jump forward to the next textobject if not on one
-        move = { set_jumps = true },   -- record structural jumps in the jumplist (<C-o>/<C-i>)
+        move = { set_jumps = true }, -- record structural jumps in the jumplist (<C-o>/<C-i>)
       })
 
       local select = require('nvim-treesitter-textobjects.select')
@@ -424,13 +436,21 @@ require('lazy').setup({
   },
 
   -- UI
+  -- Colorschemes: all lazy; set_theme() (below the setup call) applies the one
+  -- named in nvim's state file, and lazy.nvim loads only that plugin. The fish
+  -- `theme` function switches it (Ghostty + nvim together, live).
+  { 'Everblush/nvim', name = 'everblush', lazy = true },
+  { 'neanias/everforest-nvim', lazy = true },
+  { 'Mofiqul/adwaita.nvim', lazy = true },
+  { 'rebelot/kanagawa.nvim', lazy = true },
+  { 'srcery-colors/srcery-vim', lazy = true },
   {
-    'Everblush/nvim', -- colorscheme
-    name = 'everblush',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.cmd('colorscheme everblush')
+    'ellisonleao/gruvbox.nvim',
+    lazy = true,
+    -- contrast must be set before :colorscheme; set_theme stores it in this
+    -- g: var so a deferred first load still picks it up.
+    opts = function()
+      return { contrast = vim.g.gruvbox_contrast or '' }
     end,
   },
   {
@@ -439,7 +459,7 @@ require('lazy').setup({
     config = function()
       require('lualine').setup({
         options = {
-          theme = 'everblush',
+          theme = 'auto', -- follow the active colorscheme (see set_theme)
           component_separators = '',
           section_separators = { left = '', right = '' },
         },
@@ -496,10 +516,10 @@ require('lazy').setup({
       })
     end,
   },
-  'Darazaki/indent-o-matic',               -- indentation style detection
+  'Darazaki/indent-o-matic', -- indentation style detection
   {
     'lukas-reineke/indent-blankline.nvim', -- indent line
-    main = 'ibl',                          -- select version 3
+    main = 'ibl', -- select version 3
     event = { 'BufReadPre', 'BufNewFile' },
     opts = {
       indent = {
@@ -519,7 +539,7 @@ require('lazy').setup({
   {
     'folke/todo-comments.nvim', -- highlighting for todo/fixme/perf/bug comment
     dependencies = { 'nvim-lua/plenary.nvim' },
-    event = 'VeryLazy',         -- keep highlighting on; keys/cmd below just add triggers
+    event = 'VeryLazy', -- keep highlighting on; keys/cmd below just add triggers
     cmd = { 'TodoTrouble', 'TodoLocList', 'TodoQuickFix' },
     keys = {
       {
@@ -550,12 +570,12 @@ require('lazy').setup({
     opts = {
       preset = 'modern',
       spec = {
-        { '<leader>f', group = 'find' },    -- fff + snacks pickers
+        { '<leader>f', group = 'find' }, -- fff + snacks pickers
         { '<leader>x', group = 'trouble' }, -- diagnostics/quickfix lists
-        { '<leader>g', group = 'git' },     -- fugitive status / diffview
-        { '<leader>h', group = 'hunk' },    -- gitsigns
-        { '<leader>s', group = 'swap' },    -- treesitter argument swap
-        { '<leader>t', group = 'test' },    -- neotest runner
+        { '<leader>g', group = 'git' }, -- fugitive status / diffview
+        { '<leader>h', group = 'hunk' }, -- gitsigns
+        { '<leader>s', group = 'swap' }, -- treesitter argument swap
+        { '<leader>t', group = 'test' }, -- neotest runner
       },
     },
     keys = {
@@ -571,7 +591,7 @@ require('lazy').setup({
 
   -- git
   {
-    'tpope/vim-fugitive',  -- git tooling
+    'tpope/vim-fugitive', -- git tooling
     dependencies = {
       'tpope/vim-rhubarb', -- add GitHub support
     },
@@ -671,13 +691,13 @@ require('lazy').setup({
         desc = 'Diffview toggle',
       },
       { '<leader>gh', '<cmd>DiffviewFileHistory %<cr>', desc = 'File history (current file)' },
-      { '<leader>gH', '<cmd>DiffviewFileHistory<cr>',   desc = 'File history (repo)' },
+      { '<leader>gH', '<cmd>DiffviewFileHistory<cr>', desc = 'File history (repo)' },
     },
   },
 
   -- navigation
   {
-    'dmtrKovalenko/fff.nvim',                            -- frecency-ranked, typo-resistant file/grep picker (Rust core)
+    'dmtrKovalenko/fff.nvim', -- frecency-ranked, typo-resistant file/grep picker (Rust core)
     build = function()
       require('fff.download').download_or_build_binary() -- prebuilt binary, cargo fallback
     end,
@@ -866,8 +886,8 @@ require('lazy').setup({
         '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
         desc = 'Buffer diagnostics (Trouble)',
       },
-      { '<leader>xq', '<cmd>Trouble qflist toggle<cr>',      desc = 'Quickfix list (Trouble)' },
-      { '<leader>xl', '<cmd>Trouble loclist toggle<cr>',     desc = 'Location list (Trouble)' },
+      { '<leader>xq', '<cmd>Trouble qflist toggle<cr>', desc = 'Quickfix list (Trouble)' },
+      { '<leader>xl', '<cmd>Trouble loclist toggle<cr>', desc = 'Location list (Trouble)' },
     },
     opts = {
       auto_preview = true,
@@ -885,17 +905,48 @@ require('lazy').setup({
   -- AI
   {
     'Exafunction/windsurf.nvim', -- LLM-based code completion
-    event = 'InsertEnter',       -- virtual-text only, so nothing to do outside insert mode
+    event = 'InsertEnter', -- virtual-text only, so nothing to do outside insert mode
     config = function()
       -- only values that differ from codeium.nvim's upstream defaults;
       -- everything else (idle_delay, keybindings, priority, …) is the default.
       require('codeium').setup({
-        enable_cmp_source = false,         -- default true; using blink.cmp, not nvim-cmp
+        enable_cmp_source = false, -- default true; using blink.cmp, not nvim-cmp
         virtual_text = { enabled = true }, -- default false
       })
     end,
   },
 })
+
+-- ===== Colorscheme =====
+-- Theme IDs shared with the fish `theme` function (configs/fish/config.fish),
+-- which switches Ghostty and nvim together: it writes the active ID to nvim's
+-- state dir (read here at startup) and live-switches running instances via
+-- `nvim --server <sock> --remote-expr "v:lua.set_theme('<id>')"`.
+local themes = {
+  ['everblush'] = { scheme = 'everblush', bg = 'dark' },
+  ['everforest-light'] = { scheme = 'everforest', bg = 'light' },
+  ['adwaita'] = { scheme = 'adwaita', bg = 'light' },
+  ['adwaita-dark'] = { scheme = 'adwaita', bg = 'dark' },
+  ['kanagawa-wave'] = { scheme = 'kanagawa-wave', bg = 'dark' },
+  ['srcery'] = { scheme = 'srcery', bg = 'dark' },
+  ['gruvbox-dark-hard'] = { scheme = 'gruvbox', bg = 'dark', gruvbox_contrast = 'hard' },
+}
+
+function _G.set_theme(id)
+  local t = themes[id] or themes.everblush
+  vim.g.gruvbox_contrast = t.gruvbox_contrast
+  if package.loaded.gruvbox then -- already loaded: re-setup so contrast applies
+    require('gruvbox').setup({ contrast = t.gruvbox_contrast or '' })
+  end
+  vim.o.background = t.bg
+  vim.cmd.colorscheme(t.scheme)
+  return id
+end
+
+local theme_ok, theme_lines = pcall(vim.fn.readfile, vim.fn.stdpath('state') .. '/theme')
+if not pcall(_G.set_theme, theme_ok and theme_lines[1] or 'everblush') then
+  vim.cmd.colorscheme('everblush') -- registry names a scheme that isn't installed
+end
 
 -- ===== LSP & diagnostics =====
 -- LSP setup (native vim.lsp; mason-lspconfig below installs the servers and

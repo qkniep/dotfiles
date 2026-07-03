@@ -20,6 +20,9 @@ background-blur = true
 background-opacity-cells = true
 
 window-decoration = none
+window-padding-balance = true
+window-padding-color = extend
+window-step-resize = true
 
 keybind = cmd+t=unbind
 
