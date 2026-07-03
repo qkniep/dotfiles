@@ -22,6 +22,7 @@
       "Bash(nix flake check:*)"
     ]
   },
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "PostToolUse": [
       {
@@ -141,7 +142,7 @@
       }
     }
   },
-  "effortLevel": "high",
+  "effortLevel": "xhigh",
   "skipWorkflowUsageWarning": true,
   "theme": "auto",
   "mcpServers": {
