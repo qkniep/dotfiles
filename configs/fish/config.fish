@@ -47,6 +47,53 @@ if status is-interactive
 		rm -f -- "$tmp"
 	end
 
+	# Switch Ghostty + Neovim + tmux colorschemes together, live. Usage: theme <id>
+	# Ghostty: writes a one-line override into the AppSupport config — macOS
+	#   loads it after the nix-managed XDG config, so its `theme` wins — then
+	#   reloads all windows via SIGUSR2.
+	# Neovim: writes the id to nvim's state dir (init.lua reads it on startup)
+	#   and switches running instances through their server sockets (set_theme
+	#   is defined in init.lua).
+	# tmux: writes a tab-pill color snippet (sourced by tmux.conf via `source -q`
+	#   so it survives server restarts) and applies it to a running server.
+	function theme --argument-names name
+		set -l ids everblush everforest-light adwaita adwaita-dark kanagawa-wave srcery gruvbox-dark-hard
+		set -l ghostty_names Everblush "Everforest Light Med" Adwaita "Adwaita Dark" "Kanagawa Wave" Srcery "Gruvbox Dark Hard"
+		set -l light_ids everforest-light adwaita
+		set -l idx (contains -i -- "$name" $ids)
+		if test -z "$idx"
+			echo "usage: theme <id>" >&2
+			printf '  %s\n' $ids >&2
+			return 1
+		end
+
+		set -l ghostty_dir "$HOME/Library/Application Support/com.mitchellh.ghostty"
+		mkdir -p "$ghostty_dir"
+		printf '# Written by the fish `theme` function; overrides the nix-managed config.\ntheme = %s\n' $ghostty_names[$idx] >"$ghostty_dir/config"
+		pkill -USR2 -x ghostty
+
+		mkdir -p ~/.local/state/nvim
+		echo $name >~/.local/state/nvim/theme
+		set -l tmpdir (test -n "$TMPDIR"; and echo $TMPDIR; or echo /tmp)
+		for sock in $tmpdir/nvim.$USER/*/nvim.*.0
+			nvim --server $sock --remote-expr "v:lua.set_theme('$name')" >/dev/null 2>&1
+		end
+
+		# tmux tab pills: dark pills on dark themes, light (ANSI white) on light
+		set -l tab_bg black
+		set -l tab_fg white
+		if contains -- $name $light_ids
+			set tab_bg white
+			set tab_fg black
+		end
+		mkdir -p ~/.local/state/tmux
+		printf 'set -g @tab-bg "%s"\nset -g @tab-fg "%s"\n' $tab_bg $tab_fg >~/.local/state/tmux/theme.conf
+		if tmux has-session 2>/dev/null
+			tmux source-file ~/.local/state/tmux/theme.conf
+			tmux refresh-client -S 2>/dev/null
+		end
+	end
+
 	function system-update
 		switch (uname)
 			case Darwin
