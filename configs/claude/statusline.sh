@@ -35,7 +35,7 @@ fi
 
 # Context-window usage %, from the transcript's most recent usage entry. The
 # token total is the last prompt size (uncached input + cache read + cache
-# write); the window is 1M for the extended-context model, else 200k.
+# write); the window is 1M for all models (Sonnet/Opus/Fable) except Haiku (200k).
 ctx_pct=""
 if [ -n "$transcript" ] && [ -f "$transcript" ]; then
 	tokens=$(tail -n 200 "$transcript" 2>/dev/null | jq -s '
@@ -44,8 +44,8 @@ if [ -n "$transcript" ] && [ -f "$transcript" ]; then
 			+ ($u.cache_read_input_tokens // 0)
 			+ ($u.cache_creation_input_tokens // 0)) else empty end' 2>/dev/null)
 	if [ -n "$tokens" ] && [ "$tokens" -gt 0 ] 2>/dev/null; then
-		limit=200000
-		case "${model_id}${model}" in *1m*|*1M*) limit=1000000 ;; esac
+		limit=1000000
+		case "${model_id}${model}" in *[Hh]aiku*) limit=200000 ;; esac
 		ctx_pct=$(( tokens * 100 / limit ))
 	fi
 fi
