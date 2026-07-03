@@ -64,7 +64,9 @@
     flamelens
     gnupatch
     hyperfine
+    libwebp
     oha
+    opentimestamps-client
     pik
     pkg-config
     protobuf
@@ -92,23 +94,22 @@
     zig
     # aider-chat  # FIXME: 0.86.1 checkPhase fails (3 tests, e.g. KeyError 'max_input_tokens'); re-enable after a nixpkgs bump
     # claude-code
-    # ollama  # FIXME: ollama 0.21.1 fails to build (patchPhase rm of removed test file); re-enable when nixpkgs is fixed
+    ollama
     # opencode
     # weathr  # FIXME: no such package in nixpkgs (typo? closest match is `weather`)
 
     # --- rust helpers ---
     bacon # background `cargo check`/clippy/test watcher; run in a tmux pane
-    cargo-audit
     cargo-criterion
     cargo-deny
     cargo-edit
     cargo-expand
     cargo-flamegraph
     cargo-fuzz
+    cargo-geiger
     cargo-generate
     cargo-hack
-    cargo-license
-    # cargo-llvm-cov  # FIXME: cargo-llvm-cov-0.6.20 marked broken in nixpkgs
+    cargo-llvm-cov
     cargo-machete
     cargo-make
     cargo-msrv
@@ -119,6 +120,7 @@
     cargo-spellcheck
     cargo-tarpaulin
     cargo-update
+    cargo-vet
     sccache
     tokio-console
 
