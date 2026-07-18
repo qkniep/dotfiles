@@ -22,6 +22,12 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # NixOS under WSL2. Upstream ships `main` as the supported branch rather
+    # than per-release ones, so this floats and is pinned via flake.lock.
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -85,6 +91,7 @@
       darwinConfigurations."qk-macbook" = mkDarwin "aarch64-darwin" ./hosts/qk-macbook;
 
       nixosConfigurations.desktop = mkNixos "x86_64-linux" ./hosts/desktop;
+      nixosConfigurations.wsl = mkNixos "x86_64-linux" ./hosts/wsl;
 
       homeConfigurations."${vars.username}@hetzner" = mkHome "x86_64-linux" ./hosts/hetzner;
       homeConfigurations."${vars.username}@ionos" = mkHome "x86_64-linux" ./hosts/ionos;
