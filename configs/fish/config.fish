@@ -16,7 +16,9 @@ end
 if status is-interactive
 	set -g fish_term24bit 1
 
-	zoxide init fish | source
+	if command -q zoxide
+		zoxide init fish | source
+	end
 	# starship init fish | source
 
 	# atuin: SQLite shell history; rebinds Ctrl+R (and Up)
