@@ -42,12 +42,17 @@ in
 
   # Claude Code: only settings.json per profile (theme, effortLevel,
   # enabledPlugins). Everything else in these dirs is machine state/secrets
-  # (.claude.json holds oauth) and stays untracked. Out-of-store so Claude's
-  # own writes (e.g. toggling a plugin) flow back to the repo as git diffs.
+  # (.claude.json holds oauth) and stays untracked. Direct single-hop symlinks
+  # (not mkOutOfStoreSymlink: its /nix/store intermediate hop makes Claude's
+  # atomic settings writes fail with EROFS) so Claude's own writes (e.g.
+  # toggling a plugin) flow back to the repo as git diffs.
   # Profiles are switched via CLAUDE_CONFIG_DIR (see fish/config.fish); plain
   # `claude` is aliased to the personal profile, so ~/.claude is unmanaged.
-  home.file.".claude-anza/settings.json".source = link "configs/claude/anza-settings.json";
-  home.file.".claude-personal/settings.json".source = link "configs/claude/personal-settings.json";
+  home.activation.claudeSettingsLinks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run mkdir -p $HOME/.claude-anza $HOME/.claude-personal
+    run ln -sfn ${dotfiles}/configs/claude/anza-settings.json $HOME/.claude-anza/settings.json
+    run ln -sfn ${dotfiles}/configs/claude/personal-settings.json $HOME/.claude-personal/settings.json
+  '';
 
   # User-level CLAUDE.md (memory), shared across both profiles.
   home.file.".claude-anza/CLAUDE.md".source = link "configs/claude/CLAUDE.md";

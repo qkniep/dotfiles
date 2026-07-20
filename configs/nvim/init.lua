@@ -92,7 +92,7 @@ require('lazy').setup({
           'eslint',
           'gopls',
           'lua_ls',
-          'move_analyzer',
+          -- 'move_analyzer',
           'nil_ls',
           'ruff',
           'solang',
@@ -904,15 +904,12 @@ require('lazy').setup({
 
   -- AI
   {
-    'Exafunction/windsurf.nvim', -- LLM-based code completion
-    event = 'InsertEnter', -- virtual-text only, so nothing to do outside insert mode
+    'monkoose/neocodeium',
+    event = 'InsertEnter',
     config = function()
-      -- only values that differ from codeium.nvim's upstream defaults;
-      -- everything else (idle_delay, keybindings, priority, …) is the default.
-      require('codeium').setup({
-        enable_cmp_source = false, -- default true; using blink.cmp, not nvim-cmp
-        virtual_text = { enabled = true }, -- default false
-      })
+      local neocodeium = require('neocodeium')
+      neocodeium.setup()
+      vim.keymap.set('i', '<A-f>', neocodeium.accept)
     end,
   },
 })
