@@ -22,8 +22,8 @@ Update the checkboxes as work lands. `[x]` done · `[~]` in progress · `[ ]` to
 | Secrets | **agenix**, landed before the repo goes public |
 | Forkability | single `vars.nix` personalization point; sensitive bits encrypted |
 | Linux WM | **sway** (retire i3) |
-| nixpkgs | stable **25.11**, shared by all hosts (pins via `flake.lock`); `nixpkgs-unstable` only to cherry-pick neovim |
-| home-manager | pinned to `release-25.11` (must track stable nixpkgs) |
+| nixpkgs | stable **26.05**, shared by all hosts (pins via `flake.lock`); `nixpkgs-unstable` only to cherry-pick neovim |
+| home-manager | pinned to `release-26.05` (must track stable nixpkgs) |
 
 ## Host inventory
 
@@ -34,7 +34,7 @@ Update the checkboxes as work lands. `[x]` done · `[~]` in progress · `[ ]` to
 | `hetzner` | Ubuntu | standalone home-manager now → NixOS later | server | planned |
 | `ionos` | Ubuntu | standalone home-manager now → NixOS later | server | planned |
 | ETH workstations (`ws205`, `ws203`, `ws021`, `quizco`) | shared Linux | **out of scope for Nix** (cannot migrate); optional lightweight dotfile sync later | — | not a Nix target |
-| WSL | — | optional, deferred | — | maybe |
+| `wsl` (Windows gaming PC) | NixOS on WSL2 | NixOS-WSL + home-manager | server | active |
 
 ## Target layout (end state)
 
@@ -43,7 +43,7 @@ dotfiles/
 ├── flake.nix              # inputs + output wiring (thin); lives at repo ROOT
 ├── flake.lock
 ├── vars.nix              # SINGLE personalization point
-├── hosts/{qk-macbook,desktop,hetzner,ionos}/
+├── hosts/{qk-macbook,desktop,wsl,hetzner,ionos}/
 ├── modules/{darwin,nixos,desktop}/
 ├── home/                 # shared home-manager (wiring, packages, profiles)
 │   └── profiles/{workstation,server}.nix
@@ -126,7 +126,8 @@ relocation, no package moves yet.
 ## Phase 4 — Servers to NixOS (later) + WSL (optional)
 
 - [ ] Migrate `hetzner`/`ionos` Ubuntu → NixOS via `nixos-anywhere` + `disko` (⚠️ destructive — back up first)
-- [ ] WSL via NixOS-WSL or standalone HM (optional)
+- [x] WSL via NixOS-WSL — `hosts/wsl/` (Windows gaming PC): NixOS baseline + shared HM with
+      the `server` profile (no compositor under WSL2)
 
 ## Phase 5 — Secrets (agenix) — before going public
 

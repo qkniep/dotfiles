@@ -10,7 +10,7 @@
 # A number of entries are commented out with `# FIXME:` notes explaining why
 # (broken/unavailable in the current nixpkgs); keep that convention so it's
 # obvious what to re-enable after a bump.
-{ pkgs, lib, ... }:
+{ pkgs, lib, inputs, ... }:
 {
   home.packages = with pkgs; [
     # --- shell / core CLI ---
@@ -24,10 +24,13 @@
     fastfetch
     fd
     fzf
+    gcc
+    git
     grc
     hexyl
     jq
     onefetch
+    openssl
     pdfgrep
     ripgrep
     safe-rm
@@ -94,6 +97,7 @@
     zig
     # aider-chat  # FIXME: 0.86.1 checkPhase fails (3 tests, e.g. KeyError 'max_input_tokens'); re-enable after a nixpkgs bump
     # claude-code
+    inputs.claude-code.packages.${pkgs.stdenv.hostPlatform.system}.default
     ollama
     # opencode
     # weathr  # FIXME: no such package in nixpkgs (typo? closest match is `weather`)
