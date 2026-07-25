@@ -49,9 +49,9 @@ in
   # Profiles are switched via CLAUDE_CONFIG_DIR (see fish/config.fish); plain
   # `claude` is aliased to the personal profile, so ~/.claude is unmanaged.
   home.activation.claudeSettingsLinks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run mkdir -p $HOME/.claude-anza $HOME/.claude-personal
-    run ln -sfn ${dotfiles}/configs/claude/anza-settings.json $HOME/.claude-anza/settings.json
-    run ln -sfn ${dotfiles}/configs/claude/personal-settings.json $HOME/.claude-personal/settings.json
+    run mkdir -p "$HOME/.claude-anza" "$HOME/.claude-personal"
+    run ln -sfn "${dotfiles}/configs/claude/anza-settings.json" "$HOME/.claude-anza/settings.json"
+    run ln -sfn "${dotfiles}/configs/claude/personal-settings.json" "$HOME/.claude-personal/settings.json"
   '';
 
   # User-level CLAUDE.md (memory), shared across both profiles.
