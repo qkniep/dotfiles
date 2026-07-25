@@ -32,6 +32,9 @@ vim.o.timeoutlen = 300
 vim.o.foldlevelstart = 99
 
 -- ===== Keymaps =====
+vim.keymap.set({ 'n', 'i', 'v' }, '<ScrollWheelLeft>', '<Nop>') -- disable horizontal scrolling
+vim.keymap.set({ 'n', 'i', 'v' }, '<ScrollWheelRight>', '<Nop>') -- disable horizontal scrolling
+
 vim.keymap.set('n', '<leader><CR>', '<cmd>Cargo nextest run --all-targets<CR>')
 
 vim.keymap.set('n', 'J', 'mzJ`z') -- join current and following line
