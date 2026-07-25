@@ -200,6 +200,11 @@ require('lazy').setup({
     lazy = false, -- this plugin is already lazy
     config = function()
       vim.g.rustaceanvim = {
+        server = {
+          default_settings = {
+            ['rust-analyzer'] = { cargo = { features = 'all' } },
+          },
+        },
         tools = {
           enable_clippy = true,
           enable_nextest = true,
