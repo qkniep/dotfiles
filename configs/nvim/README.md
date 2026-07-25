@@ -146,7 +146,7 @@ Grouped as in the spec:
 - `nvim-lspconfig` — bundled per-server defaults (cmd, filetypes, root markers).
 - `mason.nvim` + `mason-lspconfig.nvim` — install and auto-enable servers.
   `ensure_installed`: `docker_compose_language_service`, `dockerls`, `eslint`,
-  `gopls`, `lua_ls`, `move_analyzer`, `nil_ls`, `ruff`, `solang`, `ts_ls`, `zls`.
+  `gopls`, `lua_ls`, `nil_ls`, `ruff`, `solang`, `ts_ls`, `zls`.
 - `blink.cmp` — completion (`enter` preset), with `colorful-menu.nvim` for the
   menu draw and `blink-cmp-conventional-commits` for commit messages.
 - `fidget.nvim` — LSP progress UI (bottom right).

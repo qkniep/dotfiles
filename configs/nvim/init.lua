@@ -92,7 +92,6 @@ require('lazy').setup({
           'eslint',
           'gopls',
           'lua_ls',
-          -- 'move_analyzer',
           'nil_ls',
           'ruff',
           'solang',
