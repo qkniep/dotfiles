@@ -26,6 +26,7 @@
     fzf
     gcc
     git
+    gmp
     grc
     hexyl
     jq
@@ -84,6 +85,7 @@
     podman
 
     # --- language toolchains / runtimes ---
+    # alire  # doesn't work on macOS
     bun
     elan
     gleam
