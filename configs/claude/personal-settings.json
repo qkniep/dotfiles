@@ -22,7 +22,6 @@
       "Bash(nix flake check:*)"
     ]
   },
-  "model": "claude-fable-5[1m]",
   "hooks": {
     "PostToolUse": [
       {
@@ -132,7 +131,9 @@
     "github@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
-    "lua-lsp@claude-plugins-official": true
+    "lua-lsp@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "pr-review-toolkit@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "mergify": {
@@ -144,7 +145,7 @@
   },
   "effortLevel": "xhigh",
   "skipWorkflowUsageWarning": true,
-  "theme": "auto",
+  "theme": "dark-ansi",
   "mcpServers": {
     "fff": {
       "command": "/Users/qkniep/.local/bin/fff-mcp"
