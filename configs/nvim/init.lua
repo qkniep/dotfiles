@@ -389,6 +389,59 @@ require('lazy').setup({
     lazy = false,
     build = ':TSUpdate',
     config = function()
+      -- Firn: local grammar from the firn repo, not upstream nvim-treesitter.
+      -- Registered in the TSUpdate hook so install()/:TSUpdate can resolve it;
+      -- `queries` is symlinked from the repo, so query edits apply without a
+      -- reinstall. After grammar.js changes: :TSUpdate firn.
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'TSUpdate',
+        callback = function()
+          require('nvim-treesitter.parsers').firn = {
+            install_info = {
+              path = vim.fn.expand('~/oss/firn/tools/tree-sitter-firn'),
+              generate = true, -- src/ is gitignored; regenerated via the tree-sitter CLI
+              -- ...and generated from grammar.js, not src/grammar.json.
+              -- nvim-treesitter defaults to the latter, which silently pins the
+              -- parser to whenever `tree-sitter generate` last ran in the repo:
+              -- a grammar.js edit then never reaches the installed parser, and
+              -- a highlights.scm rule for a new node fails to compile, which
+              -- kills highlighting for the whole buffer.
+              generate_from_json = false,
+              queries = 'queries',
+            },
+          }
+        end,
+      })
+      vim.filetype.add({ extension = { firn = 'firn' } })
+
+      -- The queries are symlinked live from the repo but the parser is a build
+      -- artifact, so after any grammar.js edit the queries are ahead of the
+      -- parser until :TSUpdate firn -- skew is the default state, not a fluke.
+      -- A rule naming a node the parser lacks fails to compile, and Neovim
+      -- drops the whole query rather than the rule, so vim.treesitter.start
+      -- throws and the generic pcall below swallows it: highlighting is simply
+      -- gone, with nothing said. Restate it as the one instruction that fixes
+      -- it. Once per session -- the condition is global, not per-buffer.
+      local warned_stale_parser = false
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'firn',
+        callback = function()
+          if warned_stale_parser then
+            return
+          end
+          local ok, err = pcall(vim.treesitter.query.get, 'firn', 'highlights')
+          if not ok then
+            warned_stale_parser = true
+            vim.notify(
+              'firn: highlights.scm does not compile against the installed parser.\n'
+                .. 'Run :TSUpdate firn -- grammar.js has most likely changed.\n\n'
+                .. tostring(err),
+              vim.log.levels.WARN
+            )
+          end
+        end,
+      })
+
       -- main branch API; no more .configs module/modules. install() is async
       -- and skips already-installed parsers, so it doubles as ensure_installed.
       require('nvim-treesitter').install({
@@ -399,6 +452,7 @@ require('lazy').setup({
         'cpp',
         'css',
         'dockerfile',
+        'firn', -- local parser, see the TSUpdate hook above
         'fish',
         'go',
         'haskell',
