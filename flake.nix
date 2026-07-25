@@ -28,6 +28,10 @@
       url = "github:nix-community/NixOS-WSL/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Claude Code as a self-contained native binary, bumped hourly. Deliberately
+    # no nixpkgs `follows`: the Cachix cache is keyed to this flake's own lock,
+    # and overriding it would change drv hashes and force local rebuilds.
+    claude-code.url = "github:sadjow/claude-code-nix";
   };
 
   outputs =

@@ -63,7 +63,7 @@
   home-manager.useUserPackages = true;
   # First switch backs up pre-existing files to `*.hm-bak` instead of failing.
   home-manager.backupFileExtension = "hm-bak";
-  home-manager.extraSpecialArgs = { inherit vars; };
+  home-manager.extraSpecialArgs = { inherit inputs vars; };
   # username + homeDirectory are derived from users.users.${vars.username}.
   home-manager.users.${vars.username}.imports = [
     ../../home

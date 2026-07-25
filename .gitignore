@@ -9,6 +9,7 @@ Thumbs.db
 # Editor / build
 *.pyc
 /target
+/result
 
 # home-manager backup files (from backupFileExtension)
 *.hm-bak
