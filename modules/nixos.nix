@@ -25,6 +25,10 @@
     fi
   '';
 
+  # Run downloaded dynamically-linked binaries (Codeium language server,
+  # mason.nvim LSP servers, etc.) that expect a generic-linux loader.
+  programs.nix-ld.enable = true;
+
   users.users.${vars.username} = {
     isNormalUser = true;
     home = "/home/${vars.username}";
