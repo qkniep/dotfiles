@@ -75,6 +75,22 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Firn is a local checkout, not a package, and it lives in a different place on
+-- each machine. Probe for it; on hosts without one, skip the editor plugin
+-- rather than aborting init.lua on a missing dofile.
+local firn_root
+for _, candidate in ipairs({ '~/firn', '~/oss/firn' }) do
+  local path = vim.fn.expand(candidate)
+  if vim.uv.fs_stat(path) then
+    firn_root = path
+    break
+  end
+end
+if firn_root then
+  vim.g.firn_bin = firn_root .. '/target/debug/firn'
+  dofile(firn_root .. '/tools/editor/firn.nvim.lua')
+end
+
 require('lazy').setup({
   -- completion & LSP
   'neovim/nvim-lspconfig', -- bundled vim.lsp.config defaults per server
@@ -403,9 +419,12 @@ require('lazy').setup({
       vim.api.nvim_create_autocmd('User', {
         pattern = 'TSUpdate',
         callback = function()
+          if not firn_root then
+            return
+          end
           require('nvim-treesitter.parsers').firn = {
             install_info = {
-              path = vim.fn.expand('~/oss/firn/tools/tree-sitter-firn'),
+              path = firn_root .. '/tools/tree-sitter-firn',
               generate = true, -- src/ is gitignored; regenerated via the tree-sitter CLI
               -- ...and generated from grammar.js, not src/grammar.json.
               -- nvim-treesitter defaults to the latter, which silently pins the
@@ -451,7 +470,7 @@ require('lazy').setup({
 
       -- main branch API; no more .configs module/modules. install() is async
       -- and skips already-installed parsers, so it doubles as ensure_installed.
-      require('nvim-treesitter').install({
+      local parsers = {
         'bash',
         'caddy',
         'c',
@@ -459,7 +478,6 @@ require('lazy').setup({
         'cpp',
         'css',
         'dockerfile',
-        'firn', -- local parser, see the TSUpdate hook above
         'fish',
         'go',
         'haskell',
@@ -478,7 +496,11 @@ require('lazy').setup({
         'typescript',
         'yaml',
         'zig',
-      })
+      }
+      if firn_root then
+        table.insert(parsers, 'firn') -- local parser, see the TSUpdate hook above
+      end
+      require('nvim-treesitter').install(parsers)
 
       -- highlighting + indentation are now Neovim-core features enabled per
       -- buffer. vim.treesitter.start resolves the language from the filetype
