@@ -1016,6 +1016,10 @@ vim.opt.signcolumn = 'yes' -- avoid annoying layout shifts
 -- cmd / filetypes / root markers come from nvim-lspconfig's bundled config.
 vim.lsp.enable('ocamllsp')
 
+-- haskell-language-server comes from nix (home/packages.nix), not mason; the
+-- bundled config's `haskell-language-server-wrapper` is already on PATH.
+vim.lsp.enable('hls')
+
 -- teach lua_ls about the `vim` global and Neovim's runtime (for editing config)
 vim.lsp.config('lua_ls', {
   settings = {

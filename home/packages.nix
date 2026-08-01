@@ -87,15 +87,20 @@
     # --- language toolchains / runtimes ---
     # alire  # doesn't work on macOS
     bun
+    cabal-install
     elan
+    erlang
+    ghc
     gleam
     go
+    haskell-language-server
     nodejs_24
     nushell
     ocaml
     opam
     python313
     rustup
+    stack
     zig
     # aider-chat  # FIXME: 0.86.1 checkPhase fails (3 tests, e.g. KeyError 'max_input_tokens'); re-enable after a nixpkgs bump
     # claude-code
