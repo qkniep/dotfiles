@@ -59,9 +59,10 @@ if status is-interactive
 	# tmux: writes a tab-pill color snippet (sourced by tmux.conf via `source -q`
 	#   so it survives server restarts) and applies it to a running server.
 	function theme --argument-names name
-		set -l ids everblush everforest-light adwaita adwaita-dark kanagawa-wave srcery gruvbox-dark-hard
-		set -l ghostty_names Everblush "Everforest Light Med" Adwaita "Adwaita Dark" "Kanagawa Wave" Srcery "Gruvbox Dark Hard"
-		set -l light_ids everforest-light adwaita
+		# candidates: Monokai Pro Light Sun, Chalice, Paraiso Light
+		set -l ids everblush everforest-light adwaita adwaita-dark catppuccin-light catppuccin rose-pine-light kanagawa-wave srcery gruvbox-dark-hard flexoki
+		set -l ghostty_names Everblush "Everforest Light Med" Adwaita "Adwaita Dark" "Catppuccin Latte" "Catppuccin Mocha" "Rose Pine Dawn" "Kanagawa Wave" Srcery "Gruvbox Dark Hard" "Flexoki Light"
+		set -l light_ids everforest-light adwaita catppuccin-light rose-pine-light flexoki
 		set -l idx (contains -i -- "$name" $ids)
 		if test -z "$idx"
 			echo "usage: theme <id>" >&2
