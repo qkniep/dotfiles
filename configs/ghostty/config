@@ -4,9 +4,12 @@ cursor-style-blink = false
 mouse-hide-while-typing = true
 mouse-scroll-multiplier = 5
 
-font-family = "BlexMono NFM"
+font-family = "Berkeley Mono Variable"
+font-family = "Symbols Nerd Font Mono"
 font-size = 15
-font-feature = "calt,liga,ss01,ss02,ss03,ss04,ss05,ss06,ss07,ss08,ss09,ss10"
+font-variation = wght=450
+font-variation = wdth=90
+font-feature = "calt,liga,ss01,ss04"
 font-thicken = false
 
 theme = "Everblush"

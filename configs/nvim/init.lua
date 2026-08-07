@@ -525,6 +525,8 @@ require('lazy').setup({
   { 'Everblush/nvim', name = 'everblush', lazy = true },
   { 'neanias/everforest-nvim', lazy = true },
   { 'Mofiqul/adwaita.nvim', lazy = true },
+  { 'catppuccin/nvim', name = 'catppuccin', lazy = true },
+  { 'rose-pine/neovim', name = 'rose-pine', lazy = true },
   { 'rebelot/kanagawa.nvim', lazy = true },
   { 'srcery-colors/srcery-vim', lazy = true },
   {
@@ -536,6 +538,7 @@ require('lazy').setup({
       return { contrast = vim.g.gruvbox_contrast or '' }
     end,
   },
+  { 'kepano/flexoki-neovim', name = 'flexoki', lazy = true },
   {
     'nvim-lualine/lualine.nvim', -- fancy status line
     event = 'VeryLazy',
@@ -1007,9 +1010,13 @@ local themes = {
   ['everforest-light'] = { scheme = 'everforest', bg = 'light' },
   ['adwaita'] = { scheme = 'adwaita', bg = 'light' },
   ['adwaita-dark'] = { scheme = 'adwaita', bg = 'dark' },
+  ['catppuccin-light'] = { scheme = 'catppuccin', bg = 'light' },
+  ['catppuccin'] = { scheme = 'catppuccin', bg = 'dark' },
+  ['rose-pine-light'] = { scheme = 'rose-pine', bg = 'light' },
   ['kanagawa-wave'] = { scheme = 'kanagawa-wave', bg = 'dark' },
   ['srcery'] = { scheme = 'srcery', bg = 'dark' },
   ['gruvbox-dark-hard'] = { scheme = 'gruvbox', bg = 'dark', gruvbox_contrast = 'hard' },
+  ['flexoki'] = { scheme = 'flexoki', bg = 'light' },
 }
 
 function _G.set_theme(id)
