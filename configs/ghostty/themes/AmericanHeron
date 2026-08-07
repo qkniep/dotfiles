@@ -1,0 +1,27 @@
+# Exported from https://paletty.dev
+#
+# yellowish background: #fbf9ee
+# greener background: #f1fbdc
+
+palette = 0=#1e2019
+palette = 1=#e05b36
+palette = 2=#82a97d
+palette = 3=#eea744
+palette = 4=#6c91c2
+palette = 5=#8a4f7d
+palette = 6=#0d5c63
+palette = 7=#666674
+palette = 8=#3f4759
+palette = 9=#c48242
+palette = 10=#04bc4f
+palette = 11=#eea744
+palette = 12=#279eec
+palette = 13=#836891
+palette = 14=#1e6f75
+palette = 15=#81726a
+background = #fdf8da
+foreground = #2c2c2e
+cursor-color = #6e7f87
+cursor-text = #dfced5
+selection-background = #283044
+selection-foreground = #eeece6
