@@ -60,6 +60,7 @@ in
 
   # --- Store-managed (reproducible) -----------------------------------------
   xdg.configFile."ghostty/config".source = ../configs/ghostty/config;
+  xdg.configFile."ghostty/themes".source = ../configs/ghostty/themes;
   xdg.configFile."tmux/tmux.conf".source = ../configs/tmux/tmux.conf;
   xdg.configFile."tmux/weather.sh" = {
     source = ../configs/tmux/weather.sh;
