@@ -1,6 +1,8 @@
 cursor-style = "block"
 cursor-style-blink = false
 
+shell-integration = detect
+
 mouse-hide-while-typing = true
 mouse-scroll-multiplier = 5
 
