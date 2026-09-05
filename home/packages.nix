@@ -80,7 +80,6 @@
     zstd
 
     # --- containers ---
-    bubblewrap
     docker
     docker-compose
     podman
@@ -157,5 +156,7 @@
     python313Packages.scipy
     python313Packages.seaborn
     # python313Packages.torch
+  ] ++ lib.optionals pkgs.stdenv.isLinux [
+    bubblewrap
   ];
 }
