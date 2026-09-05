@@ -80,6 +80,7 @@
     zstd
 
     # --- containers ---
+    bubblewrap
     docker
     docker-compose
     podman
