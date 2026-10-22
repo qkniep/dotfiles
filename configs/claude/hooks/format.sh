@@ -15,10 +15,33 @@ file=$(jq -r '.tool_input.file_path // empty' 2>/dev/null)
 file=$(readlink -f "$file" 2>/dev/null || echo "$file")
 [ -f "$file" ] || exit 0
 
+# The edition `cargo fmt` would pass for a Rust file: from the nearest
+# Cargo.toml that names one. A workspace member inheriting its edition
+# (`edition.workspace = true`) names none, so the search goes on up to the
+# workspace's `[workspace.package]`. Without it, rustfmt parses and formats
+# the file as edition 2015.
+rust_edition() {
+	local dir ed
+	dir=$(dirname "$1")
+	while :; do
+		if [ -f "$dir/Cargo.toml" ]; then
+			ed=$(sed -n 's/^[[:space:]]*edition[[:space:]]*=[[:space:]]*"\([0-9]*\)".*/\1/p' "$dir/Cargo.toml" | head -n 1)
+			[ -n "$ed" ] && { echo "$ed"; return; }
+		fi
+		[ "$dir" = / ] && return
+		dir=$(dirname "$dir")
+	done
+}
+
 case "$file" in
 	*.lua) command -v stylua  >/dev/null 2>&1 && stylua  "$file" ;;
 	*.nix) command -v nixfmt  >/dev/null 2>&1 && nixfmt  "$file" ;;
-	*.rs)  command -v rustfmt >/dev/null 2>&1 && rustfmt +nightly "$file" ;;
+	*.rs)
+		if command -v rustfmt >/dev/null 2>&1; then
+			ed=$(rust_edition "$file")
+			rustfmt +nightly ${ed:+--edition "$ed"} "$file"
+		fi
+		;;
 esac
 
 exit 0
